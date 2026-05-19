@@ -6,7 +6,10 @@ import VideoModal from '../ui/VideoModal';
 import EditVideoModal from '../ui/EditVideoModal';
 import defaultPortfolio from '../../data/portfolio.json';
 
-const ITEMS_PER_PAGE = 6;
+const DESKTOP_COLS = 3;
+const MOBILE_COLS = 2;
+const ITEMS_DESKTOP = 6;  // 3 cols × 2 rows
+const ITEMS_MOBILE = 2;   // 2 cols × 1 row
 const GAP = 24;
 
 const categories = [
@@ -63,6 +66,15 @@ export default function PortfolioSection() {
   const [canScrollLeft, setCanScrollLeft] = useState(false);
   const [canScrollRight, setCanScrollRight] = useState(true);
   const [activePage, setActivePage] = useState(0);
+  const [isMobile, setIsMobile] = useState(() => typeof window !== 'undefined' && window.innerWidth < 768);
+  const itemsPerPage = isMobile ? ITEMS_MOBILE : ITEMS_DESKTOP;
+  const colsPerRow = isMobile ? MOBILE_COLS : DESKTOP_COLS;
+
+  useEffect(() => {
+    const check = () => setIsMobile(window.innerWidth < 768);
+    window.addEventListener('resize', check);
+    return () => window.removeEventListener('resize', check);
+  }, []);
 
   const portfolio = useMemo(() =>
     defaultPortfolio.map((item) => edits[item.id] ? { ...item, ...edits[item.id] } : item),
@@ -79,11 +91,11 @@ export default function PortfolioSection() {
 
   const pages = useMemo(() => {
     const result = [];
-    for (let i = 0; i < filtered.length; i += ITEMS_PER_PAGE) {
-      result.push(filtered.slice(i, i + ITEMS_PER_PAGE));
+    for (let i = 0; i < filtered.length; i += itemsPerPage) {
+      result.push(filtered.slice(i, i + itemsPerPage));
     }
     return result;
-  }, [filtered]);
+  }, [filtered, itemsPerPage]);
 
   const totalPages = pages.length;
 
@@ -236,10 +248,10 @@ export default function PortfolioSection() {
               {pages.map((pageItems, pageIdx) => (
                 <div
                   key={pageIdx}
-                  className="snap-start flex-shrink-0 w-full grid gap-6 grid-cols-2 lg:grid-cols-3"
+                  className={`snap-start flex-shrink-0 w-full grid gap-4 md:gap-6 ${isMobile ? 'grid-cols-2' : 'grid-cols-2 lg:grid-cols-3'}`}
                 >
                   {pageItems.map((item, i) => {
-                    const col = i % 3;
+                    const col = i % colsPerRow;
                     return (
                       <div
                         key={item.id}
