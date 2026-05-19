@@ -66,14 +66,17 @@ export default function PortfolioSection() {
   const [canScrollLeft, setCanScrollLeft] = useState(false);
   const [canScrollRight, setCanScrollRight] = useState(true);
   const [activePage, setActivePage] = useState(0);
-  const [isMobile, setIsMobile] = useState(() => typeof window !== 'undefined' && window.innerWidth < 768);
+  const [isMobile, setIsMobile] = useState(() =>
+    typeof window !== 'undefined' && window.matchMedia('(max-width: 1023px)').matches
+  );
   const itemsPerPage = isMobile ? ITEMS_MOBILE : ITEMS_DESKTOP;
   const colsPerRow = isMobile ? MOBILE_COLS : DESKTOP_COLS;
 
   useEffect(() => {
-    const check = () => setIsMobile(window.innerWidth < 768);
-    window.addEventListener('resize', check);
-    return () => window.removeEventListener('resize', check);
+    const mq = window.matchMedia('(max-width: 1023px)');
+    const check = () => setIsMobile(mq.matches);
+    mq.addEventListener('change', check);
+    return () => mq.removeEventListener('change', check);
   }, []);
 
   const portfolio = useMemo(() =>
