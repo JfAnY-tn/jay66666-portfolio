@@ -67,8 +67,11 @@ function videoProxyPlugin() {
   };
 }
 
+// videoProxyPlugin only needed for local dev; skip on Cloudflare Pages to avoid Wrangler parse errors
+const isLocalDev = !process.env.CF_PAGES;
+
 export default defineConfig({
-  plugins: [react(), videoProxyPlugin()],
+  plugins: [react(), ...(isLocalDev ? [videoProxyPlugin()] : [])],
   server: {
     proxy: {
       '/api/bilibili': {
