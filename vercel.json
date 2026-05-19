@@ -1,4 +1,8 @@
 {
+  "functions": {
+    "api/bilibili-proxy.js": { "regions": ["hkg1"] },
+    "api/video-proxy.js": { "regions": ["hkg1"] }
+  },
   "routes": [
     { "src": "/api/bilibili/(.*)", "dest": "/api/bilibili-proxy?path=$1" }
   ],
