@@ -4,6 +4,7 @@ import ScrollReveal from '../ui/ScrollReveal';
 import VideoCard from '../ui/VideoCard';
 import VideoModal from '../ui/VideoModal';
 import EditVideoModal from '../ui/EditVideoModal';
+import PasswordGate from '../ui/PasswordGate';
 import defaultPortfolio from '../../data/portfolio.json';
 
 const DESKTOP_COLS = 3;
@@ -61,6 +62,9 @@ export default function PortfolioSection() {
   const [activeVideo, setActiveVideo] = useState(null);
   const [editingItem, setEditingItem] = useState(null);
   const [edits, setEdits] = useState(loadEdits);
+  const [unlocked, setUnlocked] = useState(false);
+  const [showPassword, setShowPassword] = useState(false);
+  const pendingEditRef = useRef(null);
   const scrollRef = useRef(null);
   const scrollAnimRef = useRef(null);
   const [canScrollLeft, setCanScrollLeft] = useState(false);
@@ -270,7 +274,14 @@ export default function PortfolioSection() {
                         <VideoCard
                           {...item}
                           onClick={() => setActiveVideo(item)}
-                          onEdit={() => setEditingItem(item)}
+                          onEdit={() => {
+                            if (unlocked) {
+                              setEditingItem(item);
+                            } else {
+                              pendingEditRef.current = item;
+                              setShowPassword(true);
+                            }
+                          }}
                         />
                       </div>
                     );
@@ -324,6 +335,19 @@ export default function PortfolioSection() {
         onClose={() => setEditingItem(null)}
         onSave={handleEditSave}
         onReset={handleEditReset}
+      />
+
+      <PasswordGate
+        isOpen={showPassword}
+        onClose={() => setShowPassword(false)}
+        onUnlock={() => {
+          setUnlocked(true);
+          setShowPassword(false);
+          if (pendingEditRef.current) {
+            setEditingItem(pendingEditRef.current);
+            pendingEditRef.current = null;
+          }
+        }}
       />
     </section>
   );
