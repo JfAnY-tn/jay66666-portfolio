@@ -1,4 +1,4 @@
-import { useRef, useCallback, useEffect, useState } from 'react';
+import { useRef, useCallback, useEffect, useState, useMemo } from 'react';
 import siteConfig from '../../data/siteConfig.json';
 import { useAudio } from '../../context/AudioContext';
 import Button from '../ui/Button';
@@ -155,6 +155,9 @@ export default function HeroSection() {
         <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,_#8B5CF610_0%,_transparent_60%)]" />
       </div>
 
+      {/* ECG waveform background */}
+      <WaveformBackground />
+
       {/* Circle + Bars */}
       <div
         ref={circleRef}
@@ -258,5 +261,76 @@ export default function HeroSection() {
         </div>
       </div>
     </section>
+  );
+}
+
+// ── Waveform Background ──────────────────────────────────────────
+const WAVE_COUNT = 12;
+
+function genWaveformPath() {
+  // ECG-style path: flat line → spike up → spike down → flat line
+  const w = 120;
+  const h = 60;
+  const mid = h / 2;
+  const spikeH = h * 0.8;
+  const x0 = w * 0.15;
+  const x1 = w * 0.25;
+  const x2 = w * 0.35;
+  const x3 = w * 0.45;
+  const x4 = w * 0.55;
+  const x5 = w * 0.65;
+  const x6 = w * 0.85;
+  return `M 0,${mid} L ${x0},${mid} L ${x1},${mid} L ${x2},${mid - spikeH} L ${x3},${mid + spikeH * 0.6} L ${x4},${mid} L ${x5},${mid - spikeH * 0.3} L ${x6},${mid} L ${w},${mid}`;
+}
+
+const waveformConfigs = Array.from({ length: WAVE_COUNT }, (_, i) => {
+  const seed = (i * 137.5 + 42) % 360;
+  return {
+    id: i,
+    left: `${(seed * 1.7) % 85}%`,
+    top: `${10 + (seed * 3.1) % 75}%`,
+    rotate: (seed * 2.3) % 360,
+    scale: 0.5 + ((seed * 0.7) % 0.8),
+    opacity: 0.04 + ((seed * 0.3) % 0.06),
+    delay: `${(seed * 0.7) % 8}s`,
+    duration: `${3 + (seed * 1.1) % 6}s`,
+    color: ['#8B5CF6', '#F43F5E', '#10B981', '#0EA5E9', '#F59E0B'][i % 5],
+  };
+});
+
+function WaveformBackground() {
+  const path = useMemo(() => genWaveformPath(), []);
+  return (
+    <div className="absolute inset-0 pointer-events-none overflow-hidden">
+      <style>{`
+        @keyframes waveform-pulse {
+          0%, 100% { opacity: 0; transform: translateY(0); }
+          50% { opacity: 0.07; transform: translateY(-4px); }
+        }
+      `}</style>
+      {waveformConfigs.map((cfg) => (
+        <svg
+          key={cfg.id}
+          className="absolute"
+          style={{
+            left: cfg.left,
+            top: cfg.top,
+            width: 120 * cfg.scale,
+            height: 60 * cfg.scale,
+            transform: `rotate(${cfg.rotate}deg)`,
+            animation: `waveform-pulse ${cfg.duration} ease-in-out ${cfg.delay} infinite`,
+            opacity: 0,
+          }}
+          viewBox="0 0 120 60"
+          fill="none"
+          stroke={cfg.color}
+          strokeWidth="1.2"
+          strokeLinecap="round"
+          strokeLinejoin="round"
+        >
+          <path d={path} />
+        </svg>
+      ))}
+    </div>
   );
 }
