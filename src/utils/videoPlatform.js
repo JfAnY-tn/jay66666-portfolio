@@ -1,5 +1,3 @@
-const BILIBILI_API = 'https://api.bilibili.com';
-
 const PLATFORMS = [
   {
     name: 'bilibili',
@@ -32,12 +30,7 @@ function formatDuration(seconds) {
 
 function bilibiliApiUrl(path, params) {
   const qs = new URLSearchParams(params).toString();
-  const endpoint = `/x/${path}`;
-  // Dev: use Vite proxy; Production: direct B站 API (browser must be able to reach B站)
-  if (import.meta.env.DEV) {
-    return `/api/bilibili${endpoint}?${qs}`;
-  }
-  return `${BILIBILI_API}${endpoint}?${qs}`;
+  return `/api/bilibili/x/${path}?${qs}`;
 }
 
 async function fetchBilibiliMeta(bvid) {
