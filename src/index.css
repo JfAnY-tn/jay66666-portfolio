@@ -1,0 +1,113 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+html {
+  scroll-behavior: smooth;
+}
+
+html.light body {
+  background-color: #FAFAFA;
+}
+
+body {
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+::selection {
+  background-color: #8B5CF640;
+  color: #F8FAFC;
+}
+
+/* Hero section animations */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(16px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes barBounce {
+  0%   { transform: scaleY(0.25); }
+  18%  { transform: scaleY(1.0); }
+  36%  { transform: scaleY(0.15); }
+  54%  { transform: scaleY(0.85); }
+  72%  { transform: scaleY(0.35); }
+  90%  { transform: scaleY(1.0); }
+  100% { transform: scaleY(0.5); }
+}
+
+@keyframes barBounceActive {
+  0%   { transform: scaleY(0.3); }
+  16%  { transform: scaleY(1.0); }
+  33%  { transform: scaleY(0.35); }
+  50%  { transform: scaleY(1.0); }
+  66%  { transform: scaleY(0.25); }
+  83%  { transform: scaleY(0.85); }
+  100% { transform: scaleY(0.5); }
+}
+
+@keyframes bgFlow {
+  0%   { background-position: 0% 0%, 10% 0%, 90% 100%, 0% 0%; }
+  25%  { background-position: 0% 0%, 25% 15%, 70% 85%, 0% 0%; }
+  50%  { background-position: 0% 0%, 40% 5%, 50% 95%, 0% 0%; }
+  75%  { background-position: 0% 0%, 20% 20%, 65% 75%, 0% 0%; }
+  100% { background-position: 0% 0%, 10% 0%, 90% 100%, 0% 0%; }
+}
+
+@keyframes gridScroll {
+  0%   { background-position: 0px 0px; }
+  100% { background-position: 80px 80px; }
+}
+
+.floating-grid::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  background-image:
+    linear-gradient(rgba(139,92,246,0.06) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(139,92,246,0.06) 1px, transparent 1px);
+  background-size: 80px 80px;
+  animation: gridScroll 8s linear infinite;
+}
+
+html:not(.dark) .floating-grid::before {
+  background-image:
+    linear-gradient(rgba(139,92,246,0.04) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(139,92,246,0.04) 1px, transparent 1px);
+}
+
+.animate-bg {
+  animation: bgFlow 15s ease-in-out infinite;
+}
+
+@keyframes scaleIn {
+  from {
+    opacity: 0;
+    transform: scale(0.95);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+/* Hide scrollbar for carousel */
+.scrollbar-hide::-webkit-scrollbar {
+  display: none;
+}
+
+/* Plyr theme overrides */
+:root {
+  --plyr-color-main: #8B5CF6;
+  --plyr-video-control-background-hover: #1A1A3E;
+  --plyr-range-fill-background: #8B5CF6;
+  --plyr-menu-background: #1A1A3E;
+}

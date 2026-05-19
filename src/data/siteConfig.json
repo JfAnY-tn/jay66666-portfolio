@@ -1,0 +1,20 @@
+{
+  "siteName": "Jay66666",
+  "tagline": "用镜头语言讲述品牌故事",
+  "role": "专业视频剪辑师",
+  "email": "chenxiaoming@example.com",
+  "wechat": "chen_editor",
+  "location": "北京 / 上海",
+  "socialLinks": {
+    "bilibili": "https://space.bilibili.com/",
+    "douyin": "https://www.douyin.com/",
+    "xiaohongshu": "https://www.xiaohongshu.com/"
+  },
+  "navItems": [
+    { "label": "作品集", "href": "#portfolio" },
+    { "label": "服务", "href": "#services" },
+    { "label": "关于我", "href": "#about" },
+    { "label": "客户评价", "href": "#testimonials" },
+    { "label": "联系我", "href": "#contact" }
+  ]
+}

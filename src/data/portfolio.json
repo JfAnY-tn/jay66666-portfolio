@@ -1,0 +1,378 @@
+[
+  {
+    "id": "project-1",
+    "title": "高效广告创作工作流全分享 — 北电课堂回放",
+    "category": "commercial",
+    "description": "北京电影学院广告短视频创作课堂实录，分享前期预拍预演工作流，TVC现场剪辑与UE5动态预演全流程。",
+    "thumbnailUrl": "https://i0.hdslb.com/bfs/archive/483b843ca08be5496d29ed65d8366ab2f0c44784.jpg",
+    "videoUrl": "https://www.bilibili.com/video/BV1d142147rY",
+    "duration": "22:09",
+    "tags": [
+      "广告",
+      "北电",
+      "Premiere Pro",
+      "TVC"
+    ],
+    "featured": true
+  },
+  {
+    "id": "project-2",
+    "title": "荒诞电影感广告大片拉片拆解 — 剪辑工程轨道版",
+    "category": "commercial",
+    "description": "保时捷、vivo、新华社×今麦郎等品牌TVC拉片，带剪辑工程轨道拆解，深度分析电影感广告的剪辑节奏与叙事手法。",
+    "thumbnailUrl": "https://i1.hdslb.com/bfs/archive/5876be482f6a144af2ceb3ade0c82ee7cf8667f8.jpg",
+    "videoUrl": "https://www.bilibili.com/video/BV12PJzzQEFs",
+    "duration": "5:22",
+    "tags": [
+      "广告",
+      "拉片",
+      "Premiere Pro",
+      "TVC"
+    ],
+    "featured": true
+  },
+  {
+    "id": "project-3",
+    "title": "一分钟剪辑叙事性广告片 — 从成片逆推创作思路",
+    "category": "commercial",
+    "description": "从成片反推剪辑思路，含宋韵黄岩宣传片《一眼千年》等案例，附工程文件下载，学习叙事性广告的剪辑逻辑。",
+    "thumbnailUrl": "https://i2.hdslb.com/bfs/archive/95f299302f7df772e306343d6c04cb3cf5d72117.jpg",
+    "videoUrl": "https://www.bilibili.com/video/BV1BR4y157oi",
+    "duration": "8:26",
+    "tags": [
+      "广告",
+      "叙事",
+      "Premiere Pro"
+    ],
+    "featured": false
+  },
+  {
+    "id": "project-4",
+    "title": "品客薯片 2025超级碗沙雕广告：哈登的胡子飞走了",
+    "category": "commercial",
+    "description": "2025超级碗品客薯片广告，哈登出镜的沙雕风格TVC。学习国际顶级广告的剪辑节奏、转场设计和幽默叙事手法。",
+    "thumbnailUrl": "https://i2.hdslb.com/bfs/archive/137b9bc003a74f3ba9ebd8e949eca03c175a776a.png",
+    "videoUrl": "https://www.bilibili.com/video/BV114NzexE2S",
+    "duration": "1:14",
+    "tags": [
+      "广告",
+      "超级碗",
+      "TVC"
+    ],
+    "featured": false
+  },
+  {
+    "id": "project-5",
+    "title": "达芬奇调色分层展示 — 金狮奖最佳调色作品幕后",
+    "category": "music-video",
+    "description": "22/23届金狮奖最佳调色金奖/银奖得主evan888zero作品展示，含英雄联盟手游×王俊凯、苏炳添广告等商业项目调色划像对比。",
+    "thumbnailUrl": "https://i0.hdslb.com/bfs/archive/16f6a085a95013efca64b7e91570691504c83531.jpg",
+    "videoUrl": "https://www.bilibili.com/video/BV1t4421D7w9",
+    "duration": "0:27",
+    "tags": [
+      "MV",
+      "调色",
+      "金狮奖",
+      "DaVinci Resolve"
+    ],
+    "featured": true
+  },
+  {
+    "id": "project-6",
+    "title": "李昊MV《寄居》电影级达芬奇调色展示",
+    "category": "music-video",
+    "description": "电影级达芬奇调色分层展示，从原始素材到最终成片的完整调色流程，展现色彩如何赋予画面情感与电影质感。",
+    "thumbnailUrl": "https://i2.hdslb.com/bfs/archive/2371b53b1af90e525fa0d7faefa35619ead42e84.jpg",
+    "videoUrl": "https://www.bilibili.com/video/BV1eJSqYbEpF",
+    "duration": "0:56",
+    "tags": [
+      "MV",
+      "调色",
+      "电影级",
+      "DaVinci Resolve"
+    ],
+    "featured": true
+  },
+  {
+    "id": "project-7",
+    "title": "Blender制作音乐MV短片《PIRATES》— 只用三种颜色",
+    "category": "music-video",
+    "description": "CG艺术家Nayd Dreamer用三种颜色创造惊艳视觉效果，灵感来自Elephant Tree，展示Blender在MV制作中的无限可能。",
+    "thumbnailUrl": "https://i0.hdslb.com/bfs/archive/5662703c39b6a1b342af5da66040b6ce0f740310.jpg",
+    "videoUrl": "https://www.bilibili.com/video/BV1k5SRYdESq",
+    "duration": "1:50",
+    "tags": [
+      "MV",
+      "Blender",
+      "创意",
+      "视觉效果"
+    ],
+    "featured": false
+  },
+  {
+    "id": "project-8",
+    "title": "永劫无间MV达芬奇调色划像展示",
+    "category": "music-video",
+    "description": "游戏MV达芬奇调色划像展示，Before/After对比呈现调色对画面氛围的质变影响，游戏影视化调色参考。",
+    "thumbnailUrl": "https://i2.hdslb.com/bfs/archive/c6638da0c7db3b4217565a221754bf6521287121.jpg",
+    "videoUrl": "https://www.bilibili.com/video/BV1ztyxYdE9a",
+    "duration": "0:22",
+    "tags": [
+      "MV",
+      "调色",
+      "游戏",
+      "DaVinci Resolve"
+    ],
+    "featured": false
+  },
+  {
+    "id": "project-9",
+    "title": "拉片：图片素材运用 · 空镜串接 · 人物采访使用",
+    "category": "corporate",
+    "description": "59万播放拉片教程！涵盖亚运会项目、时尚感剪辑、超燃运动片头等数十个案例，系统讲解企业宣传片的剪辑思维与技巧。",
+    "thumbnailUrl": "https://i2.hdslb.com/bfs/archive/b8fb0b974952f58c97af67363177b3b71713a7a8.jpg",
+    "videoUrl": "https://www.bilibili.com/video/BV1oZ4y147QJ",
+    "duration": "17:37",
+    "tags": [
+      "宣传片",
+      "拉片",
+      "Premiere Pro",
+      "教程"
+    ],
+    "featured": true
+  },
+  {
+    "id": "project-10",
+    "title": "企业宣传片开头效果怎么做 — 3D文字+Logo动画教程",
+    "category": "corporate",
+    "description": "企业宣传片秒变高级的实用教程，3D文字炸场效果+Logo动画+金属材质质感，让你的宣传片开头贵10倍。",
+    "thumbnailUrl": "https://i2.hdslb.com/bfs/archive/73dae6d388ac8f353b3ed62a5e9716ca80850643.jpg",
+    "videoUrl": "https://www.bilibili.com/video/BV1NMK3zuErH",
+    "duration": "1:42",
+    "tags": [
+      "宣传片",
+      "AE",
+      "教程",
+      "After Effects"
+    ],
+    "featured": false
+  },
+  {
+    "id": "project-11",
+    "title": "福州企业宣传片 — 新能源车后期AE特效包装",
+    "category": "corporate",
+    "description": "实景航拍跟踪、三维立体字跟踪、科技扫描包装、地图辐射特效等企业宣传片后期AE特效包装动画合集。",
+    "thumbnailUrl": "https://i0.hdslb.com/bfs/archive/48c89056d83e3c659ceca14a7454efbf7d140edd.jpg",
+    "videoUrl": "https://www.bilibili.com/video/BV1EF4m1L7J3",
+    "duration": "0:09",
+    "tags": [
+      "宣传片",
+      "AE",
+      "特效",
+      "After Effects"
+    ],
+    "featured": false
+  },
+  {
+    "id": "project-12",
+    "title": "企业宣传片 — 工厂航拍建筑物科技扫描后期包装",
+    "category": "corporate",
+    "description": "企业宣传片工厂航拍与科技感后期包装特效展示，航拍跟踪+三维扫描+数据可视化，展示工业宣传片制作全流程。",
+    "thumbnailUrl": "https://i0.hdslb.com/bfs/archive/98df4e687d4b6f5787ed643c261bd488a9909565.jpg",
+    "videoUrl": "https://www.bilibili.com/video/BV1pZ421z71R",
+    "duration": "0:07",
+    "tags": [
+      "宣传片",
+      "航拍",
+      "AE",
+      "After Effects"
+    ],
+    "featured": false
+  },
+  {
+    "id": "project-13",
+    "title": "手机剪映制作文字穿越无缝转场 — 32万播放教程",
+    "category": "short-video",
+    "description": "用手机剪映手把手教你文字穿越无缝转场，让短视频更具高级感。零基础也能做出的专业级转场效果。",
+    "thumbnailUrl": "https://i1.hdslb.com/bfs/archive/ff4b05fa5f5f5bc4815773261e1cc776e60d523b.jpg",
+    "videoUrl": "https://www.bilibili.com/video/BV1pS4y1j7vK",
+    "duration": "4:14",
+    "tags": [
+      "短视频",
+      "转场",
+      "剪映",
+      "CapCut"
+    ],
+    "featured": true
+  },
+  {
+    "id": "project-14",
+    "title": "达芬奇：现代时尚震撼节奏开场快闪剪辑模板",
+    "category": "short-video",
+    "description": "达芬奇现代时尚震撼节奏开场快闪模板，适用短视频、开场片头、产品展示等场景，快节奏卡点剪辑风格。",
+    "thumbnailUrl": "https://i1.hdslb.com/bfs/archive/95924b952f8d82e585ec8be272b0b77cb52cdbbe.jpg",
+    "videoUrl": "https://www.bilibili.com/video/BV11m4y1p7z5",
+    "duration": "0:26",
+    "tags": [
+      "短视频",
+      "快闪",
+      "DaVinci Resolve",
+      "模板"
+    ],
+    "featured": false
+  },
+  {
+    "id": "project-15",
+    "title": "剪辑调色基础教程 — 零基础剪辑必备",
+    "category": "short-video",
+    "description": "零基础剪辑调色合集，含丝滑运镜卡点、蒙版卡点、高级氛围感调色等实用技巧，短视频创作者的剪辑入门课。",
+    "thumbnailUrl": "https://i0.hdslb.com/bfs/archive/f9862598a880ebd873683d836cf7ca66cac75cb5.jpg",
+    "videoUrl": "https://www.bilibili.com/video/BV1HsXCYcEwV",
+    "duration": "4:00",
+    "tags": [
+      "短视频",
+      "调色",
+      "教程",
+      "剪映"
+    ],
+    "featured": false
+  },
+  {
+    "id": "project-16",
+    "title": "AE/PR模板：100个复古情绪美学慢快门转场过渡",
+    "category": "short-video",
+    "description": "100个复古情绪美学慢快门抽帧拖影效果竖屏短视频转场过渡模板，适用于Reels、Shorts等9:16竖屏内容创作。",
+    "thumbnailUrl": "https://i1.hdslb.com/bfs/archive/3e304392a8e7f180852446d000a32d6b024b3b23.jpg",
+    "videoUrl": "https://www.bilibili.com/video/BV1bvk4BaEEK",
+    "duration": "1:06",
+    "tags": [
+      "短视频",
+      "转场",
+      "AE",
+      "模板"
+    ],
+    "featured": false
+  },
+  {
+    "id": "project-17",
+    "title": "天花板级别婚礼微电影 — Awpa国际影像卓越奖",
+    "category": "wedding",
+    "description": "获Awpa国际影像卓越奖的婚礼微电影，电影感叙事与唯美画面的完美结合，婚礼影像的行业标杆作品。",
+    "thumbnailUrl": "https://i2.hdslb.com/bfs/archive/8013bcb81445d9bc61b7229cec1d485fe38f37d3.jpg",
+    "videoUrl": "https://www.bilibili.com/video/BV1PF411177K",
+    "duration": "5:12",
+    "tags": [
+      "婚礼",
+      "电影级",
+      "Premiere Pro",
+      "微电影"
+    ],
+    "featured": true
+  },
+  {
+    "id": "project-18",
+    "title": "甜粉王子与公主的浪漫爱情 — 缪斯映画婚礼电影",
+    "category": "wedding",
+    "description": "缪斯映画出品婚礼电影，温馨纪实风格，擅长讲故事与捕捉真实情感瞬间，婚礼影像的经典范例。",
+    "thumbnailUrl": "https://i1.hdslb.com/bfs/archive/011ea1f52f642fe6f1045c91d2bde9eccce8ea93.jpg",
+    "videoUrl": "https://www.bilibili.com/video/BV1Jm4y1a7d5",
+    "duration": "6:07",
+    "tags": [
+      "婚礼",
+      "纪实",
+      "Final Cut Pro"
+    ],
+    "featured": false
+  },
+  {
+    "id": "project-19",
+    "title": "温馨纪实风婚礼电影 — 真实情感捕捉",
+    "category": "wedding",
+    "description": "纪实风格婚礼电影，用镜头捕捉婚礼当天最真实的情感瞬间，温暖细腻的叙事节奏，拒绝刻意摆拍。",
+    "thumbnailUrl": "https://i1.hdslb.com/bfs/archive/4ee95ad8ab0118dd507a23f6f064f52d2f3375ee.jpg",
+    "videoUrl": "https://www.bilibili.com/video/BV1ky411b7mz",
+    "duration": "4:52",
+    "tags": [
+      "婚礼",
+      "纪实",
+      "Premiere Pro"
+    ],
+    "featured": false
+  },
+  {
+    "id": "project-20",
+    "title": "中式目的地婚礼·十里红妆 — 凤冠霞帔大婚",
+    "category": "wedding",
+    "description": "全网爆款中式大婚微电影，十里红妆凤冠霞帔，三生三世婚前影像。电影级调色与大气磅礴的东方美学。",
+    "thumbnailUrl": "https://i1.hdslb.com/bfs/archive/8970663f0eb641e62ae14e8d941038de1ade9293.jpg",
+    "videoUrl": "https://www.bilibili.com/video/BV1jG5r6jEVC",
+    "duration": "1:31",
+    "tags": [
+      "婚礼",
+      "中式",
+      "DaVinci Resolve",
+      "调色"
+    ],
+    "featured": true
+  },
+  {
+    "id": "project-21",
+    "title": "商业活动30秒中式慢剪 — 活动现场快剪",
+    "category": "event",
+    "description": "商业活动30秒快剪，中式慢剪风格，节奏把控精准。小活动现场快剪实战案例。",
+    "thumbnailUrl": "https://i1.hdslb.com/bfs/archive/ef44f136d60b47319f3ee4e99128584eff118481.jpg",
+    "videoUrl": "https://www.bilibili.com/video/BV12541197b4",
+    "duration": "0:31",
+    "tags": [
+      "活动",
+      "快剪",
+      "Premiere Pro"
+    ],
+    "featured": false
+  },
+  {
+    "id": "project-22",
+    "title": "矩阵音乐节活动拍摄分享 — 导剪版",
+    "category": "event",
+    "description": "户外音乐节活动拍摄与剪辑全流程分享，多机位素材处理、现场收音与背景音乐混音，活动快剪实战经验。",
+    "thumbnailUrl": "https://i2.hdslb.com/bfs/archive/36a7ca2eec9eeb150a2810e4d46f717903d3c1a6.jpg",
+    "videoUrl": "https://www.bilibili.com/video/BV1Dk4y1w7Db",
+    "duration": "1:58",
+    "tags": [
+      "活动",
+      "音乐节",
+      "Premiere Pro"
+    ],
+    "featured": true
+  },
+  {
+    "id": "project-23",
+    "title": "地产活动30秒快剪 — 商业活动快剪实战",
+    "category": "event",
+    "description": "地产活动30秒快剪，活动摄像与PR剪辑全流程，展示商业活动快剪的高效出片工作流。",
+    "thumbnailUrl": "https://i2.hdslb.com/bfs/archive/15261f23b169da3d839f7d283276d96ee2f3ac5c.jpg",
+    "videoUrl": "https://www.bilibili.com/video/BV1r94y1X7Pz",
+    "duration": "0:31",
+    "tags": [
+      "活动",
+      "快剪",
+      "Premiere Pro"
+    ],
+    "featured": false
+  },
+  {
+    "id": "project-24",
+    "title": "标准化国企单位活动快剪30S",
+    "category": "event",
+    "description": "国企单位活动标准化快剪，30秒精炼呈现活动亮点，大型活动剪辑流程参考。",
+    "thumbnailUrl": "https://i1.hdslb.com/bfs/archive/c7dcc5a6b66694364880dcf0f2a56f2f10055adc.jpg",
+    "videoUrl": "https://www.bilibili.com/video/BV1G7eoetE8o",
+    "duration": "1:07",
+    "tags": [
+      "活动",
+      "快剪",
+      "Premiere Pro"
+    ],
+    "featured": false
+  }
+]

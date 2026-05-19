@@ -1,0 +1,9 @@
+{
+  "routes": [
+    { "src": "/api/bilibili/(.*)", "dest": "/api/bilibili-proxy?path=$1" }
+  ],
+  "rewrites": [
+    { "source": "/api/youtube/:path*", "destination": "https://www.youtube.com/:path*" },
+    { "source": "/((?!api/).*)", "destination": "/index.html" }
+  ]
+}
