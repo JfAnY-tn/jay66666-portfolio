@@ -1,4 +1,4 @@
-import { useRef, useCallback, useEffect, useState, useMemo } from 'react';
+import { useRef, useCallback, useEffect, useState } from 'react';
 import siteConfig from '../../data/siteConfig.json';
 import { useAudio } from '../../context/AudioContext';
 import Button from '../ui/Button';
@@ -264,71 +264,149 @@ export default function HeroSection() {
   );
 }
 
-// ── Waveform Background ──────────────────────────────────────────
-const WAVE_COUNT = 12;
+// ── Grid-Aligned Waveform Background ──────────────────────────────
+const GRID = 80;       // matches the CSS grid cell size
+const WAVE_W = 240;    // 3 grid cells wide
+const WAVE_H = 40;
+const DASH_LEN = 340;  // slightly longer than path for smooth edges
+const WAVE_COUNT = 75;
 
-function genWaveformPath() {
-  // ECG-style path: flat line → spike up → spike down → flat line
-  const w = 120;
-  const h = 60;
-  const mid = h / 2;
-  const spikeH = h * 0.8;
-  const x0 = w * 0.15;
-  const x1 = w * 0.25;
-  const x2 = w * 0.35;
-  const x3 = w * 0.45;
-  const x4 = w * 0.55;
-  const x5 = w * 0.65;
-  const x6 = w * 0.85;
-  return `M 0,${mid} L ${x0},${mid} L ${x1},${mid} L ${x2},${mid - spikeH} L ${x3},${mid + spikeH * 0.6} L ${x4},${mid} L ${x5},${mid - spikeH * 0.3} L ${x6},${mid} L ${w},${mid}`;
+const WAVE_COLOR = '#8B5CF6';
+const WAVE_DURATION = '4s';
+
+// Generate a unique ECG-like path for each waveform
+function ecgPath(seed) {
+  const mid = WAVE_H / 2;
+  const spike = WAVE_H * 0.75;
+  const parts = [];
+  // Flatten seed to a repeatable pseudo-random value per waveform
+  const r = (n, min, max) => min + (((seed * 137 + n * 97 + 42) % 1000) / 1000) * (max - min);
+
+  let x = 0;
+  parts.push(`M 0,${mid}`);
+
+  // Lead-in flat segment
+  const leadIn = r(1, 0.04, 0.14);
+  x = WAVE_W * leadIn;
+  parts.push(`L ${x},${mid}`);
+
+  // Random number of spike clusters (1 to 3)
+  const clusters = Math.floor(r(2, 1, 4));
+  for (let c = 0; c < clusters; c++) {
+    // Small pre-bump
+    const bx = x + WAVE_W * r(3 + c * 10, 0.01, 0.04);
+    const bh = mid - spike * r(4 + c * 10, 0.1, 0.35);
+    parts.push(`L ${bx},${mid} L ${bx + WAVE_W * 0.01},${bh} L ${bx + WAVE_W * 0.02},${mid}`);
+
+    // Main spike up
+    const sx1 = bx + WAVE_W * r(5 + c * 10, 0.02, 0.05);
+    const sh1 = mid - spike * r(6 + c * 10, 0.5, 1.0);
+    parts.push(`L ${sx1},${sh1}`);
+
+    // Main spike down
+    const sx2 = sx1 + WAVE_W * r(7 + c * 10, 0.02, 0.05);
+    const sh2 = mid + spike * r(8 + c * 10, 0.2, 0.7);
+    parts.push(`L ${sx2},${sh2}`);
+
+    // Recovery back to baseline
+    const rx = sx2 + WAVE_W * r(9 + c * 10, 0.02, 0.05);
+    parts.push(`L ${rx},${mid}`);
+
+    x = rx;
+
+    // Optional tiny aftershock
+    if (r(10 + c * 10, 0, 1) > 0.5) {
+      const ax = x + WAVE_W * r(11 + c * 10, 0.01, 0.03);
+      const ah = mid - spike * r(12 + c * 10, 0.1, 0.25);
+      parts.push(`L ${ax},${ah} L ${ax + WAVE_W * 0.015},${mid}`);
+      x = ax + WAVE_W * 0.015;
+    }
+
+    // Gap between clusters
+    if (c < clusters - 1) {
+      x += WAVE_W * r(13 + c * 10, 0.04, 0.15);
+      parts.push(`L ${x},${mid}`);
+    }
+  }
+
+  // Lead-out flat to end
+  parts.push(`L ${WAVE_W},${mid}`);
+
+  return parts.join(' ');
 }
 
-const waveformConfigs = Array.from({ length: WAVE_COUNT }, (_, i) => {
-  const seed = (i * 137.5 + 42) % 360;
-  return {
-    id: i,
-    left: `${(seed * 1.7) % 85}%`,
-    top: `${10 + (seed * 3.1) % 75}%`,
-    rotate: (seed * 2.3) % 360,
-    scale: 0.5 + ((seed * 0.7) % 0.8),
-    opacity: 0.04 + ((seed * 0.3) % 0.06),
-    delay: `${(seed * 0.7) % 8}s`,
-    duration: `${3 + (seed * 1.1) % 6}s`,
-    color: ['#8B5CF6', '#F43F5E', '#10B981', '#0EA5E9', '#F59E0B'][i % 5],
-  };
-});
+// Generate random grid-aligned positions — X snaps to grid, Y random within viewport
+function generateWaveConfigs() {
+  const configs = [];
+  const cols = 50;
+  const rows = 60;
+  for (let i = 0; i < WAVE_COUNT; i++) {
+    // Multiple prime seeds for least visible pattern
+    const s1 = (i * 137 + 42) % 997;
+    const s2 = (i * 251 + 17) % 991;
+    const s3 = (i * 311 + 89) % 983;
+    const col = Math.floor((s1 / 997) * cols);
+    const row = Math.floor((s2 / 991) * rows);
+    configs.push({
+      id: i,
+      left: col * GRID,
+      top: row * GRID - WAVE_H / 2,
+      flipX: s3 % 3 === 0,
+      delay: `${(s1 * 0.043) % 7}s`,
+      pathD: ecgPath(i), // unique shape per waveform
+    });
+  }
+  return configs;
+}
+
+const waveConfigs = generateWaveConfigs();
 
 function WaveformBackground() {
-  const path = useMemo(() => genWaveformPath(), []);
   return (
-    <div className="absolute inset-0 pointer-events-none overflow-hidden">
+    <div
+      className="fixed inset-0 pointer-events-none z-0"
+      style={{ animation: 'wave-scroll 8s linear infinite' }}
+    >
       <style>{`
-        @keyframes waveform-pulse {
-          0%, 100% { opacity: 0; transform: translateY(0); }
-          50% { opacity: 0.07; transform: translateY(-4px); }
+        @keyframes wave-scroll {
+          0%   { transform: translate(0, 0); }
+          100% { transform: translate(${GRID}px, ${GRID}px); }
+        }
+        @keyframes ecg-draw {
+          0%    { stroke-dashoffset: -${DASH_LEN}; }
+          25%   { stroke-dashoffset: 0; }
+          75%   { stroke-dashoffset: 0; }
+          100%  { stroke-dashoffset: ${DASH_LEN}; }
+        }
+        @keyframes ecg-fade {
+          0%, 1% { opacity: 0; }
+          25%    { opacity: 0.12; }
+          75%    { opacity: 0.12; }
+          99%, 100% { opacity: 0; }
         }
       `}</style>
-      {waveformConfigs.map((cfg) => (
+      {waveConfigs.map((cfg) => (
         <svg
           key={cfg.id}
           className="absolute"
           style={{
             left: cfg.left,
             top: cfg.top,
-            width: 120 * cfg.scale,
-            height: 60 * cfg.scale,
-            transform: `rotate(${cfg.rotate}deg)`,
-            animation: `waveform-pulse ${cfg.duration} ease-in-out ${cfg.delay} infinite`,
-            opacity: 0,
+            width: WAVE_W,
+            height: WAVE_H,
+            transform: cfg.flipX ? 'scaleX(-1)' : undefined,
+            animation: `ecg-draw ${WAVE_DURATION} linear ${cfg.delay} infinite, ecg-fade ${WAVE_DURATION} linear ${cfg.delay} infinite`,
           }}
-          viewBox="0 0 120 60"
+          viewBox={`0 0 ${WAVE_W} ${WAVE_H}`}
           fill="none"
-          stroke={cfg.color}
+          stroke={WAVE_COLOR}
           strokeWidth="1.2"
           strokeLinecap="round"
           strokeLinejoin="round"
+          strokeDasharray={DASH_LEN}
+          strokeDashoffset={-DASH_LEN}
         >
-          <path d={path} />
+          <path d={cfg.pathD} />
         </svg>
       ))}
     </div>
