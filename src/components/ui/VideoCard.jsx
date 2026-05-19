@@ -17,9 +17,22 @@ export default function VideoCard({ title, category, thumbnailUrl, duration, tag
   const platform = detectVideoPlatform(videoUrl);
   const isBilibili = platform?.platform === 'bilibili';
   const useIframe = isBilibili && !import.meta.env.DEV;
+  const iframeRef = useRef(null);
   const embedUrl = useIframe
-    ? `https://player.bilibili.com/player.html?bvid=${platform.videoId}&page=1&high_quality=1&autoplay=1&danmaku=0`
+    ? `https://player.bilibili.com/player.html?bvid=${platform.videoId}&page=1&high_quality=1&autoplay=1&muted=1&danmaku=0`
     : null;
+
+  // Try to mute the B站 iframe player after it loads
+  const handleIframeLoad = useCallback(() => {
+    if (iframeRef.current) {
+      try {
+        iframeRef.current.contentWindow?.postMessage(
+          { type: 'setMuted', muted: true },
+          'https://player.bilibili.com'
+        );
+      } catch { /* cross-origin restriction, ignore */ }
+    }
+  }, []);
 
   const [hovering, setHovering] = useState(false);
   const [videoSrc, setVideoSrc] = useState(null);
@@ -146,11 +159,13 @@ export default function VideoCard({ title, category, thumbnailUrl, duration, tag
         {useIframe && hovering && showIframe && (
           <>
             <iframe
+              ref={iframeRef}
               src={embedUrl}
               className="absolute inset-0 w-full h-full border-0"
               allow="autoplay; encrypted-media; fullscreen"
               allowFullScreen
               title={title}
+              onLoad={handleIframeLoad}
             />
             <div className="absolute inset-0 z-10" />
           </>
