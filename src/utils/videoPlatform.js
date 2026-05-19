@@ -1,3 +1,5 @@
+const BILIBILI_API = 'https://api.bilibili.com';
+
 const PLATFORMS = [
   {
     name: 'bilibili',
@@ -28,8 +30,19 @@ function formatDuration(seconds) {
   return `${m}:${String(s).padStart(2, '0')}`;
 }
 
+function bilibiliApiUrl(path, params) {
+  const qs = new URLSearchParams(params).toString();
+  const endpoint = `/x/${path}`;
+  // Dev: use Vite proxy; Production: direct B站 API (browser must be able to reach B站)
+  if (import.meta.env.DEV) {
+    return `/api/bilibili${endpoint}?${qs}`;
+  }
+  return `${BILIBILI_API}${endpoint}?${qs}`;
+}
+
 async function fetchBilibiliMeta(bvid) {
-  const res = await fetch(`/api/bilibili/x/web-interface/view?bvid=${bvid}`);
+  const url = bilibiliApiUrl('web-interface/view', { bvid });
+  const res = await fetch(url);
   if (!res.ok) throw new Error('获取B站视频信息失败');
   const json = await res.json();
   if (json.code !== 0) throw new Error(json.message || '获取B站视频信息失败');
@@ -50,14 +63,16 @@ async function fetchYouTubeMeta(videoId) {
 
 async function fetchBilibiliPlayUrl(bvid) {
   try {
-    const infoRes = await fetch(`/api/bilibili/x/web-interface/view?bvid=${bvid}`);
+    const infoUrl = bilibiliApiUrl('web-interface/view', { bvid });
+    const infoRes = await fetch(infoUrl);
     if (!infoRes.ok) return null;
     const infoJson = await infoRes.json();
     if (infoJson.code !== 0) return null;
     const cid = infoJson.data?.cid;
     if (!cid) return null;
 
-    const playRes = await fetch(`/api/bilibili/x/player/playurl?bvid=${bvid}&cid=${cid}&qn=64&fnval=0`);
+    const playUrl = bilibiliApiUrl('player/playurl', { bvid, cid, qn: 64, fnval: 0 });
+    const playRes = await fetch(playUrl);
     if (!playRes.ok) return null;
     const playJson = await playRes.json();
     if (playJson.code !== 0) return null;
