@@ -244,12 +244,12 @@ export default function HeroSection() {
       </div>
 
       {/* Scroll hint */}
-      <div className="absolute bottom-10 left-0 right-0 z-10 flex flex-col items-center animate-[fadeIn_0.8s_ease-out_1s_both]">
+      <div className="absolute bottom-10 left-1/2 -translate-x-1/2 z-10 text-center animate-[fadeIn_0.8s_ease-out_1s_both]">
         <span className="block text-xs tracking-widest text-gray-500 dark:text-cinema-text-muted">
           向下滚动
         </span>
         <svg
-          className="mt-2 h-5 w-5 animate-bounce text-gray-500 dark:text-cinema-text-muted"
+          className="mx-auto mt-2 h-5 w-5 animate-bounce text-gray-500 dark:text-cinema-text-muted"
           fill="none" viewBox="0 0 24 24" stroke="currentColor"
         >
           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />

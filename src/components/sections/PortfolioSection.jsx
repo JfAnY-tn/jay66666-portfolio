@@ -70,17 +70,21 @@ export default function PortfolioSection() {
   const [canScrollLeft, setCanScrollLeft] = useState(false);
   const [canScrollRight, setCanScrollRight] = useState(true);
   const [activePage, setActivePage] = useState(0);
-  const [isMobile, setIsMobile] = useState(() =>
-    typeof window !== 'undefined' && window.matchMedia('(max-width: 1023px)').matches
+  const [itemsPerPage, setItemsPerPage] = useState(
+    window.innerWidth < 1024 ? ITEMS_MOBILE : ITEMS_DESKTOP
   );
-  const itemsPerPage = isMobile ? ITEMS_MOBILE : ITEMS_DESKTOP;
-  const colsPerRow = isMobile ? MOBILE_COLS : DESKTOP_COLS;
+  const [colsPerRow, setColsPerRow] = useState(
+    window.innerWidth < 1024 ? MOBILE_COLS : DESKTOP_COLS
+  );
 
   useEffect(() => {
-    const mq = window.matchMedia('(max-width: 1023px)');
-    const check = () => setIsMobile(mq.matches);
-    mq.addEventListener('change', check);
-    return () => mq.removeEventListener('change', check);
+    const check = () => {
+      const mobile = window.innerWidth < 1024;
+      setItemsPerPage(mobile ? ITEMS_MOBILE : ITEMS_DESKTOP);
+      setColsPerRow(mobile ? MOBILE_COLS : DESKTOP_COLS);
+    };
+    window.addEventListener('resize', check);
+    return () => window.removeEventListener('resize', check);
   }, []);
 
   const portfolio = useMemo(() =>
@@ -255,7 +259,7 @@ export default function PortfolioSection() {
               {pages.map((pageItems, pageIdx) => (
                 <div
                   key={pageIdx}
-                  className={`snap-start flex-shrink-0 w-full grid gap-4 md:gap-6 ${isMobile ? 'grid-cols-2' : 'grid-cols-2 lg:grid-cols-3'}`}
+                  className={`snap-start flex-shrink-0 w-full grid gap-4 md:gap-6 ${itemsPerPage <= 2 ? 'grid-cols-2' : 'grid-cols-2 lg:grid-cols-3'}`}
                 >
                   {pageItems.map((item, i) => {
                     const col = i % colsPerRow;
