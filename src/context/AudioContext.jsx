@@ -5,7 +5,15 @@ const AudioCtx = createContext();
 const PLAYLIST = [
   { url: '/bgm.mp3', title: 'Shoreline', artist: 'Roa Music' },
   { url: '/bgm2.mp3', title: 'Pool', artist: 'KV' },
+  // New tracks — place bgm3.mp3 ~ bgm7.mp3 in public/
+  { url: '/bgm3.mp3', title: 'Upbeat 1', artist: 'Unknown' },
+  { url: '/bgm4.mp3', title: 'Upbeat 2', artist: 'Unknown' },
+  { url: '/bgm5.mp3', title: 'Upbeat 3', artist: 'Unknown' },
+  { url: '/bgm6.mp3', title: 'Upbeat 4', artist: 'Unknown' },
+  { url: '/bgm7.mp3', title: 'Upbeat 5', artist: 'Unknown' },
 ];
+
+const CROSSFADE_S = 2.5; // crossfade duration in seconds
 
 function pickRandom(excludeIdx) {
   if (PLAYLIST.length <= 1) return 0;
@@ -20,72 +28,180 @@ export function AudioProvider({ children }) {
   const [trackIndex, setTrackIndex] = useState(0);
   const audioCtxRef = useRef(null);
   const analyserRef = useRef(null);
+  const gainNodeRef = useRef(null);
   const sourceRef = useRef(null);
   const audioElRef = useRef(null);
   const animRef = useRef(null);
   const trackIdxRef = useRef(0);
 
+  // Crossfade state
+  const nextAudioRef = useRef(null);
+  const nextGainRef = useRef(null);
+  const nextSourceRef = useRef(null);
+  const crossfadeRef = useRef(false);
+  const crossfadeAnimRef = useRef(null);
+
   const cleanup = useCallback(() => {
+    if (crossfadeAnimRef.current) {
+      cancelAnimationFrame(crossfadeAnimRef.current);
+      crossfadeAnimRef.current = null;
+    }
     if (animRef.current) {
       cancelAnimationFrame(animRef.current);
       animRef.current = null;
     }
+    if (nextSourceRef.current) {
+      try { nextSourceRef.current.disconnect(); } catch (e) { /* */ }
+      nextSourceRef.current = null;
+    }
+    if (nextAudioRef.current) {
+      nextAudioRef.current.pause();
+      nextAudioRef.current.removeAttribute('src');
+      nextAudioRef.current = null;
+    }
     if (sourceRef.current) {
-      try { sourceRef.current.disconnect(); } catch (e) { /* ignore */ }
+      try { sourceRef.current.disconnect(); } catch (e) { /* */ }
       sourceRef.current = null;
     }
     if (audioElRef.current) {
       audioElRef.current.pause();
       audioElRef.current.removeEventListener('ended', onEnded);
+      audioElRef.current.removeEventListener('timeupdate', onTimeUpdate);
       audioElRef.current = null;
     }
+    crossfadeRef.current = false;
   }, []);
 
-  const initAudio = useCallback((trackUrl) => {
+  const initAudioContext = useCallback(() => {
     let ctx = audioCtxRef.current;
     if (!ctx) {
       ctx = new AudioContext();
       audioCtxRef.current = ctx;
     }
+    if (ctx.state === 'suspended') ctx.resume();
 
-    const analyser = ctx.createAnalyser();
-    analyser.fftSize = 256;
-    analyser.smoothingTimeConstant = 0.15;
-    analyserRef.current = analyser;
-
-    const audio = new Audio(trackUrl);
-    audio.crossOrigin = 'anonymous';
-    audioElRef.current = audio;
-
-    const source = ctx.createMediaElementSource(audio);
-    source.connect(analyser);
-    analyser.connect(ctx.destination);
-    sourceRef.current = source;
+    if (!analyserRef.current) {
+      const analyser = ctx.createAnalyser();
+      analyser.fftSize = 256;
+      analyser.smoothingTimeConstant = 0.15;
+      analyser.connect(ctx.destination);
+      analyserRef.current = analyser;
+    }
+    return ctx;
   }, []);
 
-  const onEnded = useCallback(() => {
-    cleanup();
-    const next = pickRandom(trackIdxRef.current);
-    trackIdxRef.current = next;
-    setTrackIndex(next);
-    const track = PLAYLIST[next];
-    initAudio(track.url);
+  const startFreqLoop = useCallback(() => {
+    if (animRef.current) cancelAnimationFrame(animRef.current);
+    const analyser = analyserRef.current;
+    if (!analyser) return;
+    const data = new Uint8Array(analyser.frequencyBinCount);
+    const loop = () => {
+      analyser.getByteFrequencyData(data);
+      setFrequencyData(new Uint8Array(data));
+      animRef.current = requestAnimationFrame(loop);
+    };
+    loop();
+  }, []);
+
+  const createAudioSource = useCallback((trackUrl) => {
     const ctx = audioCtxRef.current;
-    const audio = audioElRef.current;
-    if (ctx && audio) {
-      if (ctx.state === 'suspended') ctx.resume();
-      audio.addEventListener('ended', onEnded);
-      audio.play().catch(() => {});
-      const analyser = analyserRef.current;
-      const data = new Uint8Array(analyser.frequencyBinCount);
-      const loop = () => {
-        analyser.getByteFrequencyData(data);
-        setFrequencyData(new Uint8Array(data));
-        animRef.current = requestAnimationFrame(loop);
-      };
-      loop();
+    if (!ctx) return null;
+    const audio = new Audio(trackUrl);
+    audio.crossOrigin = 'anonymous';
+    const source = ctx.createMediaElementSource(audio);
+    const gain = ctx.createGain();
+    gain.gain.value = 0;
+    source.connect(gain);
+    gain.connect(analyserRef.current);
+    return { audio, source, gain };
+  }, []);
+
+  // Crossfade animation: fade out current, fade in next
+  const runCrossfade = useCallback((currentGain, nextGain, onDone) => {
+    const startTime = performance.now();
+    const duration = CROSSFADE_S * 1000;
+    const ctx = audioCtxRef.current;
+    const tick = (now) => {
+      const elapsed = now - startTime;
+      const t = Math.min(1, elapsed / duration);
+      // ease-in-out curve for smooth transition
+      const ease = t < 0.5 ? 2 * t * t : 1 - Math.pow(-2 * t + 2, 2) / 2;
+      currentGain.value = 1 - ease;
+      nextGain.value = ease;
+      if (t < 1) {
+        crossfadeAnimRef.current = requestAnimationFrame(tick);
+      } else {
+        currentGain.value = 0;
+        nextGain.value = 1;
+        crossfadeAnimRef.current = null;
+        onDone();
+      }
+    };
+    crossfadeAnimRef.current = requestAnimationFrame(tick);
+  }, []);
+
+  // Start preloading next track and crossfade
+  const startCrossfade = useCallback((currentAudio) => {
+    if (crossfadeRef.current) return;
+    crossfadeRef.current = true;
+
+    const nextIdx = pickRandom(trackIdxRef.current);
+    trackIdxRef.current = nextIdx;
+    setTrackIndex(nextIdx);
+    const track = PLAYLIST[nextIdx];
+
+    initAudioContext();
+    const result = createAudioSource(track.url);
+    if (!result) {
+      crossfadeRef.current = false;
+      return;
     }
-  }, [cleanup, initAudio]);
+    nextAudioRef.current = result.audio;
+    nextGainRef.current = result.gain;
+    nextSourceRef.current = result.source;
+
+    result.audio.play().catch(() => {});
+
+    runCrossfade(gainNodeRef.current, result.gain, () => {
+      // Crossfade done — swap: next becomes current
+      if (currentAudio) {
+        currentAudio.pause();
+        currentAudio.removeAttribute('src');
+        currentAudio.removeEventListener('ended', onEnded);
+        currentAudio.removeEventListener('timeupdate', onTimeUpdate);
+      }
+      if (sourceRef.current) {
+        try { sourceRef.current.disconnect(); } catch (e) { /* */ }
+      }
+
+      audioElRef.current = result.audio;
+      sourceRef.current = result.source;
+      result.audio.addEventListener('ended', onEnded);
+      result.audio.addEventListener('timeupdate', onTimeUpdate);
+      crossfadeRef.current = false;
+
+      // Clean next refs
+      nextAudioRef.current = null;
+      nextGainRef.current = null;
+      nextSourceRef.current = null;
+    });
+  }, [initAudioContext, createAudioSource, runCrossfade]);
+
+  const onTimeUpdate = useCallback(() => {
+    const audio = audioElRef.current;
+    if (!audio || crossfadeRef.current) return;
+    const remaining = audio.duration - audio.currentTime;
+    if (remaining < CROSSFADE_S + 0.5 && audio.currentTime > 1) {
+      startCrossfade(audio);
+    }
+  }, [startCrossfade]);
+
+  const onEnded = useCallback(() => {
+    // If crossfade already started, onEnded is a safety net
+    if (!crossfadeRef.current) {
+      startCrossfade(audioElRef.current);
+    }
+  }, [startCrossfade]);
 
   const stop = useCallback(() => {
     cleanup();
@@ -119,24 +235,14 @@ export function AudioProvider({ children }) {
     const fadeIn = () => {
       vol = Math.min(1, vol + 0.03);
       audio.volume = vol;
-      if (vol < 1) {
-        requestAnimationFrame(fadeIn);
-      }
+      if (vol < 1) requestAnimationFrame(fadeIn);
     };
     requestAnimationFrame(fadeIn);
 
-    const analyser = analyserRef.current;
-    const data = new Uint8Array(analyser.frequencyBinCount);
-    const loop = () => {
-      analyser.getByteFrequencyData(data);
-      setFrequencyData(new Uint8Array(data));
-      animRef.current = requestAnimationFrame(loop);
-    };
-    loop();
-  }, []);
+    startFreqLoop();
+  }, [startFreqLoop]);
 
   const play = useCallback(() => {
-    // Always cleanup before creating new audio to prevent double-play
     cleanup();
 
     const idx = pickRandom(trackIdxRef.current);
@@ -144,29 +250,23 @@ export function AudioProvider({ children }) {
     setTrackIndex(idx);
     const track = PLAYLIST[idx];
 
-    initAudio(track.url);
+    const ctx = initAudioContext();
+    const result = createAudioSource(track.url);
+    if (!result) return;
 
-    const ctx = audioCtxRef.current;
-    const audio = audioElRef.current;
-    if (!ctx || !audio) return;
-
-    if (ctx.state === 'suspended') ctx.resume();
+    const { audio, source, gain } = result;
+    gain.gain.value = 1;
+    audioElRef.current = audio;
+    sourceRef.current = source;
     audio.addEventListener('ended', onEnded);
+    audio.addEventListener('timeupdate', onTimeUpdate);
     audio.play().catch(() => stop());
 
     setIsPlaying(true);
-    const analyser = analyserRef.current;
-    const data = new Uint8Array(analyser.frequencyBinCount);
+    startFreqLoop();
+  }, [initAudioContext, createAudioSource, onEnded, onTimeUpdate, stop, startFreqLoop]);
 
-    const loop = () => {
-      analyser.getByteFrequencyData(data);
-      setFrequencyData(new Uint8Array(data));
-      animRef.current = requestAnimationFrame(loop);
-    };
-    loop();
-  }, [initAudio, onEnded, stop]);
-
-  // Auto-play on first user interaction (browsers block autoplay without gesture)
+  // Auto-play on first user interaction
   useEffect(() => {
     let started = false;
     const start = () => {
