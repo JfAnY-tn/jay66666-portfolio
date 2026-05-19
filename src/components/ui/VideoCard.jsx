@@ -1,5 +1,5 @@
 import { useState, useRef, useCallback, useEffect } from 'react';
-import { getDirectVideoUrl } from '../../utils/videoPlatform';
+import { getDirectVideoUrl, detectVideoPlatform } from '../../utils/videoPlatform';
 
 const categoryMeta = {
   commercial:  { label: '商业广告', bg: 'bg-vivid-purple-500/80',  accent: '#8B5CF6', hover: 'hover:border-vivid-purple-500/40' },
@@ -12,18 +12,31 @@ const categoryMeta = {
 
 export default function VideoCard({ title, category, thumbnailUrl, duration, tags, videoUrl, onClick, onEdit }) {
   const meta = categoryMeta[category] || categoryMeta.commercial;
+
+  // B站 iframe mode (production): no API needed, reliable globally
+  const platform = detectVideoPlatform(videoUrl);
+  const isBilibili = platform?.platform === 'bilibili';
+  const useIframe = isBilibili && !import.meta.env.DEV;
+  const embedUrl = useIframe
+    ? `https://player.bilibili.com/player.html?bvid=${platform.videoId}&page=1&high_quality=1&autoplay=1&danmaku=0`
+    : null;
+
   const [hovering, setHovering] = useState(false);
   const [videoSrc, setVideoSrc] = useState(null);
+  const [showIframe, setShowIframe] = useState(false);
   const [progress, setProgress] = useState(0);
   const [videoDuration, setVideoDuration] = useState(0);
   const videoRef = useRef(null);
   const loadedRef = useRef(false);
   const scrubbingRef = useRef(false);
   const scrubTimerRef = useRef(null);
+  const iframeTimerRef = useRef(null);
 
   const handleMouseEnter = useCallback(() => {
     setHovering(true);
-    if (!loadedRef.current) {
+    if (useIframe) {
+      iframeTimerRef.current = setTimeout(() => setShowIframe(true), 200);
+    } else if (!loadedRef.current) {
       getDirectVideoUrl(videoUrl).then((url) => {
         if (url) {
           loadedRef.current = true;
@@ -32,10 +45,12 @@ export default function VideoCard({ title, category, thumbnailUrl, duration, tag
         }
       });
     }
-  }, [videoUrl]);
+  }, [useIframe, videoUrl]);
 
   const handleMouseLeave = useCallback(() => {
     setHovering(false);
+    setShowIframe(false);
+    clearTimeout(iframeTimerRef.current);
     clearTimeout(scrubTimerRef.current);
     scrubbingRef.current = false;
   }, []);
@@ -52,7 +67,10 @@ export default function VideoCard({ title, category, thumbnailUrl, duration, tag
   }, []);
 
   useEffect(() => {
-    return () => clearTimeout(scrubTimerRef.current);
+    return () => {
+      clearTimeout(scrubTimerRef.current);
+      clearTimeout(iframeTimerRef.current);
+    };
   }, []);
 
   const handleMeta = useCallback(() => {
@@ -86,7 +104,8 @@ export default function VideoCard({ title, category, thumbnailUrl, duration, tag
     }, 150);
   }, []);
 
-  const showVideo = hovering && videoSrc;
+  const isShowingPreview = useIframe ? (hovering && showIframe) : (hovering && videoSrc);
+  const showScrubbing = isShowingPreview && !useIframe;
 
   return (
     <div className={`group relative w-full h-full text-left rounded-2xl overflow-hidden border border-gray-100 dark:border-cinema-surface bg-gray-50/80 dark:bg-cinema-dark/50 transition-all duration-300 hover:-translate-y-1 ${meta.hover}`}
@@ -113,17 +132,32 @@ export default function VideoCard({ title, category, thumbnailUrl, duration, tag
       {/* Thumbnail / Video */}
       <div
         className="relative aspect-video overflow-hidden bg-cinema-surface"
-        onMouseMove={showVideo ? handleScrubMove : undefined}
+        onMouseMove={showScrubbing ? handleScrubMove : undefined}
       >
         <img
           src={thumbnailUrl}
           alt={title}
           referrerPolicy="no-referrer"
           crossOrigin="anonymous"
-          className={`w-full h-full object-cover transition-all duration-500 group-hover:scale-105 ${showVideo ? 'opacity-0' : 'opacity-100'}`}
+          className={`w-full h-full object-cover transition-all duration-500 group-hover:scale-105 ${isShowingPreview ? 'opacity-0' : 'opacity-100'}`}
         />
 
-        {showVideo && (
+        {/* B站 iframe (production) */}
+        {useIframe && hovering && showIframe && (
+          <>
+            <iframe
+              src={embedUrl}
+              className="absolute inset-0 w-full h-full border-0"
+              allow="autoplay; encrypted-media; fullscreen"
+              allowFullScreen
+              title={title}
+            />
+            <div className="absolute inset-0 z-10" />
+          </>
+        )}
+
+        {/* Direct video (dev or mp4) */}
+        {!useIframe && isShowingPreview && (
           <video
             ref={videoRef}
             src={videoSrc}
@@ -140,7 +174,7 @@ export default function VideoCard({ title, category, thumbnailUrl, duration, tag
         )}
 
         {/* Play button overlay */}
-        {!showVideo && (
+        {!isShowingPreview && (
           <div className="absolute inset-0 bg-gradient-to-t from-cinema-black/80 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center">
             <div className="w-14 h-14 rounded-full flex items-center justify-center shadow-lg" style={{ backgroundColor: `${meta.accent}E6` }}>
               <svg className="w-6 h-6 text-white ml-1" fill="currentColor" viewBox="0 0 24 24">
@@ -160,8 +194,8 @@ export default function VideoCard({ title, category, thumbnailUrl, duration, tag
           {meta.label}
         </span>
 
-        {/* Scrub progress bar */}
-        {showVideo && (
+        {/* Scrub progress bar (only for direct video) */}
+        {showScrubbing && (
           <div className="absolute bottom-0 left-0 right-0 h-0.5 bg-white/20 z-10">
             <div
               className="h-full bg-vivid-purple-500 transition-[width] duration-75 ease-linear"
