@@ -166,6 +166,7 @@ export default function VideoCard({ title, category, thumbnailUrl, duration, tag
               allowFullScreen
               title={title}
               onLoad={handleIframeLoad}
+              referrerPolicy="no-referrer"
             />
             <div className="absolute inset-0 z-10" />
           </>
