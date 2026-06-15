@@ -1,13 +1,13 @@
 /**
- * Cloudflare Pages Function — B站 API 代理
- * 处理 /api/bilibili/* 请求，转发到 api.bilibili.com
+ * Cloudflare Pages Function — B站 API 代理 (catch-all)
+ * 匹配 /api/bilibili/* 所有路径，转发到 api.bilibili.com
  */
 export async function onRequest(context) {
-  const { request } = context;
+  const { request, params } = context;
   const url = new URL(request.url);
 
-  // 提取 B站 API 路径: /api/bilibili/x/web-interface/view → x/web-interface/view
-  const bilibiliPath = url.pathname.replace(/^\/api\/bilibili\/?/, '');
+  // params.path 捕获 [[path]] 的内容，如 "x/web-interface/view"
+  const bilibiliPath = params.path || '';
   const targetUrl = `https://api.bilibili.com/${bilibiliPath}${url.search}`;
 
   try {
