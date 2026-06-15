@@ -73,7 +73,7 @@ export default function AboutSection() {
               <div className="space-y-4 text-gray-500 dark:text-cinema-text-muted leading-relaxed">
                 <p>
                   你好，我是 Jay66666，一名专业视频剪辑师。2016 年入行，从广告公司剪辑师起步，
-                  逐步建立起自己的剪辑工作室。擅长商业广告、企业宣传片、音乐 MV 及短视频制作。
+                  逐步建立起自己的剪辑工作室。擅长企业宣传片、课程制作、短视频及活动记录制作。
                 </p>
                 <p>
                   我的剪辑理念是：每一帧都应该有存在的理由。无论是 15 秒的短视频还是 10 分钟的宣传片，

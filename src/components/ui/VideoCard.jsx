@@ -2,16 +2,14 @@ import { useState, useRef, useCallback, useEffect } from 'react';
 import { getDirectVideoUrl, detectVideoPlatform } from '../../utils/videoPlatform';
 
 const categoryMeta = {
-  commercial:  { label: '商业广告', bg: 'bg-vivid-purple-500/80',  accent: '#8B5CF6', hover: 'hover:border-vivid-purple-500/40' },
-  'music-video': { label: '音乐 MV',  bg: 'bg-hot-pink-500/80',      accent: '#F43F5E', hover: 'hover:border-hot-pink-500/30' },
   corporate:   { label: '企业宣传', bg: 'bg-electric-teal-500/80', accent: '#10B981', hover: 'hover:border-electric-teal-500/30' },
   'short-video': { label: '短视频',  bg: 'bg-amber-500/80',          accent: '#F59E0B', hover: 'hover:border-amber-500/30' },
-  wedding:     { label: '婚礼电影', bg: 'bg-rose-400/80',           accent: '#FB7185', hover: 'hover:border-rose-400/30' },
   event:       { label: '活动记录', bg: 'bg-sky-500/80',            accent: '#0EA5E9', hover: 'hover:border-sky-500/30' },
+  'course-production': { label: '课程制作', bg: 'bg-indigo-500/80', accent: '#6366F1', hover: 'hover:border-indigo-500/30' },
 };
 
 export default function VideoCard({ title, category, thumbnailUrl, duration, tags, videoUrl, onClick, onEdit }) {
-  const meta = categoryMeta[category] || categoryMeta.commercial;
+  const meta = categoryMeta[category] || categoryMeta.corporate;
 
   // B站 iframe mode (production): no API needed, reliable globally
   const platform = detectVideoPlatform(videoUrl);

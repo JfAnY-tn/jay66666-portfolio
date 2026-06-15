@@ -3,11 +3,9 @@ import { detectVideoPlatform, fetchVideoMeta } from '../../utils/videoPlatform';
 import Button from './Button';
 
 const categoryOptions = [
-  { value: 'commercial', label: '商业广告' },
-  { value: 'music-video', label: '音乐 MV' },
   { value: 'corporate', label: '企业宣传' },
   { value: 'short-video', label: '短视频' },
-  { value: 'wedding', label: '婚礼电影' },
+  { value: 'course-production', label: '课程制作' },
   { value: 'event', label: '活动记录' },
 ];
 
@@ -22,7 +20,7 @@ export default function EditVideoModal({ item, isOpen, onClose, onSave, onReset 
     if (item) {
       setForm({
         title: item.title || '',
-        category: item.category || 'commercial',
+        category: item.category || 'corporate',
         thumbnailUrl: item.thumbnailUrl || '',
         videoUrl: item.videoUrl || '',
         duration: item.duration || '',

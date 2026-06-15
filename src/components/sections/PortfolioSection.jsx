@@ -15,11 +15,9 @@ const GAP = 24;
 
 const categories = [
   { key: 'all', label: '全部' },
-  { key: 'commercial', label: '商业广告' },
-  { key: 'music-video', label: '音乐 MV' },
   { key: 'corporate', label: '企业宣传' },
   { key: 'short-video', label: '短视频' },
-  { key: 'wedding', label: '婚礼电影' },
+  { key: 'course-production', label: '课程制作' },
   { key: 'event', label: '活动记录' },
 ];
 

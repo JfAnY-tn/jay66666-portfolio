@@ -2,7 +2,7 @@
   {
     "id": "project-1",
     "title": "高效广告创作工作流全分享 — 北电课堂回放",
-    "category": "commercial",
+    "category": "corporate",
     "description": "北京电影学院广告短视频创作课堂实录，分享前期预拍预演工作流，TVC现场剪辑与UE5动态预演全流程。",
     "thumbnailUrl": "https://i0.hdslb.com/bfs/archive/483b843ca08be5496d29ed65d8366ab2f0c44784.jpg",
     "videoUrl": "https://www.bilibili.com/video/BV1d142147rY",
@@ -18,7 +18,7 @@
   {
     "id": "project-2",
     "title": "荒诞电影感广告大片拉片拆解 — 剪辑工程轨道版",
-    "category": "commercial",
+    "category": "corporate",
     "description": "保时捷、vivo、新华社×今麦郎等品牌TVC拉片，带剪辑工程轨道拆解，深度分析电影感广告的剪辑节奏与叙事手法。",
     "thumbnailUrl": "https://i1.hdslb.com/bfs/archive/5876be482f6a144af2ceb3ade0c82ee7cf8667f8.jpg",
     "videoUrl": "https://www.bilibili.com/video/BV12PJzzQEFs",
@@ -34,7 +34,7 @@
   {
     "id": "project-3",
     "title": "一分钟剪辑叙事性广告片 — 从成片逆推创作思路",
-    "category": "commercial",
+    "category": "corporate",
     "description": "从成片反推剪辑思路，含宋韵黄岩宣传片《一眼千年》等案例，附工程文件下载，学习叙事性广告的剪辑逻辑。",
     "thumbnailUrl": "https://i2.hdslb.com/bfs/archive/95f299302f7df772e306343d6c04cb3cf5d72117.jpg",
     "videoUrl": "https://www.bilibili.com/video/BV1BR4y157oi",
@@ -49,7 +49,7 @@
   {
     "id": "project-4",
     "title": "品客薯片 2025超级碗沙雕广告：哈登的胡子飞走了",
-    "category": "commercial",
+    "category": "corporate",
     "description": "2025超级碗品客薯片广告，哈登出镜的沙雕风格TVC。学习国际顶级广告的剪辑节奏、转场设计和幽默叙事手法。",
     "thumbnailUrl": "https://i2.hdslb.com/bfs/archive/137b9bc003a74f3ba9ebd8e949eca03c175a776a.png",
     "videoUrl": "https://www.bilibili.com/video/BV114NzexE2S",
@@ -64,7 +64,7 @@
   {
     "id": "project-5",
     "title": "达芬奇调色分层展示 — 金狮奖最佳调色作品幕后",
-    "category": "music-video",
+    "category": "short-video",
     "description": "22/23届金狮奖最佳调色金奖/银奖得主evan888zero作品展示，含英雄联盟手游×王俊凯、苏炳添广告等商业项目调色划像对比。",
     "thumbnailUrl": "https://i0.hdslb.com/bfs/archive/16f6a085a95013efca64b7e91570691504c83531.jpg",
     "videoUrl": "https://www.bilibili.com/video/BV1t4421D7w9",
@@ -80,7 +80,7 @@
   {
     "id": "project-6",
     "title": "李昊MV《寄居》电影级达芬奇调色展示",
-    "category": "music-video",
+    "category": "short-video",
     "description": "电影级达芬奇调色分层展示，从原始素材到最终成片的完整调色流程，展现色彩如何赋予画面情感与电影质感。",
     "thumbnailUrl": "https://i2.hdslb.com/bfs/archive/2371b53b1af90e525fa0d7faefa35619ead42e84.jpg",
     "videoUrl": "https://www.bilibili.com/video/BV1eJSqYbEpF",
@@ -96,7 +96,7 @@
   {
     "id": "project-7",
     "title": "Blender制作音乐MV短片《PIRATES》— 只用三种颜色",
-    "category": "music-video",
+    "category": "short-video",
     "description": "CG艺术家Nayd Dreamer用三种颜色创造惊艳视觉效果，灵感来自Elephant Tree，展示Blender在MV制作中的无限可能。",
     "thumbnailUrl": "https://i0.hdslb.com/bfs/archive/5662703c39b6a1b342af5da66040b6ce0f740310.jpg",
     "videoUrl": "https://www.bilibili.com/video/BV1k5SRYdESq",
@@ -112,7 +112,7 @@
   {
     "id": "project-8",
     "title": "永劫无间MV达芬奇调色划像展示",
-    "category": "music-video",
+    "category": "short-video",
     "description": "游戏MV达芬奇调色划像展示，Before/After对比呈现调色对画面氛围的质变影响，游戏影视化调色参考。",
     "thumbnailUrl": "https://i2.hdslb.com/bfs/archive/c6638da0c7db3b4217565a221754bf6521287121.jpg",
     "videoUrl": "https://www.bilibili.com/video/BV1ztyxYdE9a",
@@ -256,7 +256,7 @@
   {
     "id": "project-17",
     "title": "天花板级别婚礼微电影 — Awpa国际影像卓越奖",
-    "category": "wedding",
+    "category": "event",
     "description": "获Awpa国际影像卓越奖的婚礼微电影，电影感叙事与唯美画面的完美结合，婚礼影像的行业标杆作品。",
     "thumbnailUrl": "https://i2.hdslb.com/bfs/archive/8013bcb81445d9bc61b7229cec1d485fe38f37d3.jpg",
     "videoUrl": "https://www.bilibili.com/video/BV1PF411177K",
@@ -272,7 +272,7 @@
   {
     "id": "project-18",
     "title": "甜粉王子与公主的浪漫爱情 — 缪斯映画婚礼电影",
-    "category": "wedding",
+    "category": "event",
     "description": "缪斯映画出品婚礼电影，温馨纪实风格，擅长讲故事与捕捉真实情感瞬间，婚礼影像的经典范例。",
     "thumbnailUrl": "https://i1.hdslb.com/bfs/archive/011ea1f52f642fe6f1045c91d2bde9eccce8ea93.jpg",
     "videoUrl": "https://www.bilibili.com/video/BV1Jm4y1a7d5",
@@ -287,7 +287,7 @@
   {
     "id": "project-19",
     "title": "温馨纪实风婚礼电影 — 真实情感捕捉",
-    "category": "wedding",
+    "category": "event",
     "description": "纪实风格婚礼电影，用镜头捕捉婚礼当天最真实的情感瞬间，温暖细腻的叙事节奏，拒绝刻意摆拍。",
     "thumbnailUrl": "https://i1.hdslb.com/bfs/archive/4ee95ad8ab0118dd507a23f6f064f52d2f3375ee.jpg",
     "videoUrl": "https://www.bilibili.com/video/BV1ky411b7mz",
@@ -302,7 +302,7 @@
   {
     "id": "project-20",
     "title": "中式目的地婚礼·十里红妆 — 凤冠霞帔大婚",
-    "category": "wedding",
+    "category": "event",
     "description": "全网爆款中式大婚微电影，十里红妆凤冠霞帔，三生三世婚前影像。电影级调色与大气磅礴的东方美学。",
     "thumbnailUrl": "https://i1.hdslb.com/bfs/archive/8970663f0eb641e62ae14e8d941038de1ade9293.jpg",
     "videoUrl": "https://www.bilibili.com/video/BV1jG5r6jEVC",
