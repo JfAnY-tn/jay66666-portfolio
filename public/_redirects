@@ -1,1 +1,2 @@
-/*    /index.html   200
+/api/bilibili/*  https://api.bilibili.com/:splat  200
+/*               /index.html                            200
