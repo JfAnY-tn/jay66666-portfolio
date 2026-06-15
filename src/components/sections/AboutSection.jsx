@@ -5,7 +5,7 @@ import useCountUp from '../../hooks/useCountUp';
 
 const stats = [
   { value: 100, suffix: '+', label: '完成项目' },
-  { value: 8, suffix: '', label: '年经验' },
+  { value: 5, suffix: '', label: '年经验' },
   { value: 50, suffix: '+', label: '合作客户' },
   { value: 3, suffix: '', label: '行业奖项' },
 ];
@@ -62,7 +62,7 @@ export default function AboutSection() {
         <SectionHeading
           number="关于我"
           title="用剪辑讲述故事"
-          subtitle="8 年剪辑经验，擅长广告、MV、宣传片等多种类型。对画面节奏和色彩有着天生的敏感，致力于为每个项目找到最合适的视觉语言。"
+          subtitle="5 年剪辑经验，擅长企业宣传片、活动快剪、课程制作及短视频。先后就职于天天鉴宝、博集天卷、开开华彩等知名企业，拥有丰富的商业剪辑实战经验。"
         />
 
         <div className="grid gap-12 lg:grid-cols-2">
@@ -72,15 +72,15 @@ export default function AboutSection() {
               <h3 className="mb-4 text-xl font-bold text-gray-800 dark:text-cinema-text">个人简介</h3>
               <div className="space-y-4 text-gray-500 dark:text-cinema-text-muted leading-relaxed">
                 <p>
-                  你好，我是 Jay66666，一名专业视频剪辑师。2016 年入行，从广告公司剪辑师起步，
-                  逐步建立起自己的剪辑工作室。擅长企业宣传片、课程制作、短视频及活动记录制作。
+                  你好，我是谭宁，一名专业视频剪辑师。2021 年入行，第一份工作在鉴宝头部平台「天天鉴宝」，
+                  之后先后就职于博集天卷和银发头部平台「开开华彩」。擅长企业宣传片、活动快剪、课程制作及短视频。
                 </p>
                 <p>
                   我的剪辑理念是：每一帧都应该有存在的理由。无论是 15 秒的短视频还是 10 分钟的宣传片，
                   节奏感和情感的传递永远是核心。善于倾听客户需求，用镜头语言准确传达品牌信息。
                 </p>
                 <p>
-                  工作之外，我也是一名摄影爱好者，喜欢用镜头记录城市街头的瞬间。
+                  工作之外，我也是一名摄影爱好者，喜欢用镜头记录北京街头的瞬间。
                   这些日常观察也反哺了我的剪辑审美。
                 </p>
               </div>
