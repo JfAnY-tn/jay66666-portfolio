@@ -40,8 +40,15 @@ async function handleViewEndpoint(url) {
     return jsonResponse({ code: -400, message: '缺少 bvid 参数' }, 400);
   }
 
+  // b23.tv 短链 — 先解析重定向拿到真实 BV号
+  let realBvid = bvid;
+  if (!/^(BV|av)[a-zA-Z0-9]+$/i.test(bvid)) {
+    const resolved = await resolveShortLink(bvid);
+    if (resolved) realBvid = resolved;
+  }
+
   try {
-    const response = await fetch(`https://m.bilibili.com/video/${bvid}`, {
+    const response = await fetch(`https://m.bilibili.com/video/${realBvid}`, {
       headers: {
         'User-Agent': 'Mozilla/5.0 (Linux; Android 10; SM-G973F) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/131.0.0.0 Mobile Safari/537.36',
         'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8',
@@ -66,7 +73,7 @@ async function handleViewEndpoint(url) {
     }
 
     const state = JSON.parse(stateMatch[1]);
-    const videoInfo = findVideoInfo(state, bvid);
+    const videoInfo = findVideoInfo(state, realBvid);
 
     if (!videoInfo) {
       return jsonResponse({ code: -1, message: '未找到视频信息' }, 502);
@@ -168,6 +175,43 @@ function extractMeta(html, attrValue, attrName = 'property') {
     if (match) return match[1];
   }
   return null;
+}
+
+/**
+ * 解析 b23.tv 短链，获取真实 BV号
+ */
+async function resolveShortLink(code) {
+  try {
+    const response = await fetch(`https://b23.tv/${code}`, {
+      method: 'HEAD',
+      redirect: 'manual',
+      headers: {
+        'User-Agent': 'Mozilla/5.0 (Linux; Android 10; SM-G973F) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/131.0.0.0 Mobile Safari/537.36',
+        'Accept': 'text/html',
+        'Accept-Language': 'zh-CN,zh;q=0.9',
+      },
+    });
+
+    // 301/302 重定向的 Location 头包含真实 URL
+    const location = response.headers.get('Location') || '';
+    const bvMatch = location.match(/bilibili\.com\/video\/(BV[a-zA-Z0-9]+)/);
+    if (bvMatch) return bvMatch[1];
+
+    // HEAD 可能被拒，尝试 GET
+    const getRes = await fetch(`https://b23.tv/${code}`, {
+      redirect: 'manual',
+      headers: {
+        'User-Agent': 'Mozilla/5.0 (Linux; Android 10; SM-G973F) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/131.0.0.0 Mobile Safari/537.36',
+      },
+    });
+    const getLocation = getRes.headers.get('Location') || '';
+    const bvMatch2 = getLocation.match(/bilibili\.com\/video\/(BV[a-zA-Z0-9]+)/);
+    if (bvMatch2) return bvMatch2[1];
+
+    return null;
+  } catch {
+    return null;
+  }
 }
 
 function jsonResponse(data, status = 200) {

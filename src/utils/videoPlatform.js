@@ -3,10 +3,16 @@ const PLATFORMS = [
     name: 'bilibili',
     label: 'B站',
     match: (url) => {
-      const bv = url.match(/bilibili\.com\/video\/(BV[a-zA-Z0-9]+)/);
-      if (bv) return bv[1];
-      const b23 = url.match(/b23\.tv\/(BV[a-zA-Z0-9]+)/);
-      return b23 ? b23[1] : null;
+      // 标准链接: bilibili.com/video/BVxxx 或 bilibili.com/video/av123
+      const video = url.match(/bilibili\.com\/video\/([a-zA-Z0-9]+)/);
+      if (video) return video[1];
+      // 短链含 BV号: b23.tv/BVxxx
+      const b23Bv = url.match(/b23\.tv\/(BV[a-zA-Z0-9]+)/);
+      if (b23Bv) return b23Bv[1];
+      // 通用短链: b23.tv/xxxx (随机码，后端解析重定向)
+      const b23Any = url.match(/b23\.tv\/([a-zA-Z0-9]+)/);
+      if (b23Any) return b23Any[1];
+      return null;
     },
     embed: (id) => `https://player.bilibili.com/player.html?bvid=${id}&page=1&high_quality=1&autoplay=1`,
   },
