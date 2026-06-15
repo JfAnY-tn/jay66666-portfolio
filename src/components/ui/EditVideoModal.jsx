@@ -152,7 +152,16 @@ export default function EditVideoModal({ item, isOpen, onClose, onSave, onReset 
               )}
             </div>
             {fetchError && (
-              <p className="mt-1 text-xs text-hot-pink-500">{fetchError}</p>
+              <div className="mt-1.5 p-3 rounded-lg bg-hot-pink-500/10 border border-hot-pink-500/20">
+                <p className="text-xs text-hot-pink-500 mb-2">{fetchError}</p>
+                {detectedPlatform?.platform === 'bilibili' && (
+                  <div className="text-xs text-gray-600 dark:text-cinema-text-muted space-y-1">
+                    <p>B站 API 限制了海外服务器访问。请手动操作：</p>
+                    <p>1. <a href={form.videoUrl} target="_blank" rel="noopener noreferrer" className="text-electric-teal-400 hover:underline">打开B站视频页</a>，复制标题</p>
+                    <p>2. 右键视频封面 → 复制图片地址，粘贴到「缩略图 URL」</p>
+                  </div>
+                )}
+              </div>
             )}
           </div>
 
