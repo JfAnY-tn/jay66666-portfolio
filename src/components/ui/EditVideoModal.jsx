@@ -155,10 +155,25 @@ export default function EditVideoModal({ item, isOpen, onClose, onSave, onReset 
               <div className="mt-1.5 p-3 rounded-lg bg-hot-pink-500/10 border border-hot-pink-500/20">
                 <p className="text-xs text-hot-pink-500 mb-2">{fetchError}</p>
                 {detectedPlatform?.platform === 'bilibili' && (
-                  <div className="text-xs text-gray-600 dark:text-cinema-text-muted space-y-1">
-                    <p>B站 API 限制了海外服务器访问。请手动操作：</p>
-                    <p>1. <a href={form.videoUrl} target="_blank" rel="noopener noreferrer" className="text-electric-teal-400 hover:underline">打开B站视频页</a>，复制标题</p>
-                    <p>2. 右键视频封面 → 复制图片地址，粘贴到「缩略图 URL」</p>
+                  <div className="text-xs text-gray-600 dark:text-cinema-text-muted space-y-1.5">
+                    <p className="font-medium text-gray-700 dark:text-cinema-text">💡 手动获取封面和标题：</p>
+                    <p>1. <a href={form.videoUrl} target="_blank" rel="noopener noreferrer" className="text-electric-teal-400 hover:underline font-medium">点此打开B站视频页</a></p>
+                    <p>2. 右键点击视频播放器上的<b>封面大图</b> → 「复制图片地址」</p>
+                    <p>3. 粘贴到上方「缩略图 URL」字段</p>
+                    <p>4. 复制视频标题，粘贴到「标题」字段</p>
+                    <details className="mt-2">
+                      <summary className="cursor-pointer text-electric-teal-400 hover:underline">找不到封面图？更多方法</summary>
+                      <div className="mt-2 pl-3 space-y-1.5 border-l-2 border-electric-teal-400/30">
+                        <p><b>🔖 一键提取（推荐）：</b>拖下面的按钮到书签栏，在B站视频页点一下即可复制封面+标题：</p>
+                        <a
+                          href={`javascript:(function(){const t=document.querySelector('meta[property=\\\"og:title\\\"]')?.content||document.title.replace(/_哔哩哔哩_bilibili.*/,'');const p=document.querySelector('meta[property=\\\"og:image\\\"]')?.content?.replace(/@.*/,'').replace(/^\\/\\//,'https://');const d='标题: '+t+'\\n封面: '+p;prompt('复制下面的内容 (Ctrl+C)',d);})()`}
+                          className="inline-block px-3 py-1.5 text-xs font-medium rounded-lg bg-vivid-purple-500 text-white hover:bg-vivid-purple-600 cursor-grab active:cursor-grabbing"
+                          title="拖到书签栏，在B站视频页点击即可提取封面链接"
+                        >📋 B站封面提取</a>
+                        <p className="!mt-2"><b>方法B：</b>按 F12 → Network → Img → 刷新页面 → 找最大的 jpg 图片 → 右键 Copy link address</p>
+                        <p><b>方法C：</b>在B站页面按 Ctrl+U 查看源码 → 搜索 <code className="text-xs bg-gray-200 dark:bg-cinema-surface px-1 rounded">og:image</code> → 复制链接，去掉末尾 <code className="text-xs bg-gray-200 dark:bg-cinema-surface px-1 rounded">@100w_100h_1c.png</code></p>
+                      </div>
+                    </details>
                   </div>
                 )}
               </div>
