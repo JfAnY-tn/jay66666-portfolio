@@ -36,9 +36,10 @@ function bilibiliApiUrl(path, params) {
 async function fetchBilibiliMeta(bvid) {
   const url = bilibiliApiUrl('web-interface/view', { bvid });
   const res = await fetch(url);
-  if (!res.ok) throw new Error('获取B站视频信息失败');
   const json = await res.json();
-  if (json.code !== 0) throw new Error(json.message || '获取B站视频信息失败');
+  if (!res.ok || json.code !== 0) {
+    throw new Error(json.message || `HTTP ${res.status}: 获取B站视频信息失败`);
+  }
   const { title, pic, duration } = json.data;
   return { title, thumbnailUrl: pic?.replace(/^http:/, 'https:'), duration: formatDuration(duration) };
 }
