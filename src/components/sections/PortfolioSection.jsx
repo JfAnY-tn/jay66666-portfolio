@@ -22,6 +22,16 @@ const categories = [
 
 const STORAGE_KEY = 'portfolio_edits';
 const ORDER_KEY = 'portfolio_order';
+const DATA_VERSION = 2; // 递增此数字清除旧缓存
+
+// 版本不一致时清除旧缓存
+try {
+  if (localStorage.getItem('data_version') !== String(DATA_VERSION)) {
+    localStorage.removeItem(STORAGE_KEY);
+    localStorage.removeItem(ORDER_KEY);
+    localStorage.setItem('data_version', String(DATA_VERSION));
+  }
+} catch(e) { /* localStorage not available */ }
 
 function loadEdits() {
   try {
