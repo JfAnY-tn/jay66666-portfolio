@@ -7,13 +7,15 @@ const categoryMeta = {
   'course-production': { label: '课程制作', bg: 'bg-indigo-500/80', accent: '#6366F1', hover: 'hover:border-indigo-500/30' },
 };
 
-export default function VideoCard({ title, category, thumbnailUrl, duration, tags, videoUrl, onClick, onEdit }) {
+export default function VideoCard({ title, category, thumbnailUrl, duration, tags, videoUrl, episodes, onClick, onEdit }) {
   const meta = categoryMeta[category] || categoryMeta.corporate;
 
-  // B站 iframe mode (production): no API needed, reliable globally
-  const platform = detectVideoPlatform(videoUrl);
+  // Preview the first episode if available, otherwise main video
+  const previewUrl = episodes?.length > 0 && episodes[0]?.videoUrl ? episodes[0].videoUrl : videoUrl;
+
+  const platform = detectVideoPlatform(previewUrl);
   const isBilibili = platform?.platform === 'bilibili';
-  const useIframe = isBilibili && !import.meta.env.DEV;
+  const useIframe = isBilibili;
   const iframeRef = useRef(null);
   const embedUrl = useIframe
     ? `https://player.bilibili.com/player.html?bvid=${platform.videoId}&page=1&high_quality=1&autoplay=1&muted=1&danmaku=0`
@@ -47,7 +49,7 @@ export default function VideoCard({ title, category, thumbnailUrl, duration, tag
     if (useIframe) {
       iframeTimerRef.current = setTimeout(() => setShowIframe(true), 200);
     } else if (!loadedRef.current) {
-      getDirectVideoUrl(videoUrl).then((url) => {
+      getDirectVideoUrl(previewUrl).then((url) => {
         if (url) {
           loadedRef.current = true;
           const proxyUrl = `/api/video-proxy?url=${encodeURIComponent(url)}`;
@@ -55,7 +57,7 @@ export default function VideoCard({ title, category, thumbnailUrl, duration, tag
         }
       });
     }
-  }, [useIframe, videoUrl]);
+  }, [useIframe, previewUrl]);
 
   const handleMouseLeave = useCallback(() => {
     setHovering(false);

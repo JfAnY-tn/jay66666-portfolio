@@ -1,5 +1,5 @@
-import { useState, useEffect, useMemo } from 'react';
-import { detectVideoPlatform, fetchVideoMeta } from '../../utils/videoPlatform';
+import { useState, useEffect, useMemo, useRef } from 'react';
+import { detectVideoPlatform, fetchVideoMeta, getDirectVideoUrl } from '../../utils/videoPlatform';
 import Button from './Button';
 
 const categoryOptions = [
@@ -10,7 +10,7 @@ const categoryOptions = [
 
 const inputClass = 'w-full rounded-xl border border-gray-200 dark:border-cinema-surface bg-white dark:bg-cinema-dark/50 px-4 py-3 text-sm text-gray-800 dark:text-cinema-text placeholder:text-gray-400 dark:placeholder:text-cinema-text-muted/50 focus:outline-none focus:ring-2 focus:ring-vivid-purple-500/50 transition-colors';
 
-function EpisodeFields({ episode, index, onChange, onRemove, canRemove }) {
+function EpisodeFields({ episode, index, onChange, onRemove, canRemove, onCaptureClick }) {
   return (
     <div className="p-4 rounded-xl border border-gray-200 dark:border-cinema-surface bg-gray-50/50 dark:bg-cinema-dark/30 space-y-3">
       <div className="flex items-center justify-between">
@@ -37,13 +37,16 @@ function EpisodeFields({ episode, index, onChange, onRemove, canRemove }) {
         className={inputClass}
         placeholder="视频链接 (B站/YouTube)"
       />
-      <div className="grid grid-cols-2 gap-3">
-        <input
-          value={episode.thumbnailUrl || ''}
-          onChange={(e) => onChange(index, 'thumbnailUrl', e.target.value)}
-          className={inputClass}
-          placeholder="缩略图 URL"
-        />
+      <div className="space-y-3">
+        <div className="flex gap-2">
+          <input
+            value={episode.thumbnailUrl || ''}
+            onChange={(e) => onChange(index, 'thumbnailUrl', e.target.value)}
+            className={`${inputClass} flex-1`}
+            placeholder="缩略图 URL"
+          />
+          <button type="button" onClick={() => onCaptureClick(index)} className="shrink-0 px-3 py-3 text-sm rounded-xl bg-gray-100 dark:bg-white/10 hover:bg-gray-200 dark:hover:bg-white/20 text-gray-600 dark:text-gray-300 transition-colors" title="从视频截取封面">📸</button>
+        </div>
         <input
           value={episode.duration || ''}
           onChange={(e) => onChange(index, 'duration', e.target.value)}
@@ -55,8 +58,125 @@ function EpisodeFields({ episode, index, onChange, onRemove, canRemove }) {
   );
 }
 
+function ThumbnailCapture({ videoUrl, onCaptured, onClose }) {
+  const videoRef = useRef(null);
+  const canvasRef = useRef(null);
+  const [playUrl, setPlayUrl] = useState(null);
+  const [captured, setCaptured] = useState(null);
+  const [loading, setLoading] = useState(true);
+  const [saving, setSaving] = useState(false);
+
+  useEffect(() => {
+    if (!videoUrl) {
+      setLoading(false);
+      return;
+    }
+    setLoading(true);
+    getDirectVideoUrl(videoUrl).then((url) => {
+      if (url) {
+        setPlayUrl(`/api/video-proxy?url=${encodeURIComponent(url)}`);
+      }
+      setLoading(false);
+    }).catch(() => setLoading(false));
+  }, [videoUrl]);
+
+  const handleCapture = () => {
+    const video = videoRef.current;
+    const canvas = canvasRef.current;
+    if (!video || !canvas) return;
+    canvas.width = video.videoWidth;
+    canvas.height = video.videoHeight;
+    const ctx = canvas.getContext('2d');
+    ctx.drawImage(video, 0, 0);
+    setCaptured(canvas.toDataURL('image/jpeg', 0.9));
+  };
+
+  const handleSave = async () => {
+    if (!captured) return;
+    setSaving(true);
+    try {
+      const res = await fetch('/api/capture-thumbnail', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ image: captured }),
+      });
+      const data = await res.json();
+      if (data.ok) {
+        onCaptured(data.path);
+        onClose();
+      }
+    } catch (e) {
+      alert('保存失败: ' + e.message);
+    } finally {
+      setSaving(false);
+    }
+  };
+
+  return (
+    <div className="fixed inset-0 z-[60] flex items-center justify-center p-4">
+      <div className="absolute inset-0 bg-black/70" onClick={onClose} />
+      <div className="relative bg-white dark:bg-cinema-dark rounded-2xl w-full max-w-lg overflow-hidden shadow-2xl">
+        <div className="px-4 py-3 border-b border-gray-200 dark:border-cinema-surface flex items-center justify-between">
+          <h4 className="font-bold text-sm">截取封面</h4>
+          <button onClick={onClose} className="text-gray-400 hover:text-gray-600">✕</button>
+        </div>
+
+        {loading && (
+          <div className="aspect-video flex items-center justify-center bg-black text-gray-400 text-sm">
+            加载视频中...
+          </div>
+        )}
+
+        {!loading && !playUrl && (
+          <div className="aspect-video flex items-center justify-center bg-black text-gray-400 text-sm">
+            视频加载失败，请检查链接
+          </div>
+        )}
+
+        {playUrl && (
+          <div className="relative">
+            <video
+              ref={videoRef}
+              src={playUrl}
+              className="w-full aspect-video bg-black"
+              controls
+              crossOrigin="anonymous"
+            />
+            {captured && (
+              <div className="absolute inset-0 bg-black/50 flex items-center justify-center">
+                <div className="text-center">
+                  <img src={captured} alt="" className="max-w-[80%] max-h-[80%] rounded-lg mx-auto border-2 border-vivid-purple-500" />
+                  <p className="text-white text-sm mt-2">截图预览</p>
+                </div>
+              </div>
+            )}
+          </div>
+        )}
+
+        <canvas ref={canvasRef} className="hidden" />
+
+        <div className="p-3 flex gap-2 justify-end">
+          {captured ? (
+            <>
+              <button onClick={() => setCaptured(null)} className="px-3 py-1.5 text-sm rounded-lg bg-gray-200 dark:bg-white/10">重拍</button>
+              <button onClick={handleSave} disabled={saving} className="px-3 py-1.5 text-sm rounded-lg bg-vivid-purple-500 text-white">
+                {saving ? '保存中...' : '使用此图'}
+              </button>
+            </>
+          ) : (
+            <button onClick={handleCapture} disabled={!playUrl} className="px-3 py-1.5 text-sm rounded-lg bg-vivid-purple-500 text-white disabled:opacity-50">
+              📸 截图
+            </button>
+          )}
+        </div>
+      </div>
+    </div>
+  );
+}
+
 export default function EditVideoModal({ item, isOpen, onClose, onSave, onReset }) {
   const [form, setForm] = useState({});
+  const [captureTarget, setCaptureTarget] = useState(null);
 
   const detectedPlatform = useMemo(() => detectVideoPlatform(form.videoUrl || ''), [form.videoUrl]);
   const [fetching, setFetching] = useState(false);
@@ -206,7 +326,10 @@ export default function EditVideoModal({ item, isOpen, onClose, onSave, onReset 
 
           <div>
             <label className="block text-sm font-medium mb-1.5 text-gray-700 dark:text-cinema-text">缩略图 URL</label>
-            <input name="thumbnailUrl" value={form.thumbnailUrl} onChange={handleChange} className={inputClass} placeholder="https://placehold.co/600x338/..." />
+            <div className="flex gap-2">
+              <input name="thumbnailUrl" value={form.thumbnailUrl} onChange={handleChange} className={`${inputClass} flex-1`} placeholder="https://placehold.co/600x338/..." />
+              <button type="button" onClick={() => setCaptureTarget('main')} className="shrink-0 px-3 py-3 text-sm rounded-xl bg-gray-100 dark:bg-white/10 hover:bg-gray-200 dark:hover:bg-white/20 text-gray-600 dark:text-gray-300 transition-colors" title="从视频截取封面">📸</button>
+            </div>
           </div>
 
           {!showEpisodesEditor && (
@@ -306,6 +429,7 @@ export default function EditVideoModal({ item, isOpen, onClose, onSave, onReset 
                   onChange={handleEpisodeChange}
                   onRemove={removeEpisode}
                   canRemove={form.episodes.length > 1}
+                  onCaptureClick={(i) => setCaptureTarget(`ep-${i}`)}
                 />
               ))}
             </div>
@@ -323,6 +447,27 @@ export default function EditVideoModal({ item, isOpen, onClose, onSave, onReset 
           </div>
         </form>
       </div>
+      {captureTarget && (() => {
+        const targetUrl = captureTarget === 'main'
+          ? (form.videoUrl || form.episodes?.[0]?.videoUrl || '')
+          : (form.episodes?.[parseInt(captureTarget.split('-')[1])]?.videoUrl || '');
+        const handleCaptured = (path) => {
+          if (captureTarget === 'main') {
+            setForm(prev => ({ ...prev, thumbnailUrl: path }));
+          } else {
+            const idx = parseInt(captureTarget.split('-')[1]);
+            handleEpisodeChange(idx, 'thumbnailUrl', path);
+          }
+          setCaptureTarget(null);
+        };
+        return (
+          <ThumbnailCapture
+            videoUrl={targetUrl}
+            onCaptured={handleCaptured}
+            onClose={() => setCaptureTarget(null)}
+          />
+        );
+      })()}
     </div>
   );
 }

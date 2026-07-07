@@ -1,5 +1,7 @@
 import { defineConfig } from 'vite';
 import react from '@vitejs/plugin-react';
+import fs from 'fs';
+import path from 'path';
 
 const BILIBILI_HEADERS = {
   'Referer': 'https://www.bilibili.com/',
@@ -75,14 +77,38 @@ function videoProxyPlugin() {
         req.on('data', (chunk) => { body += chunk; });
         req.on('end', () => {
           try {
-            const fs = require('fs');
-            const path = require('path');
             const filePath = path.resolve(__dirname, 'portfolio_edits_export.json');
             // Pretty-print
             const parsed = JSON.parse(body);
             fs.writeFileSync(filePath, JSON.stringify(parsed, null, 2));
             res.writeHead(200, { 'Content-Type': 'application/json' });
             res.end(JSON.stringify({ ok: true, path: filePath }));
+          } catch (e) {
+            res.writeHead(500);
+            res.end(JSON.stringify({ error: e.message }));
+          }
+        });
+      });
+
+      // Thumbnail capture — save base64 image to public/thumbnails/
+      server.middlewares.use('/api/capture-thumbnail', (req, res) => {
+        if (req.method !== 'POST') {
+          res.writeHead(405);
+          res.end('Method not allowed');
+          return;
+        }
+        let body = '';
+        req.on('data', (chunk) => { body += chunk; });
+        req.on('end', () => {
+          try {
+            const { image } = JSON.parse(body);
+            const dir = path.resolve(__dirname, 'public', 'thumbnails');
+            if (!fs.existsSync(dir)) fs.mkdirSync(dir, { recursive: true });
+            const filename = `capture_${Date.now()}.jpg`;
+            const filePath = path.join(dir, filename);
+            fs.writeFileSync(filePath, Buffer.from(image.split(',')[1], 'base64'));
+            res.writeHead(200, { 'Content-Type': 'application/json' });
+            res.end(JSON.stringify({ ok: true, path: `/thumbnails/${filename}` }));
           } catch (e) {
             res.writeHead(500);
             res.end(JSON.stringify({ error: e.message }));
