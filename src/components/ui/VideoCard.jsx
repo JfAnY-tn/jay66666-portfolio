@@ -4,7 +4,6 @@ import { getDirectVideoUrl, detectVideoPlatform } from '../../utils/videoPlatfor
 const categoryMeta = {
   corporate:   { label: '企业宣传', bg: 'bg-electric-teal-500/80', accent: '#10B981', hover: 'hover:border-electric-teal-500/30' },
   'short-video': { label: '短视频',  bg: 'bg-amber-500/80',          accent: '#F59E0B', hover: 'hover:border-amber-500/30' },
-  event:       { label: '活动记录', bg: 'bg-sky-500/80',            accent: '#0EA5E9', hover: 'hover:border-sky-500/30' },
   'course-production': { label: '课程制作', bg: 'bg-indigo-500/80', accent: '#6366F1', hover: 'hover:border-indigo-500/30' },
 };
 
@@ -205,7 +204,7 @@ export default function VideoCard({ title, category, thumbnailUrl, duration, tag
 
         {/* Category badge */}
         <span className={`absolute top-2 left-2 text-xs text-white px-2 py-0.5 rounded z-10 ${meta.bg}`}>
-          {meta.label}
+          {meta.label}{tags?.[0] ? ` · ${tags[0]}` : ''}
         </span>
 
         {/* Scrub progress bar (only for direct video) */}

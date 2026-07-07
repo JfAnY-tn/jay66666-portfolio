@@ -88,6 +88,39 @@
     "featured": false
   },
   {
+    "id": "project-29",
+    "title": "企业宣传片作品 — 待添加",
+    "category": "corporate",
+    "description": "待补充作品描述。",
+    "thumbnailUrl": "https://placehold.co/600x338/1a1a2e/e0e0e0?text=企业宣传片+5",
+    "videoUrl": "",
+    "duration": "",
+    "tags": ["宣传片"],
+    "featured": false
+  },
+  {
+    "id": "project-30",
+    "title": "企业宣传片作品 — 待添加",
+    "category": "corporate",
+    "description": "待补充作品描述。",
+    "thumbnailUrl": "https://placehold.co/600x338/1a1a2e/e0e0e0?text=企业宣传片+6",
+    "videoUrl": "",
+    "duration": "",
+    "tags": ["宣传片"],
+    "featured": false
+  },
+  {
+    "id": "project-31",
+    "title": "企业宣传片作品 — 待添加",
+    "category": "corporate",
+    "description": "待补充作品描述。",
+    "thumbnailUrl": "https://placehold.co/600x338/1a1a2e/e0e0e0?text=企业宣传片+7",
+    "videoUrl": "",
+    "duration": "",
+    "tags": ["宣传片"],
+    "featured": false
+  },
+  {
     "id": "project-13",
     "title": "手机剪映制作文字穿越无缝转场 — 32万播放教程",
     "category": "short-video",
@@ -228,7 +261,12 @@
     "videoUrl": "https://www.bilibili.com/video/BV1pS4y1j7vK",
     "duration": "45:00",
     "tags": ["课程", "Premiere Pro", "入门", "剪辑"],
-    "featured": true
+    "featured": true,
+    "episodes": [
+      { "id": "ep-1", "title": "第一课：认识 Premiere Pro 界面与工作流程", "videoUrl": "", "thumbnailUrl": "https://placehold.co/600x338/1a1a2e/e0e0e0?text=第1课", "duration": "15:00" },
+      { "id": "ep-2", "title": "第二课：素材管理与项目设置", "videoUrl": "", "thumbnailUrl": "https://placehold.co/600x338/1a1a2e/e0e0e0?text=第2课", "duration": "20:00" },
+      { "id": "ep-3", "title": "第三课：粗剪与精剪技巧", "videoUrl": "", "thumbnailUrl": "https://placehold.co/600x338/1a1a2e/e0e0e0?text=第3课", "duration": "25:00" }
+    ]
   },
   {
     "id": "project-26",
@@ -239,7 +277,12 @@
     "videoUrl": "https://www.bilibili.com/video/BV1t4421D7w9",
     "duration": "1:20:00",
     "tags": ["课程", "达芬奇", "调色", "DaVinci Resolve"],
-    "featured": true
+    "featured": true,
+    "episodes": [
+      { "id": "ep-1", "title": "第一课：达芬奇调色基础与色彩理论", "videoUrl": "", "thumbnailUrl": "https://placehold.co/600x338/1a1a2e/e0e0e0?text=第1课", "duration": "30:00" },
+      { "id": "ep-2", "title": "第二课：一级调色 — 对比度与色彩平衡", "videoUrl": "", "thumbnailUrl": "https://placehold.co/600x338/1a1a2e/e0e0e0?text=第2课", "duration": "25:00" },
+      { "id": "ep-3", "title": "第三课：二级调色与风格化", "videoUrl": "", "thumbnailUrl": "https://placehold.co/600x338/1a1a2e/e0e0e0?text=第3课", "duration": "35:00" }
+    ]
   },
   {
     "id": "project-27",
@@ -262,5 +305,17 @@
     "duration": "28:00",
     "tags": ["课程", "快剪", "活动", "Premiere Pro"],
     "featured": false
+  },
+  {
+    "id": "project-32",
+    "title": "课程制作作品 — 待添加",
+    "category": "course-production",
+    "description": "待补充作品描述。",
+    "thumbnailUrl": "https://placehold.co/600x338/1a1a2e/e0e0e0?text=课程制作+5",
+    "videoUrl": "",
+    "duration": "",
+    "tags": ["课程"],
+    "featured": false,
+    "episodes": []
   }
 ]

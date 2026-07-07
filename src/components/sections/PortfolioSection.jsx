@@ -18,7 +18,6 @@ const categories = [
   { key: 'corporate', label: '企业宣传' },
   { key: 'short-video', label: '短视频' },
   { key: 'course-production', label: '课程制作' },
-  { key: 'event', label: '活动记录' },
 ];
 
 const STORAGE_KEY = 'portfolio_edits';
@@ -86,7 +85,9 @@ export default function PortfolioSection() {
   }, []);
 
   const portfolio = useMemo(() =>
-    defaultPortfolio.map((item) => edits[item.id] ? { ...item, ...edits[item.id] } : item),
+    defaultPortfolio
+      .filter((item) => item.category !== 'event')
+      .map((item) => edits[item.id] ? { ...item, ...edits[item.id] } : item),
     [edits]
   );
 

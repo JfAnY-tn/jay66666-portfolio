@@ -36,7 +36,7 @@ function formatDuration(seconds) {
 
 function bilibiliApiUrl(path, params) {
   const qs = new URLSearchParams(params).toString();
-  return `/api/bilibili/x/${path}?${qs}`;
+  return `/api/bilibili/${path}?${qs}`;
 }
 
 async function fetchBilibiliMeta(bvid) {

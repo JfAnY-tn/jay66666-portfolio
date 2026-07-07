@@ -6,8 +6,54 @@ const categoryOptions = [
   { value: 'corporate', label: '企业宣传' },
   { value: 'short-video', label: '短视频' },
   { value: 'course-production', label: '课程制作' },
-  { value: 'event', label: '活动记录' },
 ];
+
+const inputClass = 'w-full rounded-xl border border-gray-200 dark:border-cinema-surface bg-white dark:bg-cinema-dark/50 px-4 py-3 text-sm text-gray-800 dark:text-cinema-text placeholder:text-gray-400 dark:placeholder:text-cinema-text-muted/50 focus:outline-none focus:ring-2 focus:ring-vivid-purple-500/50 transition-colors';
+
+function EpisodeFields({ episode, index, onChange, onRemove, canRemove }) {
+  return (
+    <div className="p-4 rounded-xl border border-gray-200 dark:border-cinema-surface bg-gray-50/50 dark:bg-cinema-dark/30 space-y-3">
+      <div className="flex items-center justify-between">
+        <span className="text-sm font-medium text-gray-700 dark:text-cinema-text">第 {index + 1} 集</span>
+        {canRemove && (
+          <button
+            type="button"
+            onClick={() => onRemove(index)}
+            className="text-xs text-hot-pink-500 hover:text-hot-pink-400 transition-colors"
+          >
+            删除
+          </button>
+        )}
+      </div>
+      <input
+        value={episode.title || ''}
+        onChange={(e) => onChange(index, 'title', e.target.value)}
+        className={inputClass}
+        placeholder="集标题"
+      />
+      <input
+        value={episode.videoUrl || ''}
+        onChange={(e) => onChange(index, 'videoUrl', e.target.value)}
+        className={inputClass}
+        placeholder="视频链接 (B站/YouTube)"
+      />
+      <div className="grid grid-cols-2 gap-3">
+        <input
+          value={episode.thumbnailUrl || ''}
+          onChange={(e) => onChange(index, 'thumbnailUrl', e.target.value)}
+          className={inputClass}
+          placeholder="缩略图 URL"
+        />
+        <input
+          value={episode.duration || ''}
+          onChange={(e) => onChange(index, 'duration', e.target.value)}
+          className={inputClass}
+          placeholder="时长 (如 15:00)"
+        />
+      </div>
+    </div>
+  );
+}
 
 export default function EditVideoModal({ item, isOpen, onClose, onSave, onReset }) {
   const [form, setForm] = useState({});
@@ -15,6 +61,8 @@ export default function EditVideoModal({ item, isOpen, onClose, onSave, onReset 
   const detectedPlatform = useMemo(() => detectVideoPlatform(form.videoUrl || ''), [form.videoUrl]);
   const [fetching, setFetching] = useState(false);
   const [fetchError, setFetchError] = useState('');
+
+  const showEpisodesEditor = form.category === 'course-production' || form.category === 'short-video';
 
   useEffect(() => {
     if (item) {
@@ -26,6 +74,7 @@ export default function EditVideoModal({ item, isOpen, onClose, onSave, onReset 
         duration: item.duration || '',
         tags: (item.tags || []).join('，'),
         description: item.description || '',
+        episodes: item.episodes ? [...item.episodes] : [],
       });
     }
   }, [item]);
@@ -68,9 +117,34 @@ export default function EditVideoModal({ item, isOpen, onClose, onSave, onReset 
     setForm((prev) => ({ ...prev, [name]: value }));
   };
 
+  const handleEpisodeChange = (index, field, value) => {
+    setForm((prev) => {
+      const episodes = [...(prev.episodes || [])];
+      episodes[index] = { ...episodes[index], [field]: value };
+      return { ...prev, episodes };
+    });
+  };
+
+  const addEpisode = () => {
+    setForm((prev) => ({
+      ...prev,
+      episodes: [
+        ...(prev.episodes || []),
+        { id: `ep-${Date.now()}`, title: '', videoUrl: '', thumbnailUrl: '', duration: '' },
+      ],
+    }));
+  };
+
+  const removeEpisode = (index) => {
+    setForm((prev) => ({
+      ...prev,
+      episodes: (prev.episodes || []).filter((_, i) => i !== index),
+    }));
+  };
+
   const handleSubmit = (e) => {
     e.preventDefault();
-    onSave({
+    const data = {
       ...item,
       title: form.title.trim(),
       category: form.category,
@@ -79,7 +153,18 @@ export default function EditVideoModal({ item, isOpen, onClose, onSave, onReset 
       duration: form.duration.trim(),
       tags: form.tags.split('，').map((t) => t.trim()).filter(Boolean),
       description: form.description.trim(),
-    });
+    };
+
+    if (showEpisodesEditor && form.episodes?.length > 0) {
+      data.episodes = form.episodes.map((ep, i) => ({
+        ...ep,
+        id: ep.id || `ep-${i + 1}`,
+      }));
+    } else {
+      delete data.episodes;
+    }
+
+    onSave(data);
     onClose();
   };
 
@@ -88,13 +173,11 @@ export default function EditVideoModal({ item, isOpen, onClose, onSave, onReset 
     onClose();
   };
 
-  const inputClass = 'w-full rounded-xl border border-gray-200 dark:border-cinema-surface bg-white dark:bg-cinema-dark/50 px-4 py-3 text-sm text-gray-800 dark:text-cinema-text placeholder:text-gray-400 dark:placeholder:text-cinema-text-muted/50 focus:outline-none focus:ring-2 focus:ring-vivid-purple-500/50 transition-colors';
-
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center p-4">
       <div className="absolute inset-0 bg-black/60 backdrop-blur-sm" onClick={onClose} />
       <div className="relative bg-white dark:bg-cinema-dark border border-gray-200 dark:border-cinema-surface rounded-2xl w-full max-w-lg max-h-[85vh] overflow-y-auto shadow-2xl">
-        <div className="sticky top-0 bg-white dark:bg-cinema-dark border-b border-gray-200 dark:border-cinema-surface px-6 py-4 flex items-center justify-between rounded-t-2xl">
+        <div className="sticky top-0 bg-white dark:bg-cinema-dark border-b border-gray-200 dark:border-cinema-surface px-6 py-4 flex items-center justify-between rounded-t-2xl z-10">
           <h3 className="font-bold text-lg text-gray-800 dark:text-cinema-text">编辑作品</h3>
           <button
             onClick={onClose}
@@ -126,6 +209,7 @@ export default function EditVideoModal({ item, isOpen, onClose, onSave, onReset 
             <input name="thumbnailUrl" value={form.thumbnailUrl} onChange={handleChange} className={inputClass} placeholder="https://placehold.co/600x338/..." />
           </div>
 
+          {!showEpisodesEditor && (
           <div>
             <label className="block text-sm font-medium mb-1.5 text-gray-700 dark:text-cinema-text">
               视频 URL
@@ -177,11 +261,14 @@ export default function EditVideoModal({ item, isOpen, onClose, onSave, onReset 
               </div>
             )}
           </div>
+          )}
 
+          {!showEpisodesEditor && (
           <div>
             <label className="block text-sm font-medium mb-1.5 text-gray-700 dark:text-cinema-text">时长</label>
             <input name="duration" value={form.duration} onChange={handleChange} className={inputClass} placeholder="1:30" />
           </div>
+          )}
 
           <div>
             <label className="block text-sm font-medium mb-1.5 text-gray-700 dark:text-cinema-text">标签（用中文逗号分隔）</label>
@@ -192,6 +279,37 @@ export default function EditVideoModal({ item, isOpen, onClose, onSave, onReset 
             <label className="block text-sm font-medium mb-1.5 text-gray-700 dark:text-cinema-text">描述</label>
             <textarea name="description" value={form.description} onChange={handleChange} rows={3} className={`${inputClass} resize-none`} />
           </div>
+
+          {/* Episode editor — only for course-production */}
+          {showEpisodesEditor && (
+            <div className="space-y-3">
+              <div className="flex items-center justify-between">
+                <label className="text-sm font-medium text-gray-700 dark:text-cinema-text">
+                  课程选集 <span className="text-gray-400 font-normal">（{form.episodes?.length || 0} 集）</span>
+                </label>
+                <button
+                  type="button"
+                  onClick={addEpisode}
+                  className="text-xs px-3 py-1.5 rounded-lg bg-vivid-purple-500/10 text-vivid-purple-400 hover:bg-vivid-purple-500/20 transition-colors font-medium"
+                >
+                  + 添加一集
+                </button>
+              </div>
+              {(form.episodes?.length || 0) === 0 && (
+                <p className="text-xs text-gray-400 dark:text-cinema-text-muted">暂未添加选集，点击上方按钮添加。</p>
+              )}
+              {form.episodes?.map((ep, i) => (
+                <EpisodeFields
+                  key={i}
+                  episode={ep}
+                  index={i}
+                  onChange={handleEpisodeChange}
+                  onRemove={removeEpisode}
+                  canRemove={form.episodes.length > 1}
+                />
+              ))}
+            </div>
+          )}
 
           <div className="flex gap-3 pt-2">
             <Button type="submit" size="md" className="flex-1">保存</Button>
