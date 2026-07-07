@@ -337,7 +337,7 @@ export default function EditVideoModal({ item, isOpen, onClose, onSave, onReset 
   }, [item]);
 
   useEffect(() => {
-    const onKey = (e) => { if (e.key === 'Escape') onClose(); };
+    const onKey = (e) => { if (e.key === 'Escape') handleClose(); };
     if (isOpen) {
       window.addEventListener('keydown', onKey);
       document.body.style.overflow = 'hidden';
@@ -346,7 +346,13 @@ export default function EditVideoModal({ item, isOpen, onClose, onSave, onReset 
       window.removeEventListener('keydown', onKey);
       document.body.style.overflow = '';
     };
-  }, [isOpen, onClose]);
+  }, [isOpen, handleClose]);
+
+  // Wrap onClose to auto-save first
+  const handleClose = () => {
+    autoSaveForm();
+    onClose();
+  };
 
   if (!isOpen || !item) return null;
 
@@ -421,22 +427,22 @@ export default function EditVideoModal({ item, isOpen, onClose, onSave, onReset 
     }
 
     onSave(data);
-    onClose();
+    handleClose();
   };
 
   const handleReset = () => {
     onReset(item.id);
-    onClose();
+    handleClose();
   };
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center p-4">
-      <div className="absolute inset-0 bg-black/60 backdrop-blur-sm" onClick={onClose} />
+      <div className="absolute inset-0 bg-black/60 backdrop-blur-sm" onClick={handleClose} />
       <div className="relative bg-white dark:bg-cinema-dark border border-gray-200 dark:border-cinema-surface rounded-2xl w-full max-w-lg max-h-[85vh] overflow-y-auto shadow-2xl">
         <div className="sticky top-0 bg-white dark:bg-cinema-dark border-b border-gray-200 dark:border-cinema-surface px-6 py-4 flex items-center justify-between rounded-t-2xl z-10">
           <h3 className="font-bold text-lg text-gray-800 dark:text-cinema-text">编辑作品</h3>
           <button
-            onClick={onClose}
+            onClick={handleClose}
             className="p-1 text-gray-500 dark:text-cinema-text-muted hover:text-gray-800 dark:hover:text-cinema-text"
           >
             <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2">
