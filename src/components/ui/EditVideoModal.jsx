@@ -19,7 +19,11 @@ function EpisodeFields({ episode, index, onChange, onRemove, canRemove, onCaptur
     setEpFetching(true);
     try {
       const meta = await fetchVideoMeta(episode.videoUrl);
-      if (meta.duration) onChange(index, 'duration', meta.duration);
+      if (meta.duration) {
+        onChange(index, 'duration', meta.duration);
+        // Auto-save: trigger parent save
+        if (onFetchMeta) onFetchMeta();
+      }
     } catch (err) {
       console.error('获取分集信息失败', err);
     } finally {
@@ -286,6 +290,28 @@ function ThumbnailCapture({ videoUrl, episodes, onCaptured, onClose }) {
 export default function EditVideoModal({ item, isOpen, onClose, onSave, onReset }) {
   const [form, setForm] = useState({});
   const [captureTarget, setCaptureTarget] = useState(null);
+
+  const autoSaveForm = () => {
+    const data = {
+      ...item,
+      title: form.title.trim(),
+      category: form.category,
+      thumbnailUrl: form.thumbnailUrl.trim(),
+      videoUrl: form.videoUrl.trim(),
+      duration: form.duration.trim(),
+      previewStart: Number(form.previewStart) || 0,
+      previewEpisodeIndex: form.previewEpisodeIndex != null ? Number(form.previewEpisodeIndex) : undefined,
+      tags: form.tags.split('，').map((t) => t.trim()).filter(Boolean),
+      description: form.description.trim(),
+    };
+    if (showEpisodesEditor && form.episodes?.length > 0) {
+      data.episodes = form.episodes.map((ep, i) => ({
+        ...ep,
+        id: ep.id || `ep-${i + 1}`,
+      }));
+    }
+    onSave(data);
+  };
 
   const detectedPlatform = useMemo(() => detectVideoPlatform(form.videoUrl || ''), [form.videoUrl]);
   const [fetching, setFetching] = useState(false);
@@ -582,6 +608,7 @@ export default function EditVideoModal({ item, isOpen, onClose, onSave, onReset 
                   onRemove={removeEpisode}
                   canRemove={form.episodes.length > 1}
                   onCaptureClick={(i) => setCaptureTarget(`ep-${i}`)}
+                  onFetchMeta={autoSaveForm}
                 />
               ))}
             </div>
