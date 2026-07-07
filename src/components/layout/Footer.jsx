@@ -1,6 +1,21 @@
 import siteConfig from '../../data/siteConfig.json';
 import useSmoothScroll from '../../hooks/useSmoothScroll';
 
+function handleExportEdits() {
+  const edits = localStorage.getItem('portfolio_edits');
+  if (!edits || edits === '{}') {
+    alert('没有编辑数据可导出');
+    return;
+  }
+  const blob = new Blob([edits], { type: 'application/json' });
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url;
+  a.download = 'portfolio_edits.json';
+  a.click();
+  URL.revokeObjectURL(url);
+}
+
 export default function Footer() {
   const scrollTo = useSmoothScroll();
 
@@ -43,6 +58,13 @@ export default function Footer() {
             ))}
           </div>
           <p>© {new Date().getFullYear()} {siteConfig.siteName}. All rights reserved.</p>
+          <button
+            onClick={handleExportEdits}
+            className="text-xs text-gray-400 hover:text-vivid-purple-400 transition-colors underline"
+            title="导出编辑数据"
+          >
+            📤 导出编辑数据
+          </button>
         </div>
       </div>
     </footer>

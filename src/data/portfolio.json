@@ -1,57 +1,230 @@
 [
   {
     "id": "project-5",
-    "title": "达芬奇调色分层展示 — 金狮奖最佳调色作品幕后",
+    "title": "大力丸科普",
     "category": "short-video",
-    "description": "22/23届金狮奖最佳调色金奖/银奖得主evan888zero作品展示，含英雄联盟手游×王俊凯、苏炳添广告等商业项目调色划像对比。",
-    "thumbnailUrl": "https://i0.hdslb.com/bfs/archive/16f6a085a95013efca64b7e91570691504c83531.jpg",
+    "description": "科普古代哪些不为人知的知识。",
+    "thumbnailUrl": "https://i0.hdslb.com/bfs/archive/ab2c79b6e396b7c5a5b58b2168c2d98fbf7ee35a.jpg@212w_120h_1c_!web-playlist-list-card-cover.avif",
     "videoUrl": "https://www.bilibili.com/video/BV1t4421D7w9",
     "duration": "0:27",
-    "tags": ["MV", "调色", "金狮奖", "DaVinci Resolve"],
-    "featured": true
+    "tags": [
+      "科普、古代"
+    ],
+    "featured": true,
+    "episodes": [
+      {
+        "id": "ep-1783419542446",
+        "title": "古代人如何整容的",
+        "videoUrl": "【整容】 https://www.bilibili.com/video/BV11Rju6LE8X/?share_source=copy_web&vd_source=7a4e0fba7b4a503defb29bb4f25900f2",
+        "thumbnailUrl": "",
+        "duration": ""
+      },
+      {
+        "id": "ep-1783419543239",
+        "title": "哪个星座最有做皇帝的潜质",
+        "videoUrl": "【古代帝王的星座】 https://www.bilibili.com/video/BV1NRju6LE42/?share_source=copy_web&vd_source=7a4e0fba7b4a503defb29bb4f25900f2",
+        "thumbnailUrl": "",
+        "duration": ""
+      },
+      {
+        "id": "ep-1783419543447",
+        "title": "中国古代人都穿什么衣服？",
+        "videoUrl": "【中国古代人都穿什么衣服？】 https://www.bilibili.com/video/BV1ydju6CEat/?share_source=copy_web&vd_source=7a4e0fba7b4a503defb29bb4f25900f2",
+        "thumbnailUrl": "",
+        "duration": ""
+      },
+      {
+        "id": "ep-1783419543634",
+        "title": "摸鱼的由来",
+        "videoUrl": "【摸鱼的由来】 https://www.bilibili.com/video/BV11Rju65Eu8/?share_source=copy_web&vd_source=7a4e0fba7b4a503defb29bb4f25900f2",
+        "thumbnailUrl": "",
+        "duration": ""
+      },
+      {
+        "id": "ep-1783419543838",
+        "title": "古人如何酿酒？",
+        "videoUrl": "【古人如何酿酒？】 https://www.bilibili.com/video/BV11Rju65EPB/?share_source=copy_web&vd_source=7a4e0fba7b4a503defb29bb4f25900f2",
+        "thumbnailUrl": "",
+        "duration": ""
+      },
+      {
+        "id": "ep-1783419544022",
+        "title": "古代妃子工资有多少？",
+        "videoUrl": "【古代妃子工资有多少？】 https://www.bilibili.com/video/BV1Cdju6CEQx/?share_source=copy_web&vd_source=7a4e0fba7b4a503defb29bb4f25900f2",
+        "thumbnailUrl": "",
+        "duration": ""
+      },
+      {
+        "id": "ep-1783419544214",
+        "title": "仓眼是福？其实是病！",
+        "videoUrl": "【耳洞】 https://www.bilibili.com/video/BV1sdju6yE4c/?share_source=copy_web&vd_source=7a4e0fba7b4a503defb29bb4f25900f2",
+        "thumbnailUrl": "",
+        "duration": ""
+      },
+      {
+        "id": "ep-1783419544405",
+        "title": "曹操和袁绍的恩怨情仇",
+        "videoUrl": "【曹操和袁绍的恩怨情仇】 https://www.bilibili.com/video/BV1rwjg6zEe7/?share_source=copy_web&vd_source=7a4e0fba7b4a503defb29bb4f25900f2",
+        "thumbnailUrl": "",
+        "duration": ""
+      },
+      {
+        "id": "ep-1783419544571",
+        "title": "曹操为何没能成就霸业",
+        "videoUrl": "【曹操为何没能成就霸业？】 https://www.bilibili.com/video/BV1xYjg6EEXq/?share_source=copy_web&vd_source=7a4e0fba7b4a503defb29bb4f25900f2",
+        "thumbnailUrl": "",
+        "duration": ""
+      },
+      {
+        "id": "ep-1783419544743",
+        "title": "人类屁股进化史",
+        "videoUrl": "【人类屁股进化史】 https://www.bilibili.com/video/BV1p6jg6CEqE/?share_source=copy_web&vd_source=7a4e0fba7b4a503defb29bb4f25900f2",
+        "thumbnailUrl": "",
+        "duration": ""
+      },
+      {
+        "id": "ep-1783419550013",
+        "title": "日本的姓式怎么来的",
+        "videoUrl": "【日本的姓式怎么来的】 https://www.bilibili.com/video/BV1A6jg6yELw/?share_source=copy_web&vd_source=7a4e0fba7b4a503defb29bb4f25900f2",
+        "thumbnailUrl": "",
+        "duration": ""
+      },
+      {
+        "id": "ep-1783419550218",
+        "title": "秦始皇的紫色军团",
+        "videoUrl": "【秦始皇的紫色军团】 https://www.bilibili.com/video/BV1C6jg6CEu1/?share_source=copy_web&vd_source=7a4e0fba7b4a503defb29bb4f25900f2",
+        "thumbnailUrl": "",
+        "duration": ""
+      },
+      {
+        "id": "ep-1783419550438",
+        "title": "古代考驾照",
+        "videoUrl": "【古代考驾照】 https://www.bilibili.com/video/BV1Hkjg6GEay/?share_source=copy_web&vd_source=7a4e0fba7b4a503defb29bb4f25900f2",
+        "thumbnailUrl": "",
+        "duration": ""
+      },
+      {
+        "id": "ep-1783419550617",
+        "title": "血型决定你的性格？",
+        "videoUrl": "【血型】 https://www.bilibili.com/video/BV1Hkjg6GEoo/?share_source=copy_web&vd_source=7a4e0fba7b4a503defb29bb4f25900f2",
+        "thumbnailUrl": "",
+        "duration": ""
+      },
+      {
+        "id": "ep-1783419551063",
+        "title": "秦始皇出门都开什么车？",
+        "videoUrl": "【秦始皇出门都开什么车？】 https://www.bilibili.com/video/BV1yqjg61EyG/?share_source=copy_web&vd_source=7a4e0fba7b4a503defb29bb4f25900f2",
+        "thumbnailUrl": "",
+        "duration": ""
+      }
+    ]
   },
   {
     "id": "project-6",
-    "title": "李昊MV《寄居》电影级达芬奇调色展示",
+    "title": "康复师账号",
     "category": "short-video",
-    "description": "电影级达芬奇调色分层展示，从原始素材到最终成片的完整调色流程，展现色彩如何赋予画面情感与电影质感。",
-    "thumbnailUrl": "https://i2.hdslb.com/bfs/archive/2371b53b1af90e525fa0d7faefa35619ead42e84.jpg",
+    "description": "",
+    "thumbnailUrl": "https://i0.hdslb.com/bfs/archive/b238b09d0f4f9016ffc57a39197a9dbdd760bc00.jpg@212w_120h_1c_!web-playlist-list-card-cover.avif",
     "videoUrl": "https://www.bilibili.com/video/BV1eJSqYbEpF",
     "duration": "0:56",
-    "tags": ["MV", "调色", "电影级", "DaVinci Resolve"],
-    "featured": true
+    "tags": [
+      "大健康、康复"
+    ],
+    "featured": true,
+    "episodes": [
+      {
+        "id": "ep-1783420233978",
+        "title": "直角肩是如何炼成的？",
+        "videoUrl": "【1横版】 https://www.bilibili.com/video/BV15KM86FEL8/?share_source=copy_web&vd_source=7a4e0fba7b4a503defb29bb4f25900f2",
+        "thumbnailUrl": "",
+        "duration": ""
+      },
+      {
+        "id": "ep-1783420234544",
+        "title": "腰突如何运动康复",
+        "videoUrl": "【2】 https://www.bilibili.com/video/BV1eKM86FEzR/?share_source=copy_web&vd_source=7a4e0fba7b4a503defb29bb4f25900f2",
+        "thumbnailUrl": "",
+        "duration": ""
+      },
+      {
+        "id": "ep-1783420235011",
+        "title": "向前弯曲腰部疼痛如何缓解？",
+        "videoUrl": "【3】 https://www.bilibili.com/video/BV1eKM86FEyg/?share_source=copy_web&vd_source=7a4e0fba7b4a503defb29bb4f25900f2",
+        "thumbnailUrl": "",
+        "duration": ""
+      }
+    ]
   },
   {
     "id": "project-7",
-    "title": "Blender制作音乐MV短片《PIRATES》— 只用三种颜色",
+    "title": "天天鉴宝",
     "category": "short-video",
     "description": "CG艺术家Nayd Dreamer用三种颜色创造惊艳视觉效果，灵感来自Elephant Tree，展示Blender在MV制作中的无限可能。",
     "thumbnailUrl": "https://i0.hdslb.com/bfs/archive/5662703c39b6a1b342af5da66040b6ce0f740310.jpg",
     "videoUrl": "https://www.bilibili.com/video/BV1k5SRYdESq",
     "duration": "1:50",
-    "tags": ["MV", "Blender", "创意", "视觉效果"],
+    "tags": [
+      "古玩、鉴宝"
+    ],
     "featured": false
   },
   {
     "id": "project-8",
-    "title": "永劫无间MV达芬奇调色划像展示",
+    "title": "特效向个人包装",
     "category": "short-video",
-    "description": "游戏MV达芬奇调色划像展示，Before/After对比呈现调色对画面氛围的质变影响，游戏影视化调色参考。",
-    "thumbnailUrl": "https://i2.hdslb.com/bfs/archive/c6638da0c7db3b4217565a221754bf6521287121.jpg",
+    "description": "",
+    "thumbnailUrl": "https://i0.hdslb.com/bfs/archive/96dd298a6969d65986ef271e8bf00710c48e3b50.jpg@212w_120h_1c_!web-playlist-list-card-cover.avif",
     "videoUrl": "https://www.bilibili.com/video/BV1ztyxYdE9a",
     "duration": "0:22",
-    "tags": ["MV", "调色", "游戏", "DaVinci Resolve"],
-    "featured": false
+    "tags": [
+      "AE包装"
+    ],
+    "featured": false,
+    "episodes": [
+      {
+        "id": "ep-1783420363149",
+        "title": "摄影老师包装",
+        "videoUrl": "【大鹏老师人物宣传片-1021】 https://www.bilibili.com/video/BV1ZZMb6vEaj/?share_source=copy_web&vd_source=7a4e0fba7b4a503defb29bb4f25900f2",
+        "thumbnailUrl": "",
+        "duration": ""
+      },
+      {
+        "id": "ep-1783420363583",
+        "title": "声乐老师1包装",
+        "videoUrl": "【张曼新宣传片初版】 https://www.bilibili.com/video/BV1qZMb6vEy5/?share_source=copy_web&vd_source=7a4e0fba7b4a503defb29bb4f25900f2",
+        "thumbnailUrl": "",
+        "duration": ""
+      },
+      {
+        "id": "ep-1783420364009",
+        "title": "声乐老师2包装",
+        "videoUrl": "【飞书20260630-212745】 https://www.bilibili.com/video/BV17ZMb6vEZ7/?share_source=copy_web&vd_source=7a4e0fba7b4a503defb29bb4f25900f2",
+        "thumbnailUrl": "",
+        "duration": ""
+      },
+      {
+        "id": "ep-1783420364450",
+        "title": "口琴老师包装",
+        "videoUrl": "【阿藤老师个人介绍】 https://www.bilibili.com/video/BV1EZMb6vEKW/?share_source=copy_web&vd_source=7a4e0fba7b4a503defb29bb4f25900f2",
+        "thumbnailUrl": "",
+        "duration": ""
+      }
+    ]
   },
   {
     "id": "project-9",
     "title": "开开华彩品牌宣传片 — 银发族生活美学",
     "category": "corporate",
     "description": "开开华彩品牌形象宣传片，以温暖细腻的镜头语言展现银发族的精彩生活，传递品牌「让晚年更精彩」的核心理念。",
-    "thumbnailUrl": "https://i2.hdslb.com/bfs/archive/b8fb0b974952f58c97af67363177b3b71713a7a8.jpg",
-    "videoUrl": "https://www.bilibili.com/video/BV1oZ4y147QJ",
+    "thumbnailUrl": "https://i0.hdslb.com/bfs/archive/d8b557a06ee5c23364783c0f09d36747c607ecf9.jpg@672w_378h_1c.webp",
+    "videoUrl": "【2025开开华彩“六好华彩人”品牌宣传片】 https://www.bilibili.com/video/BV1ULJ368EW4/?share_source=copy_web&vd_source=7a4e0fba7b4a503defb29bb4f25900f2",
     "duration": "2:30",
-    "tags": ["宣传片", "开开华彩", "品牌", "Premiere Pro"],
+    "tags": [
+      "宣传片",
+      "开开华彩",
+      "品牌",
+      "Premiere Pro"
+    ],
     "featured": true
   },
   {
@@ -59,10 +232,15 @@
     "title": "开开华彩课程宣传片 — AE动效包装全流程",
     "category": "corporate",
     "description": "开开华彩在线课程宣传片，3D文字+Logo动画+金属质感特效，为银发教育平台打造高端品牌视觉。",
-    "thumbnailUrl": "https://i2.hdslb.com/bfs/archive/73dae6d388ac8f353b3ed62a5e9716ca80850643.jpg",
-    "videoUrl": "https://www.bilibili.com/video/BV1NMK3zuErH",
+    "thumbnailUrl": "https://i0.hdslb.com/bfs/archive/aa690f576d7f66f61b8887c4289d9df3c21c03f8.jpg@672w_378h_1c.webp",
+    "videoUrl": "【开开华彩声乐江西游学】 https://www.bilibili.com/video/BV1DuJ36eE9W/?share_source=copy_web&vd_source=7a4e0fba7b4a503defb29bb4f25900f2",
     "duration": "1:42",
-    "tags": ["宣传片", "开开华彩", "AE", "After Effects"],
+    "tags": [
+      "宣传片",
+      "开开华彩",
+      "AE",
+      "After Effects"
+    ],
     "featured": false
   },
   {
@@ -70,10 +248,15 @@
     "title": "开开华彩年会活动快剪 — 银发头部平台年度盛典",
     "category": "corporate",
     "description": "开开华彩年度盛典活动快剪，实景航拍+三维跟踪+科技扫描包装，展现银发头部平台的企业实力与温度。",
-    "thumbnailUrl": "https://i0.hdslb.com/bfs/archive/48c89056d83e3c659ceca14a7454efbf7d140edd.jpg",
-    "videoUrl": "https://www.bilibili.com/video/BV1EF4m1L7J3",
+    "thumbnailUrl": "https://i0.hdslb.com/bfs/archive/458a6be4b6320acbb989ede3c23de15aba9a485d.jpg@672w_378h_1c.webp",
+    "videoUrl": "【开开华彩海南声乐游学活动剪辑】 https://www.bilibili.com/video/BV13uJ36vEDS/?share_source=copy_web&vd_source=7a4e0fba7b4a503defb29bb4f25900f2",
     "duration": "1:00",
-    "tags": ["宣传片", "开开华彩", "快剪", "After Effects"],
+    "tags": [
+      "宣传片",
+      "开开华彩",
+      "快剪",
+      "After Effects"
+    ],
     "featured": false
   },
   {
@@ -81,10 +264,15 @@
     "title": "开开华彩品牌视觉升级 — 银发赛道品牌重塑",
     "category": "corporate",
     "description": "开开华彩品牌视觉升级宣传片，从LOGO演绎到品牌色系统，全方位展示银发赛道头部品牌的视觉进化。",
-    "thumbnailUrl": "https://i0.hdslb.com/bfs/archive/98df4e687d4b6f5787ed643c261bd488a9909565.jpg",
-    "videoUrl": "https://www.bilibili.com/video/BV1pZ421z71R",
+    "thumbnailUrl": "https://i0.hdslb.com/bfs/archive/de5a0b326625207da8a82aed04a0cf151cb00766.jpg@672w_378h_1c.webp",
+    "videoUrl": "【开开华彩koc宣传片】 https://www.bilibili.com/video/BV1U5J36cERT/?share_source=copy_web&vd_source=7a4e0fba7b4a503defb29bb4f25900f2",
     "duration": "0:45",
-    "tags": ["宣传片", "开开华彩", "品牌", "After Effects"],
+    "tags": [
+      "宣传片",
+      "开开华彩",
+      "品牌",
+      "After Effects"
+    ],
     "featured": false
   },
   {
@@ -92,10 +280,12 @@
     "title": "企业宣传片作品 — 待添加",
     "category": "corporate",
     "description": "待补充作品描述。",
-    "thumbnailUrl": "https://placehold.co/600x338/1a1a2e/e0e0e0?text=企业宣传片+5",
-    "videoUrl": "",
+    "thumbnailUrl": "https://i0.hdslb.com/bfs/archive/bc8608c5c8ed0f7e89dc59f59e3d089f6f5ca6a9.jpg@672w_378h_1c.webp",
+    "videoUrl": "【百度团建快剪】 https://www.bilibili.com/video/BV1uNju6UE35/?share_source=copy_web&vd_source=7a4e0fba7b4a503defb29bb4f25900f2",
     "duration": "",
-    "tags": ["宣传片"],
+    "tags": [
+      "宣传片"
+    ],
     "featured": false
   },
   {
@@ -103,10 +293,12 @@
     "title": "企业宣传片作品 — 待添加",
     "category": "corporate",
     "description": "待补充作品描述。",
-    "thumbnailUrl": "https://placehold.co/600x338/1a1a2e/e0e0e0?text=企业宣传片+6",
-    "videoUrl": "",
+    "thumbnailUrl": "https://i0.hdslb.com/bfs/archive/798fef50b686bf76f34bde4fa287195f126ee5d8.jpg@212w_120h_1c_!web-playlist-list-card-cover.avif",
+    "videoUrl": "【开开华彩24宣传片】 https://www.bilibili.com/video/BV1ULJ368EMZ/?share_source=copy_web&vd_source=7a4e0fba7b4a503defb29bb4f25900f2",
     "duration": "",
-    "tags": ["宣传片"],
+    "tags": [
+      "宣传片"
+    ],
     "featured": false
   },
   {
@@ -114,54 +306,194 @@
     "title": "企业宣传片作品 — 待添加",
     "category": "corporate",
     "description": "待补充作品描述。",
-    "thumbnailUrl": "https://placehold.co/600x338/1a1a2e/e0e0e0?text=企业宣传片+7",
-    "videoUrl": "",
+    "thumbnailUrl": "https://i0.hdslb.com/bfs/archive/747d0ab9ff007f886c6444fbe8483afc28254ef0.jpg@212w_120h_1c_!web-playlist-list-card-cover.avif",
+    "videoUrl": "【母亲节活动快剪】 https://www.bilibili.com/video/BV1MTju6EEma/?share_source=copy_web&vd_source=7a4e0fba7b4a503defb29bb4f25900f2",
     "duration": "",
-    "tags": ["宣传片"],
+    "tags": [
+      "宣传片"
+    ],
     "featured": false
   },
   {
     "id": "project-13",
-    "title": "手机剪映制作文字穿越无缝转场 — 32万播放教程",
+    "title": "博集天卷书友会",
     "category": "short-video",
     "description": "用手机剪映手把手教你文字穿越无缝转场，让短视频更具高级感。零基础也能做出的专业级转场效果。",
-    "thumbnailUrl": "https://i1.hdslb.com/bfs/archive/ff4b05fa5f5f5bc4815773261e1cc776e60d523b.jpg",
+    "thumbnailUrl": "https://i0.hdslb.com/bfs/archive/bdc417f9d2ddbcf86e8edeac0b549746b3f528c1.jpg@212w_120h_1c_!web-playlist-list-card-cover.avif",
     "videoUrl": "https://www.bilibili.com/video/BV1pS4y1j7vK",
     "duration": "4:14",
-    "tags": ["短视频", "转场", "剪映", "CapCut"],
-    "featured": true
+    "tags": [
+      "推书、人物向"
+    ],
+    "featured": true,
+    "episodes": [
+      {
+        "id": "ep-1783420511469",
+        "title": "史铁生",
+        "videoUrl": "【史铁生73-1】 https://www.bilibili.com/video/BV1K3ju6yExg/?share_source=copy_web&vd_source=7a4e0fba7b4a503defb29bb4f25900f2",
+        "thumbnailUrl": "",
+        "duration": ""
+      },
+      {
+        "id": "ep-1783420511640",
+        "title": "加缪",
+        "videoUrl": "【加缪1116】 https://www.bilibili.com/video/BV1K3ju6yE3B/?share_source=copy_web&vd_source=7a4e0fba7b4a503defb29bb4f25900f2",
+        "thumbnailUrl": "",
+        "duration": ""
+      },
+      {
+        "id": "ep-1783420511789",
+        "title": "卢思浩",
+        "videoUrl": "【卢思浩改91】 https://www.bilibili.com/video/BV1x3ju6yEin/?share_source=copy_web&vd_source=7a4e0fba7b4a503defb29bb4f25900f2",
+        "thumbnailUrl": "",
+        "duration": ""
+      },
+      {
+        "id": "ep-1783420511940",
+        "title": "默多克",
+        "videoUrl": "【默多克V8】 https://www.bilibili.com/video/BV1K3ju6yEju/?share_source=copy_web&vd_source=7a4e0fba7b4a503defb29bb4f25900f2",
+        "thumbnailUrl": "",
+        "duration": ""
+      },
+      {
+        "id": "ep-1783420512065",
+        "title": "于娟",
+        "videoUrl": "【于娟1205】 https://www.bilibili.com/video/BV1daju6FEvm/?share_source=copy_web&vd_source=7a4e0fba7b4a503defb29bb4f25900f2",
+        "thumbnailUrl": "",
+        "duration": ""
+      },
+      {
+        "id": "ep-1783420512190",
+        "title": "王菲",
+        "videoUrl": "【王菲V3】 https://www.bilibili.com/video/BV1daju6FEfV/?share_source=copy_web&vd_source=7a4e0fba7b4a503defb29bb4f25900f2",
+        "thumbnailUrl": "",
+        "duration": ""
+      },
+      {
+        "id": "ep-1783420512324",
+        "title": "杨绛",
+        "videoUrl": "【杨绛V5】 https://www.bilibili.com/video/BV1oaju6FEFs/?share_source=copy_web&vd_source=7a4e0fba7b4a503defb29bb4f25900f2",
+        "thumbnailUrl": "",
+        "duration": ""
+      },
+      {
+        "id": "ep-1783420512452",
+        "title": "Selina",
+        "videoUrl": "【Selina终】 https://www.bilibili.com/video/BV1zTjg6KEvA/?share_source=copy_web&vd_source=7a4e0fba7b4a503defb29bb4f25900f2",
+        "thumbnailUrl": "",
+        "duration": ""
+      },
+      {
+        "id": "ep-1783420512569",
+        "title": "朱珠",
+        "videoUrl": "【朱珠】 https://www.bilibili.com/video/BV1fTjg6KE1x/?share_source=copy_web&vd_source=7a4e0fba7b4a503defb29bb4f25900f2",
+        "thumbnailUrl": "",
+        "duration": ""
+      },
+      {
+        "id": "ep-1783420512701",
+        "title": "朱茵",
+        "videoUrl": "【朱茵终】 https://www.bilibili.com/video/BV1zTjg6KEGL/?share_source=copy_web&vd_source=7a4e0fba7b4a503defb29bb4f25900f2",
+        "thumbnailUrl": "",
+        "duration": ""
+      },
+      {
+        "id": "ep-1783420512823",
+        "title": "张小娴",
+        "videoUrl": "【只要你够强大就好终】 https://www.bilibili.com/video/BV1fTjg6KEZm/?share_source=copy_web&vd_source=7a4e0fba7b4a503defb29bb4f25900f2",
+        "thumbnailUrl": "",
+        "duration": ""
+      },
+      {
+        "id": "ep-1783420512952",
+        "title": "郑秀文",
+        "videoUrl": "【郑秀文V4】 https://www.bilibili.com/video/BV1fTjg6KE6j/?share_source=copy_web&vd_source=7a4e0fba7b4a503defb29bb4f25900f2",
+        "thumbnailUrl": "",
+        "duration": ""
+      },
+      {
+        "id": "ep-1783420513198",
+        "title": "张家辉",
+        "videoUrl": "【张家辉V4】 https://www.bilibili.com/video/BV1zTjg6KE3B/?share_source=copy_web&vd_source=7a4e0fba7b4a503defb29bb4f25900f2",
+        "thumbnailUrl": "",
+        "duration": ""
+      }
+    ]
   },
   {
     "id": "project-14",
-    "title": "达芬奇：现代时尚震撼节奏开场快闪剪辑模板",
+    "title": "历史派",
     "category": "short-video",
     "description": "达芬奇现代时尚震撼节奏开场快闪模板，适用短视频、开场片头、产品展示等场景，快节奏卡点剪辑风格。",
-    "thumbnailUrl": "https://i1.hdslb.com/bfs/archive/95924b952f8d82e585ec8be272b0b77cb52cdbbe.jpg",
+    "thumbnailUrl": "https://i0.hdslb.com/bfs/archive/3eca6f9c54a0048962d6f3b4bae23445992252d5.jpg@212w_120h_1c_!web-playlist-list-card-cover.avif",
     "videoUrl": "https://www.bilibili.com/video/BV11m4y1p7z5",
     "duration": "0:26",
-    "tags": ["短视频", "快闪", "DaVinci Resolve", "模板"],
-    "featured": false
+    "tags": [
+      "动画、历史"
+    ],
+    "featured": false,
+    "episodes": [
+      {
+        "id": "ep-1783419385964",
+        "title": "假如他们在一个朝代",
+        "videoUrl": "【假如他们在一个朝代】 https://www.bilibili.com/video/BV1AZju6VEfg/?share_source=copy_web&vd_source=7a4e0fba7b4a503defb29bb4f25900f2",
+        "thumbnailUrl": "",
+        "duration": ""
+      },
+      {
+        "id": "ep-1783419394856",
+        "title": "李白写诗水平到底如何",
+        "videoUrl": "【李白写诗水平到底如何？】 https://www.bilibili.com/video/BV1CZju6GEmo/?share_source=copy_web&vd_source=7a4e0fba7b4a503defb29bb4f25900f2",
+        "thumbnailUrl": "",
+        "duration": ""
+      },
+      {
+        "id": "ep-1783419412423",
+        "title": "古人夏天如何降温",
+        "videoUrl": "【古人夏天如何降温？】 https://www.bilibili.com/video/BV1CZju6GETx/?share_source=copy_web&vd_source=7a4e0fba7b4a503defb29bb4f25900f2",
+        "thumbnailUrl": "",
+        "duration": ""
+      },
+      {
+        "id": "ep-1783419429031",
+        "title": "古人如何刮毛",
+        "videoUrl": "【古人如何刮毛】 https://www.bilibili.com/video/BV1CZju6GEXz/?share_source=copy_web&vd_source=7a4e0fba7b4a503defb29bb4f25900f2",
+        "thumbnailUrl": "",
+        "duration": ""
+      },
+      {
+        "id": "ep-1783419446233",
+        "title": "古人吃冰棍",
+        "videoUrl": "【古人吃冰棍】 https://www.bilibili.com/video/BV1CZju6GEzp/?share_source=copy_web&vd_source=7a4e0fba7b4a503defb29bb4f25900f2",
+        "thumbnailUrl": "",
+        "duration": ""
+      }
+    ]
   },
   {
     "id": "project-15",
-    "title": "剪辑调色基础教程 — 零基础剪辑必备",
+    "title": "骨科直播切片",
     "category": "short-video",
     "description": "零基础剪辑调色合集，含丝滑运镜卡点、蒙版卡点、高级氛围感调色等实用技巧，短视频创作者的剪辑入门课。",
     "thumbnailUrl": "https://i0.hdslb.com/bfs/archive/f9862598a880ebd873683d836cf7ca66cac75cb5.jpg",
     "videoUrl": "https://www.bilibili.com/video/BV1HsXCYcEwV",
     "duration": "4:00",
-    "tags": ["短视频", "调色", "教程", "剪映"],
+    "tags": [
+      "医疗、直播切片"
+    ],
     "featured": false
   },
   {
     "id": "project-16",
-    "title": "AE/PR模板：100个复古情绪美学慢快门转场过渡",
+    "title": "天天鉴宝直播切片",
     "category": "short-video",
     "description": "100个复古情绪美学慢快门抽帧拖影效果竖屏短视频转场过渡模板，适用于Reels、Shorts等9:16竖屏内容创作。",
     "thumbnailUrl": "https://i1.hdslb.com/bfs/archive/3e304392a8e7f180852446d000a32d6b024b3b23.jpg",
     "videoUrl": "https://www.bilibili.com/video/BV1bvk4BaEEK",
     "duration": "1:06",
-    "tags": ["短视频", "转场", "AE", "模板"],
+    "tags": [
+      "鉴宝、直播切片"
+    ],
     "featured": false
   },
   {
@@ -172,7 +504,12 @@
     "thumbnailUrl": "https://i2.hdslb.com/bfs/archive/8013bcb81445d9bc61b7229cec1d485fe38f37d3.jpg",
     "videoUrl": "https://www.bilibili.com/video/BV1PF411177K",
     "duration": "5:12",
-    "tags": ["婚礼", "电影级", "Premiere Pro", "微电影"],
+    "tags": [
+      "婚礼",
+      "电影级",
+      "Premiere Pro",
+      "微电影"
+    ],
     "featured": true
   },
   {
@@ -183,7 +520,11 @@
     "thumbnailUrl": "https://i1.hdslb.com/bfs/archive/011ea1f52f642fe6f1045c91d2bde9eccce8ea93.jpg",
     "videoUrl": "https://www.bilibili.com/video/BV1Jm4y1a7d5",
     "duration": "6:07",
-    "tags": ["婚礼", "纪实", "Final Cut Pro"],
+    "tags": [
+      "婚礼",
+      "纪实",
+      "Final Cut Pro"
+    ],
     "featured": false
   },
   {
@@ -194,7 +535,11 @@
     "thumbnailUrl": "https://i1.hdslb.com/bfs/archive/4ee95ad8ab0118dd507a23f6f064f52d2f3375ee.jpg",
     "videoUrl": "https://www.bilibili.com/video/BV1ky411b7mz",
     "duration": "4:52",
-    "tags": ["婚礼", "纪实", "Premiere Pro"],
+    "tags": [
+      "婚礼",
+      "纪实",
+      "Premiere Pro"
+    ],
     "featured": false
   },
   {
@@ -205,7 +550,12 @@
     "thumbnailUrl": "https://i1.hdslb.com/bfs/archive/8970663f0eb641e62ae14e8d941038de1ade9293.jpg",
     "videoUrl": "https://www.bilibili.com/video/BV1jG5r6jEVC",
     "duration": "1:31",
-    "tags": ["婚礼", "中式", "DaVinci Resolve", "调色"],
+    "tags": [
+      "婚礼",
+      "中式",
+      "DaVinci Resolve",
+      "调色"
+    ],
     "featured": true
   },
   {
@@ -216,7 +566,11 @@
     "thumbnailUrl": "https://i1.hdslb.com/bfs/archive/ef44f136d60b47319f3ee4e99128584eff118481.jpg",
     "videoUrl": "https://www.bilibili.com/video/BV12541197b4",
     "duration": "0:31",
-    "tags": ["活动", "快剪", "Premiere Pro"],
+    "tags": [
+      "活动",
+      "快剪",
+      "Premiere Pro"
+    ],
     "featured": false
   },
   {
@@ -227,7 +581,11 @@
     "thumbnailUrl": "https://i2.hdslb.com/bfs/archive/36a7ca2eec9eeb150a2810e4d46f717903d3c1a6.jpg",
     "videoUrl": "https://www.bilibili.com/video/BV1Dk4y1w7Db",
     "duration": "1:58",
-    "tags": ["活动", "音乐节", "Premiere Pro"],
+    "tags": [
+      "活动",
+      "音乐节",
+      "Premiere Pro"
+    ],
     "featured": true
   },
   {
@@ -238,7 +596,11 @@
     "thumbnailUrl": "https://i2.hdslb.com/bfs/archive/15261f23b169da3d839f7d283276d96ee2f3ac5c.jpg",
     "videoUrl": "https://www.bilibili.com/video/BV1r94y1X7Pz",
     "duration": "0:31",
-    "tags": ["活动", "快剪", "Premiere Pro"],
+    "tags": [
+      "活动",
+      "快剪",
+      "Premiere Pro"
+    ],
     "featured": false
   },
   {
@@ -249,73 +611,362 @@
     "thumbnailUrl": "https://i1.hdslb.com/bfs/archive/c7dcc5a6b66694364880dc0f2f56a2f10055adc.jpg",
     "videoUrl": "https://www.bilibili.com/video/BV1G7eoetE8o",
     "duration": "1:07",
-    "tags": ["活动", "快剪", "Premiere Pro"],
+    "tags": [
+      "活动",
+      "快剪",
+      "Premiere Pro"
+    ],
     "featured": false
   },
   {
     "id": "project-25",
-    "title": "Premiere Pro 从入门到精通 — 全流程剪辑课程",
+    "title": "贺佳嘉音乐英语课",
     "category": "course-production",
-    "description": "系统讲解Premiere Pro剪辑全流程，从素材管理、粗剪精剪到调色输出，适合零基础学员快速上手专业剪辑。",
-    "thumbnailUrl": "https://i1.hdslb.com/bfs/archive/ff4b05fa5f5f5bc4815773261e1cc776e60d523b.jpg",
-    "videoUrl": "https://www.bilibili.com/video/BV1pS4y1j7vK",
+    "description": "教爸爸妈妈如何带孩子在游戏中轻松学会英语",
+    "thumbnailUrl": "https://i0.hdslb.com/bfs/archive/101c484e6e643eafdb7b221c2f2ca33abf3725bb.jpg@212w_120h_1c_!web-playlist-list-card-cover.avif",
+    "videoUrl": "【第一课成片V3】 https://www.bilibili.com/video/BV1Cjju63EXR/?share_source=copy_web&vd_source=7a4e0fba7b4a503defb29bb4f25900f2",
     "duration": "45:00",
-    "tags": ["课程", "Premiere Pro", "入门", "剪辑"],
+    "tags": [
+      "音乐、英语、育儿"
+    ],
     "featured": true,
     "episodes": [
-      { "id": "ep-1", "title": "第一课：认识 Premiere Pro 界面与工作流程", "videoUrl": "", "thumbnailUrl": "https://placehold.co/600x338/1a1a2e/e0e0e0?text=第1课", "duration": "15:00" },
-      { "id": "ep-2", "title": "第二课：素材管理与项目设置", "videoUrl": "", "thumbnailUrl": "https://placehold.co/600x338/1a1a2e/e0e0e0?text=第2课", "duration": "20:00" },
-      { "id": "ep-3", "title": "第三课：粗剪与精剪技巧", "videoUrl": "", "thumbnailUrl": "https://placehold.co/600x338/1a1a2e/e0e0e0?text=第3课", "duration": "25:00" }
+      {
+        "id": "ep-1",
+        "title": "第一课",
+        "videoUrl": "【第一课成片V3】 https://www.bilibili.com/video/BV1Cjju63EXR/?share_source=copy_web&vd_source=7a4e0fba7b4a503defb29bb4f25900f2",
+        "thumbnailUrl": "【第一课成片V3】 https://www.bilibili.com/video/BV1Cjju63EXR/?share_source=copy_web&vd_source=7a4e0fba7b4a503defb29bb4f25900f2",
+        "duration": "15:00"
+      },
+      {
+        "id": "ep-2",
+        "title": "第二课",
+        "videoUrl": "【第二课加片头转场V4换音乐】 https://www.bilibili.com/video/BV1Pjju63ELj/?share_source=copy_web&vd_source=7a4e0fba7b4a503defb29bb4f25900f2",
+        "thumbnailUrl": "【第二课加片头转场V4换音乐】 https://www.bilibili.com/video/BV1Pjju63ELj/?share_source=copy_web&vd_source=7a4e0fba7b4a503defb29bb4f25900f2",
+        "duration": "20:00"
+      },
+      {
+        "id": "ep-3",
+        "title": "第三课",
+        "videoUrl": "【第三课成片V3】 https://www.bilibili.com/video/BV1Wjju63EhA/?share_source=copy_web&vd_source=7a4e0fba7b4a503defb29bb4f25900f2",
+        "thumbnailUrl": "https://placehold.co/600x338/1a1a2e/e0e0e0?text=第3课",
+        "duration": "25:00"
+      },
+      {
+        "id": "ep-1783412533709",
+        "title": "第四课",
+        "videoUrl": "【第四课成片V2】 https://www.bilibili.com/video/BV1Cjju63EyY/?share_source=copy_web&vd_source=7a4e0fba7b4a503defb29bb4f25900f2",
+        "thumbnailUrl": "",
+        "duration": ""
+      },
+      {
+        "id": "ep-1783412534251",
+        "title": "第五课",
+        "videoUrl": "【第五课成片V3】 https://www.bilibili.com/video/BV1Pjju63EFi/?share_source=copy_web&vd_source=7a4e0fba7b4a503defb29bb4f25900f2",
+        "thumbnailUrl": "",
+        "duration": ""
+      },
+      {
+        "id": "ep-1783412534868",
+        "title": "第六课",
+        "videoUrl": "【第六课成片V1】 https://www.bilibili.com/video/BV1Wjju63E8e/?share_source=copy_web&vd_source=7a4e0fba7b4a503defb29bb4f25900f2",
+        "thumbnailUrl": "",
+        "duration": ""
+      },
+      {
+        "id": "ep-1783412535126",
+        "title": "第七课",
+        "videoUrl": "【第七课成片V5】 https://www.bilibili.com/video/BV1Ajju63Eed/?share_source=copy_web&vd_source=7a4e0fba7b4a503defb29bb4f25900f2",
+        "thumbnailUrl": "",
+        "duration": ""
+      },
+      {
+        "id": "ep-1783412535409",
+        "title": "第八课",
+        "videoUrl": "【第八课成片】 https://www.bilibili.com/video/BV1K3ju6yEAa/?share_source=copy_web&vd_source=7a4e0fba7b4a503defb29bb4f25900f2",
+        "thumbnailUrl": "",
+        "duration": ""
+      },
+      {
+        "id": "ep-1783412535751",
+        "title": "第九课",
+        "videoUrl": "【第九课成片V3】 https://www.bilibili.com/video/BV1Pjju63EgC/?share_source=copy_web&vd_source=7a4e0fba7b4a503defb29bb4f25900f2",
+        "thumbnailUrl": "",
+        "duration": ""
+      },
+      {
+        "id": "ep-1783412536163",
+        "title": "第十课",
+        "videoUrl": "【第十课成片V1】 https://www.bilibili.com/video/BV1Pjju63EKY/?share_source=copy_web&vd_source=7a4e0fba7b4a503defb29bb4f25900f2",
+        "thumbnailUrl": "",
+        "duration": ""
+      }
     ]
   },
   {
     "id": "project-26",
-    "title": "DaVinci Resolve 达芬奇调色系统课",
+    "title": "佟彤阳康十讲",
     "category": "course-production",
-    "description": "从一级调色到二级风格化，系统讲解达芬奇调色工作流。含肤色处理、LOG素材还原、电影感调色等核心技法。",
-    "thumbnailUrl": "https://i0.hdslb.com/bfs/archive/16f6a085a95013efca64b7e91570691504c83531.jpg",
+    "description": "疫情过后，怎么快速恢复身体状态",
+    "thumbnailUrl": "https://i0.hdslb.com/bfs/archive/073f13fad362aaa776214c2ec53b21b80ba58d6d.jpg@212w_120h_1c_!web-playlist-list-card-cover.avif",
     "videoUrl": "https://www.bilibili.com/video/BV1t4421D7w9",
     "duration": "1:20:00",
-    "tags": ["课程", "达芬奇", "调色", "DaVinci Resolve"],
+    "tags": [
+      "医疗、课程"
+    ],
     "featured": true,
     "episodes": [
-      { "id": "ep-1", "title": "第一课：达芬奇调色基础与色彩理论", "videoUrl": "", "thumbnailUrl": "https://placehold.co/600x338/1a1a2e/e0e0e0?text=第1课", "duration": "30:00" },
-      { "id": "ep-2", "title": "第二课：一级调色 — 对比度与色彩平衡", "videoUrl": "", "thumbnailUrl": "https://placehold.co/600x338/1a1a2e/e0e0e0?text=第2课", "duration": "25:00" },
-      { "id": "ep-3", "title": "第三课：二级调色与风格化", "videoUrl": "", "thumbnailUrl": "https://placehold.co/600x338/1a1a2e/e0e0e0?text=第3课", "duration": "35:00" }
+      {
+        "id": "ep-1",
+        "title": "第一课",
+        "videoUrl": "【1.还没阳的，怎么能多抗几天？】 https://www.bilibili.com/video/BV1Wjju63EjK/?share_source=copy_web&vd_source=7a4e0fba7b4a503defb29bb4f25900f2",
+        "thumbnailUrl": "https://placehold.co/600x338/1a1a2e/e0e0e0?text=第1课",
+        "duration": "30:00"
+      },
+      {
+        "id": "ep-2",
+        "title": "第二课",
+        "videoUrl": "【2.阳时鼻塞严重怎么办？】 https://www.bilibili.com/video/BV1Pjju63EV4/?share_source=copy_web&vd_source=7a4e0fba7b4a503defb29bb4f25900f2",
+        "thumbnailUrl": "https://placehold.co/600x338/1a1a2e/e0e0e0?text=第2课",
+        "duration": "25:00"
+      },
+      {
+        "id": "ep-3",
+        "title": "第三课",
+        "videoUrl": "【3.阳后这三件事，千万不要做！】 https://www.bilibili.com/video/BV1Pjju63E7B/?share_source=copy_web&vd_source=7a4e0fba7b4a503defb29bb4f25900f2",
+        "thumbnailUrl": "https://placehold.co/600x338/1a1a2e/e0e0e0?text=第3课",
+        "duration": "35:00"
+      },
+      {
+        "id": "ep-1783414517520",
+        "title": "第四课",
+        "videoUrl": "【4.阳后不能洗澡吗？】 https://www.bilibili.com/video/BV1Pjju63EAu/?share_source=copy_web&vd_source=7a4e0fba7b4a503defb29bb4f25900f2",
+        "thumbnailUrl": "",
+        "duration": ""
+      },
+      {
+        "id": "ep-1783414517903",
+        "title": "第五课",
+        "videoUrl": "【5.阳后总咳嗽怎么办？】 https://www.bilibili.com/video/BV1Wjju63EHf/?share_source=copy_web&vd_source=7a4e0fba7b4a503defb29bb4f25900f2",
+        "thumbnailUrl": "",
+        "duration": ""
+      },
+      {
+        "id": "ep-1783414518203",
+        "title": "第六集",
+        "videoUrl": "【6.咳嗽一直不好，是得了肺炎嘛？】 https://www.bilibili.com/video/BV1Ajju63ECZ/?share_source=copy_web&vd_source=7a4e0fba7b4a503defb29bb4f25900f2",
+        "thumbnailUrl": "",
+        "duration": ""
+      }
     ]
   },
   {
     "id": "project-27",
-    "title": "After Effects 动效包装实战 — 宣传片必备技能",
+    "title": "高考冲刺课",
     "category": "course-production",
     "description": "企业宣传片AE动效包装全攻略，含Logo动画、文字特效、数据可视化、三维跟踪合成等实用技能。",
-    "thumbnailUrl": "https://i2.hdslb.com/bfs/archive/73dae6d388ac8f353b3ed62a5e9716ca80850643.jpg",
+    "thumbnailUrl": "https://i0.hdslb.com/bfs/archive/6a2f7db3189980bbcd68436204c7e011a9ca9103.jpg@212w_120h_1c_!web-playlist-list-card-cover.avif",
     "videoUrl": "https://www.bilibili.com/video/BV1NMK3zuErH",
     "duration": "35:00",
-    "tags": ["课程", "AE", "动效", "After Effects"],
-    "featured": false
+    "tags": [
+      "课程",
+      "AE",
+      "动效",
+      "After Effects"
+    ],
+    "featured": false,
+    "episodes": [
+      {
+        "id": "ep-1783418195310",
+        "title": "第一课",
+        "videoUrl": "【01】 https://www.bilibili.com/video/BV1caM86GEWp/?share_source=copy_web&vd_source=7a4e0fba7b4a503defb29bb4f25900f2",
+        "thumbnailUrl": "",
+        "duration": ""
+      },
+      {
+        "id": "ep-1783418222012",
+        "title": "第二集",
+        "videoUrl": "【02】 https://www.bilibili.com/video/BV1HaM86GEaz/?share_source=copy_web&vd_source=7a4e0fba7b4a503defb29bb4f25900f2",
+        "thumbnailUrl": "",
+        "duration": ""
+      },
+      {
+        "id": "ep-1783418230743",
+        "title": "第三集",
+        "videoUrl": "【03】 https://www.bilibili.com/video/BV1waM86GEA2/?share_source=copy_web&vd_source=7a4e0fba7b4a503defb29bb4f25900f2",
+        "thumbnailUrl": "",
+        "duration": ""
+      },
+      {
+        "id": "ep-1783418231137",
+        "title": "第四集",
+        "videoUrl": "【04】 https://www.bilibili.com/video/BV1naM86GEdi/?share_source=copy_web&vd_source=7a4e0fba7b4a503defb29bb4f25900f2",
+        "thumbnailUrl": "",
+        "duration": ""
+      },
+      {
+        "id": "ep-1783418231312",
+        "title": "第五集",
+        "videoUrl": "【05】 https://www.bilibili.com/video/BV1caM86GEp3/?share_source=copy_web&vd_source=7a4e0fba7b4a503defb29bb4f25900f2",
+        "thumbnailUrl": "",
+        "duration": ""
+      },
+      {
+        "id": "ep-1783418231474",
+        "title": "第六集",
+        "videoUrl": "【06】 https://www.bilibili.com/video/BV1HaM86GEq9/?share_source=copy_web&vd_source=7a4e0fba7b4a503defb29bb4f25900f2",
+        "thumbnailUrl": "",
+        "duration": ""
+      },
+      {
+        "id": "ep-1783418231632",
+        "title": "第七集",
+        "videoUrl": "【07】 https://www.bilibili.com/video/BV1naM86GEXF/?share_source=copy_web&vd_source=7a4e0fba7b4a503defb29bb4f25900f2",
+        "thumbnailUrl": "",
+        "duration": ""
+      },
+      {
+        "id": "ep-1783418231774",
+        "title": "第八集",
+        "videoUrl": "【08】 https://www.bilibili.com/video/BV1caM86GEqV/?share_source=copy_web&vd_source=7a4e0fba7b4a503defb29bb4f25900f2",
+        "thumbnailUrl": "",
+        "duration": ""
+      },
+      {
+        "id": "ep-1783418231907",
+        "title": "第九集",
+        "videoUrl": "【09】 https://www.bilibili.com/video/BV1HaM86GEBN/?share_source=copy_web&vd_source=7a4e0fba7b4a503defb29bb4f25900f2",
+        "thumbnailUrl": "",
+        "duration": ""
+      },
+      {
+        "id": "ep-1783418232020",
+        "title": "第十集",
+        "videoUrl": "【10】 https://www.bilibili.com/video/BV1HaM86GEL5/?share_source=copy_web&vd_source=7a4e0fba7b4a503defb29bb4f25900f2",
+        "thumbnailUrl": "",
+        "duration": ""
+      }
+    ]
   },
   {
     "id": "project-28",
-    "title": "活动快剪全流程 — 30分钟出片工作法",
+    "title": "幼小衔接课",
     "category": "course-production",
-    "description": "活动快剪高效出片系统课，从素材回看、粗剪节奏到精剪输出，教会你如何在30分钟内完成一支高质量活动快剪。",
-    "thumbnailUrl": "https://i1.hdslb.com/bfs/archive/ef44f136d60b47319f3ee4e99128584eff118481.jpg",
+    "description": "",
+    "thumbnailUrl": "https://i0.hdslb.com/bfs/archive/76977dd747c32e43b5d8a5d21fd2572e3f6ac254.jpg@212w_120h_1c_!web-playlist-list-card-cover.avif",
     "videoUrl": "https://www.bilibili.com/video/BV12541197b4",
     "duration": "28:00",
-    "tags": ["课程", "快剪", "活动", "Premiere Pro"],
-    "featured": false
+    "tags": [
+      "幼小衔接应该如何快速适应"
+    ],
+    "featured": false,
+    "episodes": [
+      {
+        "id": "ep-1783418987584",
+        "title": "第一集",
+        "videoUrl": "【第一讲_】 https://www.bilibili.com/video/BV1PxM86jEvS/?share_source=copy_web&vd_source=7a4e0fba7b4a503defb29bb4f25900f2",
+        "thumbnailUrl": "",
+        "duration": ""
+      },
+      {
+        "id": "ep-1783418988734",
+        "title": "第二集",
+        "videoUrl": "【第二讲】 https://www.bilibili.com/video/BV1yxM86jE29/?share_source=copy_web&vd_source=7a4e0fba7b4a503defb29bb4f25900f2",
+        "thumbnailUrl": "",
+        "duration": ""
+      }
+    ]
   },
   {
     "id": "project-32",
-    "title": "课程制作作品 — 待添加",
+    "title": "少儿英语配套课程",
     "category": "course-production",
-    "description": "待补充作品描述。",
-    "thumbnailUrl": "https://placehold.co/600x338/1a1a2e/e0e0e0?text=课程制作+5",
+    "description": "",
+    "thumbnailUrl": "https://i0.hdslb.com/bfs/archive/d31de2ba44ce312412939069e67c7963b90f6b96.jpg@212w_120h_1c_!web-playlist-list-card-cover.avif",
     "videoUrl": "",
     "duration": "",
-    "tags": ["课程"],
+    "tags": [
+      "英语书配套"
+    ],
     "featured": false,
-    "episodes": []
+    "episodes": [
+      {
+        "id": "ep-1783419113084",
+        "title": "第一集",
+        "videoUrl": "【第一课】 https://www.bilibili.com/video/BV1vPM86hEa1/?share_source=copy_web&vd_source=7a4e0fba7b4a503defb29bb4f25900f2",
+        "thumbnailUrl": "",
+        "duration": ""
+      },
+      {
+        "id": "ep-1783419113359",
+        "title": "第二集",
+        "videoUrl": "【第二课】 https://www.bilibili.com/video/BV1LPM86hEFk/?share_source=copy_web&vd_source=7a4e0fba7b4a503defb29bb4f25900f2",
+        "thumbnailUrl": "",
+        "duration": ""
+      },
+      {
+        "id": "ep-1783419113522",
+        "title": "第三集",
+        "videoUrl": "【第三课】 https://www.bilibili.com/video/BV15PM86hEki/?share_source=copy_web&vd_source=7a4e0fba7b4a503defb29bb4f25900f2",
+        "thumbnailUrl": "",
+        "duration": ""
+      },
+      {
+        "id": "ep-1783419113696",
+        "title": "第四集",
+        "videoUrl": "【第四课】 https://www.bilibili.com/video/BV1LPM86hEPu/?share_source=copy_web&vd_source=7a4e0fba7b4a503defb29bb4f25900f2",
+        "thumbnailUrl": "",
+        "duration": ""
+      },
+      {
+        "id": "ep-1783419113862",
+        "title": "第五集",
+        "videoUrl": "【第五课】 https://www.bilibili.com/video/BV1LPM86hEAd/?share_source=copy_web&vd_source=7a4e0fba7b4a503defb29bb4f25900f2",
+        "thumbnailUrl": "",
+        "duration": ""
+      },
+      {
+        "id": "ep-1783419114112",
+        "title": "第六集",
+        "videoUrl": "【第六课】 https://www.bilibili.com/video/BV15PM86hEJB/?share_source=copy_web&vd_source=7a4e0fba7b4a503defb29bb4f25900f2",
+        "thumbnailUrl": "",
+        "duration": ""
+      },
+      {
+        "id": "ep-1783419114320",
+        "title": "第七集",
+        "videoUrl": "【第七课】 https://www.bilibili.com/video/BV1LPM86hEcp/?share_source=copy_web&vd_source=7a4e0fba7b4a503defb29bb4f25900f2",
+        "thumbnailUrl": "",
+        "duration": ""
+      },
+      {
+        "id": "ep-1783419114522",
+        "title": "第八集",
+        "videoUrl": "【第八课】 https://www.bilibili.com/video/BV1RPM86hE6P/?share_source=copy_web&vd_source=7a4e0fba7b4a503defb29bb4f25900f2",
+        "thumbnailUrl": "",
+        "duration": ""
+      },
+      {
+        "id": "ep-1783419114761",
+        "title": "第九集",
+        "videoUrl": "【第九课】 https://www.bilibili.com/video/BV15PM86hEry/?share_source=copy_web&vd_source=7a4e0fba7b4a503defb29bb4f25900f2",
+        "thumbnailUrl": "",
+        "duration": ""
+      },
+      {
+        "id": "ep-1783419115230",
+        "title": "第十集上",
+        "videoUrl": "【第十课上】 https://www.bilibili.com/video/BV1vPM86hEsz/?share_source=copy_web&vd_source=7a4e0fba7b4a503defb29bb4f25900f2",
+        "thumbnailUrl": "",
+        "duration": ""
+      },
+      {
+        "id": "ep-1783419267600",
+        "title": "第十集下",
+        "videoUrl": "【第十课下】 https://www.bilibili.com/video/BV1LPM86hE5G/?share_source=copy_web&vd_source=7a4e0fba7b4a503defb29bb4f25900f2",
+        "thumbnailUrl": "",
+        "duration": ""
+      }
+    ]
   }
 ]
