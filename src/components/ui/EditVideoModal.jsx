@@ -19,11 +19,7 @@ function EpisodeFields({ episode, index, onChange, onRemove, canRemove, onCaptur
     setEpFetching(true);
     try {
       const meta = await fetchVideoMeta(episode.videoUrl);
-      if (meta.duration) {
-        onChange(index, 'duration', meta.duration);
-        // Auto-save: trigger parent save
-        if (onFetchMeta) onFetchMeta();
-      }
+      if (meta.duration) onChange(index, 'duration', meta.duration);
     } catch (err) {
       console.error('获取分集信息失败', err);
     } finally {
@@ -291,33 +287,11 @@ export default function EditVideoModal({ item, isOpen, onClose, onSave, onReset 
   const [form, setForm] = useState({});
   const [captureTarget, setCaptureTarget] = useState(null);
 
-  const showEpisodesEditor = form.category === 'course-production' || form.category === 'short-video';
-
-  const autoSaveForm = () => {
-    const data = {
-      ...item,
-      title: form.title.trim(),
-      category: form.category,
-      thumbnailUrl: form.thumbnailUrl.trim(),
-      videoUrl: form.videoUrl.trim(),
-      duration: form.duration.trim(),
-      previewStart: Number(form.previewStart) || 0,
-      previewEpisodeIndex: form.previewEpisodeIndex != null ? Number(form.previewEpisodeIndex) : undefined,
-      tags: form.tags.split('，').map((t) => t.trim()).filter(Boolean),
-      description: form.description.trim(),
-    };
-    if (showEpisodesEditor && form.episodes?.length > 0) {
-      data.episodes = form.episodes.map((ep, i) => ({
-        ...ep,
-        id: ep.id || `ep-${i + 1}`,
-      }));
-    }
-    onSave(data);
-  };
-
   const detectedPlatform = useMemo(() => detectVideoPlatform(form.videoUrl || ''), [form.videoUrl]);
   const [fetching, setFetching] = useState(false);
   const [fetchError, setFetchError] = useState('');
+
+  const showEpisodesEditor = form.category === 'course-production' || form.category === 'short-video';
 
   useEffect(() => {
     if (item) {
@@ -337,7 +311,7 @@ export default function EditVideoModal({ item, isOpen, onClose, onSave, onReset 
   }, [item]);
 
   useEffect(() => {
-    const onKey = (e) => { if (e.key === 'Escape') handleClose(); };
+    const onKey = (e) => { if (e.key === 'Escape') onClose(); };
     if (isOpen) {
       window.addEventListener('keydown', onKey);
       document.body.style.overflow = 'hidden';
@@ -346,13 +320,7 @@ export default function EditVideoModal({ item, isOpen, onClose, onSave, onReset 
       window.removeEventListener('keydown', onKey);
       document.body.style.overflow = '';
     };
-  }, [isOpen, handleClose]);
-
-  // Wrap onClose to auto-save first
-  const handleClose = () => {
-    autoSaveForm();
-    onClose();
-  };
+  }, [isOpen, onClose]);
 
   if (!isOpen || !item) return null;
 
@@ -427,22 +395,22 @@ export default function EditVideoModal({ item, isOpen, onClose, onSave, onReset 
     }
 
     onSave(data);
-    handleClose();
+    onClose();
   };
 
   const handleReset = () => {
     onReset(item.id);
-    handleClose();
+    onClose();
   };
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center p-4">
-      <div className="absolute inset-0 bg-black/60 backdrop-blur-sm" onClick={handleClose} />
+      <div className="absolute inset-0 bg-black/60 backdrop-blur-sm" onClick={onClose} />
       <div className="relative bg-white dark:bg-cinema-dark border border-gray-200 dark:border-cinema-surface rounded-2xl w-full max-w-lg max-h-[85vh] overflow-y-auto shadow-2xl">
         <div className="sticky top-0 bg-white dark:bg-cinema-dark border-b border-gray-200 dark:border-cinema-surface px-6 py-4 flex items-center justify-between rounded-t-2xl z-10">
           <h3 className="font-bold text-lg text-gray-800 dark:text-cinema-text">编辑作品</h3>
           <button
-            onClick={handleClose}
+            onClick={onClose}
             className="p-1 text-gray-500 dark:text-cinema-text-muted hover:text-gray-800 dark:hover:text-cinema-text"
           >
             <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2">
@@ -614,7 +582,6 @@ export default function EditVideoModal({ item, isOpen, onClose, onSave, onReset 
                   onRemove={removeEpisode}
                   canRemove={form.episodes.length > 1}
                   onCaptureClick={(i) => setCaptureTarget(`ep-${i}`)}
-                  onFetchMeta={autoSaveForm}
                 />
               ))}
             </div>
