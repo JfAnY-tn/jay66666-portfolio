@@ -217,6 +217,8 @@ export default function VideoCard({ title, category, thumbnailUrl, duration, tag
         <img
           src={thumbnailUrl}
           alt={title}
+          loading="lazy"
+          decoding="async"
           draggable={false}
           referrerPolicy="no-referrer"
           crossOrigin="anonymous"
