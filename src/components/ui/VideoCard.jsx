@@ -1,4 +1,4 @@
-import { useState, useRef, useCallback, useEffect } from 'react';
+import { useState, useRef, useCallback, useEffect, useMemo } from 'react';
 import { getDirectVideoUrl, detectVideoPlatform } from '../../utils/videoPlatform';
 
 const categoryMeta = {
@@ -7,18 +7,43 @@ const categoryMeta = {
   'course-production': { label: '课程制作', bg: 'bg-indigo-500/80', accent: '#6366F1', hover: 'hover:border-indigo-500/30' },
 };
 
-export default function VideoCard({ title, category, thumbnailUrl, duration, tags, videoUrl, episodes, onClick, onEdit }) {
+export default function VideoCard({ title, category, thumbnailUrl, duration, tags, videoUrl, episodes, previewStart, previewEpisodeIndex, onClick, onEdit, onCaptureThumbnail }) {
   const meta = categoryMeta[category] || categoryMeta.corporate;
 
-  // Preview the first episode if available, otherwise main video
-  const previewUrl = episodes?.length > 0 && episodes[0]?.videoUrl ? episodes[0].videoUrl : videoUrl;
+  // Preview from selected episode (for collections) otherwise first episode or main video
+  const epIdx = previewEpisodeIndex ?? 0;
+  const previewUrl = episodes?.length > 0 && episodes[epIdx]?.videoUrl ? episodes[epIdx].videoUrl : videoUrl;
+
+  // Compute display duration: for collections, sum episodes
+  const displayDuration = useMemo(() => {
+    if (episodes?.length > 0) {
+      let totalSec = 0;
+      for (const ep of episodes) {
+        if (!ep.duration) continue;
+        const parts = ep.duration.split(':').map(Number);
+        if (parts.length === 3) totalSec += parts[0] * 3600 + parts[1] * 60 + parts[2];
+        else if (parts.length === 2) totalSec += parts[0] * 60 + parts[1];
+        else totalSec += parts[0];
+      }
+      if (totalSec > 0) {
+        const h = Math.floor(totalSec / 3600);
+        const m = Math.floor((totalSec % 3600) / 60);
+        const s = totalSec % 60;
+        return h > 0
+          ? `${h}:${String(m).padStart(2, '0')}:${String(s).padStart(2, '0')}`
+          : `${m}:${String(s).padStart(2, '0')}`;
+      }
+    }
+    return duration;
+  }, [episodes, duration]);
 
   const platform = detectVideoPlatform(previewUrl);
   const isBilibili = platform?.platform === 'bilibili';
   const useIframe = isBilibili;
   const iframeRef = useRef(null);
+  const startTime = previewStart || 0;
   const embedUrl = useIframe
-    ? `https://player.bilibili.com/player.html?bvid=${platform.videoId}&page=1&high_quality=1&autoplay=1&muted=1&danmaku=0`
+    ? `https://player.bilibili.com/player.html?bvid=${platform.videoId}&page=1&high_quality=1&autoplay=1&muted=1&danmaku=0&t=${startTime}`
     : null;
 
   // Try to mute the B站 iframe player after it loads
@@ -36,6 +61,8 @@ export default function VideoCard({ title, category, thumbnailUrl, duration, tag
   const [hovering, setHovering] = useState(false);
   const [videoSrc, setVideoSrc] = useState(null);
   const [showIframe, setShowIframe] = useState(false);
+  const [capturing, setCapturing] = useState(false);
+  const canvasRef = useRef(null);
   const [progress, setProgress] = useState(0);
   const [videoDuration, setVideoDuration] = useState(0);
   const videoRef = useRef(null);
@@ -70,9 +97,10 @@ export default function VideoCard({ title, category, thumbnailUrl, duration, tag
   const handleCanPlay = useCallback(() => {
     const v = videoRef.current;
     if (v && hovering) {
+      if (startTime > 0) v.currentTime = startTime;
       v.play().catch(() => {});
     }
-  }, [hovering]);
+  }, [hovering, startTime]);
 
   const handleVideoError = useCallback(() => {
     setVideoSrc(null);
@@ -137,6 +165,46 @@ export default function VideoCard({ title, category, thumbnailUrl, duration, tag
         </button>
       )}
 
+      {/* Capture thumbnail button (hover preview) */}
+      {isShowingPreview && !useIframe && onCaptureThumbnail && (
+        <button
+          onClick={async (e) => {
+            e.stopPropagation();
+            const video = videoRef.current;
+            if (!video || capturing) return;
+            setCapturing(true);
+            try {
+              const canvas = document.createElement('canvas');
+              canvas.width = video.videoWidth;
+              canvas.height = video.videoHeight;
+              const ctx = canvas.getContext('2d');
+              ctx.drawImage(video, 0, 0);
+              const dataUrl = canvas.toDataURL('image/jpeg', 0.9);
+              const res = await fetch('/api/capture-thumbnail', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ image: dataUrl }),
+              });
+              const data = await res.json();
+              if (data.ok) {
+                onCaptureThumbnail(data.path);
+              }
+            } catch (err) {
+              console.error('截图失败', err);
+            } finally {
+              setCapturing(false);
+            }
+          }}
+          className="absolute top-10 right-2 z-20 w-8 h-8 flex items-center justify-center rounded-full bg-black/40 text-white/70 hover:text-white hover:bg-vivid-purple-500/80 transition-all duration-200 backdrop-blur-sm"
+          title="截取封面"
+        >
+          <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2">
+            <path strokeLinecap="round" strokeLinejoin="round" d="M3 9a2 2 0 012-2h.93a2 2 0 001.664-.89l.812-1.22A2 2 0 0110.07 4h3.86a2 2 0 011.664.89l.812 1.22A2 2 0 0018.07 7H19a2 2 0 012 2v9a2 2 0 01-2 2H5a2 2 0 01-2-2V9z" />
+            <path strokeLinecap="round" strokeLinejoin="round" d="M15 13a3 3 0 11-6 0 3 3 0 016 0z" />
+          </svg>
+        </button>
+      )}
+
       <button
         onClick={onClick}
         className="w-full text-left flex flex-col h-full"
@@ -149,6 +217,7 @@ export default function VideoCard({ title, category, thumbnailUrl, duration, tag
         <img
           src={thumbnailUrl}
           alt={title}
+          draggable={false}
           referrerPolicy="no-referrer"
           crossOrigin="anonymous"
           className={`w-full h-full object-cover transition-all duration-500 group-hover:scale-105 ${isShowingPreview ? 'opacity-0' : 'opacity-100'}`}
@@ -160,7 +229,7 @@ export default function VideoCard({ title, category, thumbnailUrl, duration, tag
             <iframe
               ref={iframeRef}
               src={embedUrl}
-              className="absolute inset-0 w-full h-full border-0"
+              className="absolute inset-0 w-full h-full border-0 pointer-events-none"
               allow="autoplay; encrypted-media; fullscreen"
               allowFullScreen
               title={title}
@@ -176,7 +245,7 @@ export default function VideoCard({ title, category, thumbnailUrl, duration, tag
           <video
             ref={videoRef}
             src={videoSrc}
-            className="absolute inset-0 w-full h-full object-contain bg-black"
+            className="absolute inset-0 w-full h-full object-contain bg-black pointer-events-none"
             muted
             playsInline
             preload="auto"
@@ -200,9 +269,22 @@ export default function VideoCard({ title, category, thumbnailUrl, duration, tag
         )}
 
         {/* Duration */}
-        <span className="absolute bottom-2 right-2 bg-cinema-black/80 text-white text-xs px-2 py-0.5 rounded z-10">
-          {duration}
+        <span className="absolute bottom-2 right-2 bg-cinema-black/80 text-white text-xs px-2 py-0.5 rounded z-10 flex items-center gap-1">
+          {displayDuration}
+          {episodes?.length > 0 && (
+            <span className="opacity-70">· {episodes.length}集</span>
+          )}
         </span>
+
+        {/* 合集 badge */}
+        {episodes?.length > 0 && (
+          <span className="absolute top-8 left-2 text-xs text-white px-1.5 py-0.5 rounded z-10 bg-vivid-purple-500/80 flex items-center gap-0.5">
+            <svg className="w-3 h-3" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2">
+              <path strokeLinecap="round" strokeLinejoin="round" d="M4 6h16M4 10h16M4 14h16M4 18h16" />
+            </svg>
+            合集
+          </span>
+        )}
 
         {/* Category badge */}
         <span className={`absolute top-2 left-2 text-xs text-white px-2 py-0.5 rounded z-10 ${meta.bg}`}>

@@ -21,6 +21,7 @@ const categories = [
 ];
 
 const STORAGE_KEY = 'portfolio_edits';
+const ORDER_KEY = 'portfolio_order';
 
 function loadEdits() {
   try {
@@ -30,6 +31,16 @@ function loadEdits() {
 
 function saveEdits(edits) {
   localStorage.setItem(STORAGE_KEY, JSON.stringify(edits));
+}
+
+function loadOrder() {
+  try {
+    return JSON.parse(localStorage.getItem(ORDER_KEY)) || [];
+  } catch { return []; }
+}
+
+function saveOrder(order) {
+  localStorage.setItem(ORDER_KEY, JSON.stringify(order));
 }
 
 function cardVisibility(pageIndex, colIndex, scrollX, containerW) {
@@ -59,6 +70,38 @@ export default function PortfolioSection() {
   const [activeVideo, setActiveVideo] = useState(null);
   const [editingItem, setEditingItem] = useState(null);
   const [edits, setEdits] = useState(loadEdits);
+  const [order, setOrder] = useState(loadOrder);
+  const [dragId, setDragId] = useState(null);
+  const [dragOverId, setDragOverId] = useState(null);
+  const dragIdRef = useRef(null);
+
+  // Keep dragIdRef in sync
+  useEffect(() => { dragIdRef.current = dragId; }, [dragId]);
+  const lastFlipRef = useRef(0);
+
+  const handleScrollDragOver = (e) => {
+    if (!dragId) return;
+    const el = scrollRef.current;
+    if (!el) return;
+    const rect = el.getBoundingClientRect();
+    const x = e.clientX - rect.left;
+    const zone = 100;
+    const now = Date.now();
+
+    if (now - lastFlipRef.current < 500) return;
+
+    const page = el.querySelector('.snap-start');
+    const pageW = (page?.offsetWidth || rect.width) + 24;
+
+    if (x < zone) {
+      lastFlipRef.current = now;
+      el.scrollLeft = Math.max(0, el.scrollLeft - pageW);
+    } else if (x > rect.width - zone) {
+      lastFlipRef.current = now;
+      el.scrollLeft = Math.min(el.scrollWidth - rect.width, el.scrollLeft + pageW);
+    }
+  };
+
   const [unlocked, setUnlocked] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
   const pendingEditRef = useRef(null);
@@ -84,12 +127,21 @@ export default function PortfolioSection() {
     return () => window.removeEventListener('resize', check);
   }, []);
 
-  const portfolio = useMemo(() =>
-    defaultPortfolio
+  const portfolio = useMemo(() => {
+    const items = defaultPortfolio
       .filter((item) => item.category !== 'event')
-      .map((item) => edits[item.id] ? { ...item, ...edits[item.id] } : item),
-    [edits]
-  );
+      .map((item) => edits[item.id] ? { ...item, ...edits[item.id] } : item);
+
+    // Sort by custom order if set
+    const orderMap = new Map(order.map((id, i) => [id, i]));
+    items.sort((a, b) => {
+      const ai = orderMap.has(a.id) ? orderMap.get(a.id) : Infinity;
+      const bi = orderMap.has(b.id) ? orderMap.get(b.id) : Infinity;
+      return ai - bi;
+    });
+    return items;
+  }, [edits, order]);
+
 
   const filtered = useMemo(
     () =>
@@ -190,6 +242,12 @@ export default function PortfolioSection() {
     saveEdits(newEdits);
   };
 
+  const handleCaptureThumbnail = (id, path) => {
+    const newEdits = { ...edits, [id]: { ...(edits[id] || {}), thumbnailUrl: path } };
+    setEdits(newEdits);
+    saveEdits(newEdits);
+  };
+
   return (
     <section id="portfolio" className="py-24 md:py-32">
       <div className="mx-auto max-w-7xl px-6">
@@ -252,31 +310,70 @@ export default function PortfolioSection() {
             {/* Scrollable track */}
             <div
               ref={scrollRef}
-              className="flex gap-6 overflow-x-auto snap-x snap-mandatory scrollbar-hide scroll-smooth pb-4"
+              className={`flex gap-6 overflow-x-auto scrollbar-hide pb-4 scroll-smooth ${dragId ? '' : 'snap-x snap-mandatory'}`}
               style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}
+              onDragOver={handleScrollDragOver}
             >
               {pages.map((pageItems, pageIdx) => (
                 <div
                   key={pageIdx}
-                  className={`snap-start flex-shrink-0 w-full grid gap-4 md:gap-6 ${itemsPerPage <= 2 ? 'grid-cols-2' : 'grid-cols-2 lg:grid-cols-3'}`}
+                  className={`snap-start flex-shrink-0 w-full grid gap-4 md:gap-6 self-start ${itemsPerPage <= 2 ? 'grid-cols-2' : 'grid-cols-2 lg:grid-cols-3'}`}
                 >
                   {pageItems.map((item, i) => {
                     const col = i % colsPerRow;
+                    const isDragging = dragId === item.id;
+                    const isDragOver = dragOverId === item.id && dragId !== item.id;
                     return (
                       <div
                         key={item.id}
                         data-portfolio-card
                         data-page={pageIdx}
                         data-col={col}
-                        className="h-full"
+                        className={`h-full transition-all duration-200 ${isDragging ? 'opacity-40 scale-95' : ''} ${isDragOver ? 'ring-2 ring-vivid-purple-500 rounded-2xl scale-105' : ''}`}
                         style={{
-                          opacity: 1,
+                          opacity: isDragging ? 0.4 : 1,
                           willChange: 'opacity, transform',
+                        }}
+                        draggable
+                        onDragStart={(e) => {
+                          e.dataTransfer.effectAllowed = 'move';
+                          setDragId(item.id);
+                        }}
+                        onDragOver={(e) => {
+                          e.preventDefault();
+                          e.dataTransfer.dropEffect = 'move';
+                          if (dragId && dragId !== item.id) setDragOverId(item.id);
+                        }}
+                        onDragLeave={() => {
+                          if (dragOverId === item.id) setDragOverId(null);
+                        }}
+                        onDrop={(e) => {
+                          e.preventDefault();
+                          if (dragId && dragId !== item.id) {
+                            const newOrder = order.length > 0 ? [...order] : portfolio.map(p => p.id);
+                            // Ensure both items are in the order list
+                            if (!newOrder.includes(dragId)) newOrder.push(dragId);
+                            if (!newOrder.includes(item.id)) newOrder.push(item.id);
+                            // Now reorder
+                            const fromIdx = newOrder.indexOf(dragId);
+                            const toIdx = newOrder.indexOf(item.id);
+                            newOrder.splice(fromIdx, 1);
+                            newOrder.splice(toIdx, 0, dragId);
+                            setOrder(newOrder);
+                            saveOrder(newOrder);
+                          }
+                          setDragId(null);
+                          setDragOverId(null);
+                        }}
+                        onDragEnd={() => {
+                          setDragId(null);
+                          setDragOverId(null);
                         }}
                       >
                         <VideoCard
                           {...item}
                           onClick={() => setActiveVideo(item)}
+                          onCaptureThumbnail={(path) => handleCaptureThumbnail(item.id, path)}
                           onEdit={() => {
                             if (unlocked) {
                               setEditingItem(item);

@@ -484,16 +484,14 @@
     "featured": false
   },
   {
-    "id": "project-16",
-    "title": "天天鉴宝直播切片",
+    "id": "project-33",
+    "title": "短视频作品 — 待添加",
     "category": "short-video",
-    "description": "100个复古情绪美学慢快门抽帧拖影效果竖屏短视频转场过渡模板，适用于Reels、Shorts等9:16竖屏内容创作。",
-    "thumbnailUrl": "https://i1.hdslb.com/bfs/archive/3e304392a8e7f180852446d000a32d6b024b3b23.jpg",
-    "videoUrl": "https://www.bilibili.com/video/BV1bvk4BaEEK",
-    "duration": "1:06",
-    "tags": [
-      "鉴宝、直播切片"
-    ],
+    "description": "待补充作品描述。",
+    "thumbnailUrl": "https://placehold.co/600x338/1a1a2e/e0e0e0?text=短视频",
+    "videoUrl": "",
+    "duration": "",
+    "tags": [""],
     "featured": false
   },
   {

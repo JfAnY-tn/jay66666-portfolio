@@ -10,7 +10,23 @@ const categoryOptions = [
 
 const inputClass = 'w-full rounded-xl border border-gray-200 dark:border-cinema-surface bg-white dark:bg-cinema-dark/50 px-4 py-3 text-sm text-gray-800 dark:text-cinema-text placeholder:text-gray-400 dark:placeholder:text-cinema-text-muted/50 focus:outline-none focus:ring-2 focus:ring-vivid-purple-500/50 transition-colors';
 
-function EpisodeFields({ episode, index, onChange, onRemove, canRemove, onCaptureClick }) {
+function EpisodeFields({ episode, index, onChange, onRemove, canRemove, onCaptureClick, onFetchMeta }) {
+  const epPlatform = useMemo(() => detectVideoPlatform(episode.videoUrl || ''), [episode.videoUrl]);
+  const [epFetching, setEpFetching] = useState(false);
+
+  const handleFetchEpMeta = async () => {
+    if (!episode.videoUrl) return;
+    setEpFetching(true);
+    try {
+      const meta = await fetchVideoMeta(episode.videoUrl);
+      if (meta.duration) onChange(index, 'duration', meta.duration);
+    } catch (err) {
+      console.error('获取分集信息失败', err);
+    } finally {
+      setEpFetching(false);
+    }
+  };
+
   return (
     <div className="p-4 rounded-xl border border-gray-200 dark:border-cinema-surface bg-gray-50/50 dark:bg-cinema-dark/30 space-y-3">
       <div className="flex items-center justify-between">
@@ -31,12 +47,24 @@ function EpisodeFields({ episode, index, onChange, onRemove, canRemove, onCaptur
         className={inputClass}
         placeholder="集标题"
       />
-      <input
-        value={episode.videoUrl || ''}
-        onChange={(e) => onChange(index, 'videoUrl', e.target.value)}
-        className={inputClass}
-        placeholder="视频链接 (B站/YouTube)"
-      />
+      <div className="flex gap-2">
+        <input
+          value={episode.videoUrl || ''}
+          onChange={(e) => onChange(index, 'videoUrl', e.target.value)}
+          className={`${inputClass} flex-1`}
+          placeholder="视频链接 (B站/YouTube)"
+        />
+        {epPlatform && (
+          <button
+            type="button"
+            onClick={handleFetchEpMeta}
+            disabled={epFetching}
+            className="shrink-0 px-3 py-3 text-xs font-medium rounded-xl bg-vivid-purple-500 text-white hover:bg-vivid-purple-600 disabled:opacity-50 transition-colors"
+          >
+            {epFetching ? '获取中...' : '获取时长'}
+          </button>
+        )}
+      </div>
       <div className="space-y-3">
         <div className="flex gap-2">
           <input
@@ -58,41 +86,100 @@ function EpisodeFields({ episode, index, onChange, onRemove, canRemove, onCaptur
   );
 }
 
-function ThumbnailCapture({ videoUrl, onCaptured, onClose }) {
+function PreviewTimeSelector({ videoUrl, onSet, onClose }) {
+  const videoRef = useRef(null);
+  const [playUrl, setPlayUrl] = useState(null);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    if (!videoUrl) { setLoading(false); return; }
+    setLoading(true);
+    getDirectVideoUrl(videoUrl).then((url) => {
+      if (url) setPlayUrl(`/api/video-proxy?url=${encodeURIComponent(url)}`);
+      setLoading(false);
+    }).catch(() => setLoading(false));
+  }, [videoUrl]);
+
+  return (
+    <div className="fixed inset-0 z-[60] flex items-center justify-center p-4">
+      <div className="absolute inset-0 bg-black/70" onClick={onClose} />
+      <div className="relative bg-white dark:bg-cinema-dark rounded-2xl w-full max-w-lg max-h-[85vh] overflow-y-auto shadow-2xl">
+        <div className="px-4 py-3 border-b border-gray-200 dark:border-cinema-surface flex items-center justify-between">
+          <h4 className="font-bold text-sm">选取预览起点</h4>
+          <button onClick={onClose} className="text-gray-400 hover:text-gray-600">✕</button>
+        </div>
+
+        {loading && (
+          <div className="aspect-video flex items-center justify-center bg-black text-gray-400 text-sm">加载视频中...</div>
+        )}
+        {!loading && !playUrl && (
+          <div className="aspect-video flex items-center justify-center bg-black text-gray-400 text-sm">视频加载失败</div>
+        )}
+        {playUrl && (
+          <video ref={videoRef} src={playUrl} className="w-full max-h-[50vh] bg-black" controls crossOrigin="anonymous" />
+        )}
+
+        <div className="p-3 flex gap-2 justify-end sticky bottom-0 bg-white dark:bg-cinema-dark border-t border-gray-200 dark:border-cinema-surface">
+          <button onClick={() => {
+            const v = videoRef.current;
+            if (!v) return;
+            const t = Math.floor(v.currentTime);
+            onSet(t);
+          }} disabled={!playUrl} className="px-4 py-2 text-sm rounded-lg bg-vivid-purple-500 text-white disabled:opacity-50">
+            设为预览起点（第 {videoRef.current ? Math.floor(videoRef.current.currentTime) : 0} 秒）
+          </button>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+function ThumbnailCapture({ videoUrl, episodes, onCaptured, onClose }) {
   const videoRef = useRef(null);
   const canvasRef = useRef(null);
   const [playUrl, setPlayUrl] = useState(null);
   const [captured, setCaptured] = useState(null);
   const [loading, setLoading] = useState(true);
   const [saving, setSaving] = useState(false);
+  const [selectedEp, setSelectedEp] = useState(0);
+
+  const sourceUrl = episodes?.length > 0 ? episodes[selectedEp]?.videoUrl : videoUrl;
 
   useEffect(() => {
-    if (!videoUrl) {
+    if (!sourceUrl) {
       setLoading(false);
       return;
     }
     setLoading(true);
-    getDirectVideoUrl(videoUrl).then((url) => {
+    setCaptured(null);
+    getDirectVideoUrl(sourceUrl).then((url) => {
       if (url) {
         setPlayUrl(`/api/video-proxy?url=${encodeURIComponent(url)}`);
       }
       setLoading(false);
     }).catch(() => setLoading(false));
-  }, [videoUrl]);
+  }, [sourceUrl]);
 
   const handleCapture = () => {
     const video = videoRef.current;
     const canvas = canvasRef.current;
     if (!video || !canvas) return;
-    canvas.width = video.videoWidth;
-    canvas.height = video.videoHeight;
-    const ctx = canvas.getContext('2d');
-    ctx.drawImage(video, 0, 0);
-    setCaptured(canvas.toDataURL('image/jpeg', 0.9));
+    try {
+      canvas.width = video.videoWidth;
+      canvas.height = video.videoHeight;
+      const ctx = canvas.getContext('2d');
+      ctx.drawImage(video, 0, 0);
+      setCaptured(canvas.toDataURL('image/jpeg', 0.9));
+    } catch (e) {
+      alert('截图失败: ' + e.message + '（可能是跨域问题）');
+    }
   };
 
   const handleSave = async () => {
-    if (!captured) return;
+    if (!captured) {
+      alert('没有截图数据');
+      return;
+    }
     setSaving(true);
     try {
       const res = await fetch('/api/capture-thumbnail', {
@@ -104,9 +191,11 @@ function ThumbnailCapture({ videoUrl, onCaptured, onClose }) {
       if (data.ok) {
         onCaptured(data.path);
         onClose();
+      } else {
+        alert('保存失败: ' + (data.error || '未知错误'));
       }
     } catch (e) {
-      alert('保存失败: ' + e.message);
+      alert('请求失败: ' + e.message);
     } finally {
       setSaving(false);
     }
@@ -115,11 +204,30 @@ function ThumbnailCapture({ videoUrl, onCaptured, onClose }) {
   return (
     <div className="fixed inset-0 z-[60] flex items-center justify-center p-4">
       <div className="absolute inset-0 bg-black/70" onClick={onClose} />
-      <div className="relative bg-white dark:bg-cinema-dark rounded-2xl w-full max-w-lg overflow-hidden shadow-2xl">
+      <div className="relative bg-white dark:bg-cinema-dark rounded-2xl w-full max-w-lg max-h-[85vh] overflow-y-auto shadow-2xl">
         <div className="px-4 py-3 border-b border-gray-200 dark:border-cinema-surface flex items-center justify-between">
           <h4 className="font-bold text-sm">截取封面</h4>
           <button onClick={onClose} className="text-gray-400 hover:text-gray-600">✕</button>
         </div>
+
+        {episodes?.length > 0 && (
+          <div className="px-4 py-2 border-b border-gray-200 dark:border-cinema-surface flex gap-1.5 overflow-x-auto">
+            {episodes.map((ep, i) => (
+              <button
+                key={i}
+                type="button"
+                onClick={() => setSelectedEp(i)}
+                className={`shrink-0 px-3 py-1 text-xs rounded-full transition-colors ${
+                  i === selectedEp
+                    ? 'bg-vivid-purple-500 text-white'
+                    : 'bg-gray-100 dark:bg-white/10 text-gray-600 dark:text-gray-400 hover:bg-gray-200 dark:hover:bg-white/20'
+                }`}
+              >
+                第{i + 1}集
+              </button>
+            ))}
+          </div>
+        )}
 
         {loading && (
           <div className="aspect-video flex items-center justify-center bg-black text-gray-400 text-sm">
@@ -138,33 +246,34 @@ function ThumbnailCapture({ videoUrl, onCaptured, onClose }) {
             <video
               ref={videoRef}
               src={playUrl}
-              className="w-full aspect-video bg-black"
+              className="w-full max-h-[50vh] bg-black"
               controls
               crossOrigin="anonymous"
             />
-            {captured && (
-              <div className="absolute inset-0 bg-black/50 flex items-center justify-center">
-                <div className="text-center">
-                  <img src={captured} alt="" className="max-w-[80%] max-h-[80%] rounded-lg mx-auto border-2 border-vivid-purple-500" />
-                  <p className="text-white text-sm mt-2">截图预览</p>
-                </div>
-              </div>
-            )}
           </div>
         )}
 
         <canvas ref={canvasRef} className="hidden" />
 
-        <div className="p-3 flex gap-2 justify-end">
+        {captured && (
+          <div className="px-4 pb-2">
+            <div className="rounded-lg overflow-hidden border border-vivid-purple-500/30">
+              <img src={captured} alt="截图预览" className="w-full" />
+            </div>
+            <p className="text-xs text-center text-gray-400 mt-1">截图预览</p>
+          </div>
+        )}
+
+        <div className="p-3 flex gap-2 justify-end sticky bottom-0 bg-white dark:bg-cinema-dark border-t border-gray-200 dark:border-cinema-surface">
           {captured ? (
             <>
-              <button onClick={() => setCaptured(null)} className="px-3 py-1.5 text-sm rounded-lg bg-gray-200 dark:bg-white/10">重拍</button>
-              <button onClick={handleSave} disabled={saving} className="px-3 py-1.5 text-sm rounded-lg bg-vivid-purple-500 text-white">
+              <button onClick={() => setCaptured(null)} className="px-4 py-2 text-sm rounded-lg bg-gray-200 dark:bg-white/10">重拍</button>
+              <button onClick={handleSave} disabled={saving} className="px-4 py-2 text-sm rounded-lg bg-vivid-purple-500 text-white disabled:opacity-50">
                 {saving ? '保存中...' : '使用此图'}
               </button>
             </>
           ) : (
-            <button onClick={handleCapture} disabled={!playUrl} className="px-3 py-1.5 text-sm rounded-lg bg-vivid-purple-500 text-white disabled:opacity-50">
+            <button onClick={handleCapture} disabled={!playUrl} className="px-4 py-2 text-sm rounded-lg bg-vivid-purple-500 text-white disabled:opacity-50">
               📸 截图
             </button>
           )}
@@ -192,6 +301,8 @@ export default function EditVideoModal({ item, isOpen, onClose, onSave, onReset 
         thumbnailUrl: item.thumbnailUrl || '',
         videoUrl: item.videoUrl || '',
         duration: item.duration || '',
+        previewStart: item.previewStart || 0,
+        previewEpisodeIndex: item.previewEpisodeIndex ?? 0,
         tags: (item.tags || []).join('，'),
         description: item.description || '',
         episodes: item.episodes ? [...item.episodes] : [],
@@ -219,12 +330,9 @@ export default function EditVideoModal({ item, isOpen, onClose, onSave, onReset 
     setFetchError('');
     try {
       const meta = await fetchVideoMeta(form.videoUrl);
-      setForm((prev) => ({
-        ...prev,
-        title: meta.title || prev.title,
-        thumbnailUrl: meta.thumbnailUrl || prev.thumbnailUrl,
-        duration: meta.duration || prev.duration,
-      }));
+      if (meta.duration) {
+        setForm((prev) => ({ ...prev, duration: meta.duration }));
+      }
     } catch (err) {
       setFetchError(err.message);
     } finally {
@@ -271,6 +379,8 @@ export default function EditVideoModal({ item, isOpen, onClose, onSave, onReset 
       thumbnailUrl: form.thumbnailUrl.trim(),
       videoUrl: form.videoUrl.trim(),
       duration: form.duration.trim(),
+      previewStart: Number(form.previewStart) || 0,
+      previewEpisodeIndex: form.previewEpisodeIndex != null ? Number(form.previewEpisodeIndex) : undefined,
       tags: form.tags.split('，').map((t) => t.trim()).filter(Boolean),
       description: form.description.trim(),
     };
@@ -352,7 +462,7 @@ export default function EditVideoModal({ item, isOpen, onClose, onSave, onReset 
                   disabled={fetching}
                   className="shrink-0 px-4 py-3 text-sm font-medium rounded-xl bg-vivid-purple-500 text-white hover:bg-vivid-purple-600 disabled:opacity-50 transition-colors"
                 >
-                  {fetching ? '获取中...' : '获取视频信息'}
+                  {fetching ? '获取中...' : '获取时长'}
                 </button>
               )}
             </div>
@@ -392,6 +502,48 @@ export default function EditVideoModal({ item, isOpen, onClose, onSave, onReset 
             <input name="duration" value={form.duration} onChange={handleChange} className={inputClass} placeholder="1:30" />
           </div>
           )}
+
+          {/* Preview source selector for collections */}
+          {(form.episodes?.length > 0) && (
+            <div>
+              <label className="block text-sm font-medium mb-1.5 text-gray-700 dark:text-cinema-text">悬停预览取自</label>
+              <select
+                name="previewEpisodeIndex"
+                value={form.previewEpisodeIndex ?? 0}
+                onChange={handleChange}
+                className={inputClass}
+              >
+                {form.episodes.map((ep, i) => (
+                  <option key={i} value={i}>第{i + 1}集：{ep.title || '(无标题)'}</option>
+                ))}
+              </select>
+            </div>
+          )}
+
+          {/* Preview start time selector */}
+          <div>
+            <label className="block text-sm font-medium mb-1.5 text-gray-700 dark:text-cinema-text">
+              悬停预览起点
+              <span className="font-normal text-gray-400 ml-1">
+                {form.previewStart > 0 ? `（第 ${form.previewStart} 秒）` : '（从头开始）'}
+              </span>
+            </label>
+            <div className="flex gap-2">
+              <input name="previewStart" type="number" min="0" step="1" value={form.previewStart || 0} onChange={handleChange} className={`${inputClass} flex-1`} placeholder="从第几秒开始预览" />
+              <button
+                type="button"
+                onClick={() => {
+                  const srcUrl = (form.previewEpisodeIndex != null && form.episodes?.[form.previewEpisodeIndex]?.videoUrl)
+                    ? form.episodes[form.previewEpisodeIndex].videoUrl
+                    : (form.videoUrl || form.episodes?.[0]?.videoUrl || '');
+                  if (!srcUrl) return;
+                  setCaptureTarget('preview-select');
+                }}
+                className="shrink-0 px-3 py-3 text-sm rounded-xl bg-gray-100 dark:bg-white/10 hover:bg-gray-200 dark:hover:bg-white/20 text-gray-600 dark:text-gray-300 transition-colors"
+                title="拖进度条选取起始点"
+              >🎬 选取</button>
+            </div>
+          </div>
 
           <div>
             <label className="block text-sm font-medium mb-1.5 text-gray-700 dark:text-cinema-text">标签（用中文逗号分隔）</label>
@@ -448,6 +600,22 @@ export default function EditVideoModal({ item, isOpen, onClose, onSave, onReset 
         </form>
       </div>
       {captureTarget && (() => {
+        if (captureTarget === 'preview-select') {
+          const srcUrl = (form.previewEpisodeIndex != null && form.episodes?.[form.previewEpisodeIndex]?.videoUrl)
+            ? form.episodes[form.previewEpisodeIndex].videoUrl
+            : (form.videoUrl || form.episodes?.[0]?.videoUrl || '');
+          return (
+            <PreviewTimeSelector
+              videoUrl={srcUrl}
+              currentTime={form.previewStart || 0}
+              onSet={(seconds) => {
+                setForm(prev => ({ ...prev, previewStart: seconds }));
+                setCaptureTarget(null);
+              }}
+              onClose={() => setCaptureTarget(null)}
+            />
+          );
+        }
         const targetUrl = captureTarget === 'main'
           ? (form.videoUrl || form.episodes?.[0]?.videoUrl || '')
           : (form.episodes?.[parseInt(captureTarget.split('-')[1])]?.videoUrl || '');
@@ -463,6 +631,7 @@ export default function EditVideoModal({ item, isOpen, onClose, onSave, onReset 
         return (
           <ThumbnailCapture
             videoUrl={targetUrl}
+            episodes={(captureTarget === 'main' || showEpisodesEditor) ? form.episodes : undefined}
             onCaptured={handleCaptured}
             onClose={() => setCaptureTarget(null)}
           />
