@@ -1,10 +1,18 @@
 import { useState, useRef, useEffect } from 'react';
 
-const PASSWORD = 'jay66666';
+const PASSWORD_HASH = '59368b32a98363a1059c5d9e2ad675747678381dcceeebdcaa5955687ae90a0c';
+
+async function sha256(text) {
+  const encoder = new TextEncoder();
+  const data = encoder.encode(text);
+  const hash = await crypto.subtle.digest('SHA-256', data);
+  return Array.from(new Uint8Array(hash)).map(b => b.toString(16).padStart(2, '0')).join('');
+}
 
 export default function PasswordGate({ isOpen, onUnlock, onClose }) {
   const [value, setValue] = useState('');
   const [error, setError] = useState(false);
+  const [checking, setChecking] = useState(false);
   const inputRef = useRef(null);
 
   useEffect(() => {
@@ -15,15 +23,18 @@ export default function PasswordGate({ isOpen, onUnlock, onClose }) {
     }
   }, [isOpen]);
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    if (value === PASSWORD) {
+    setChecking(true);
+    const hash = await sha256(value);
+    if (hash === PASSWORD_HASH) {
       onUnlock();
     } else {
       setError(true);
       setValue('');
       inputRef.current?.focus();
     }
+    setChecking(false);
   };
 
   if (!isOpen) return null;
@@ -58,9 +69,10 @@ export default function PasswordGate({ isOpen, onUnlock, onClose }) {
           />
           <button
             type="submit"
-            className="px-4 py-2 bg-vivid-purple-500 text-white text-sm rounded-lg hover:bg-vivid-purple-600 transition-colors"
+            disabled={checking}
+            className="px-4 py-2 bg-vivid-purple-500 text-white text-sm rounded-lg hover:bg-vivid-purple-600 transition-colors disabled:opacity-50"
           >
-            确认
+            {checking ? '验证中...' : '确认'}
           </button>
         </form>
         {error && (

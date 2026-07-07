@@ -58,6 +58,7 @@ export default function Footer() {
             ))}
           </div>
           <p>© {new Date().getFullYear()} {siteConfig.siteName}. All rights reserved.</p>
+          {import.meta.env.DEV && (
           <button
             onClick={handleExportEdits}
             className="text-xs text-gray-400 hover:text-vivid-purple-400 transition-colors underline"
@@ -65,6 +66,7 @@ export default function Footer() {
           >
             📤 导出编辑数据
           </button>
+          )}
         </div>
       </div>
     </footer>

@@ -336,6 +336,11 @@ export default function PortfolioSection() {
                         }}
                         draggable
                         onDragStart={(e) => {
+                          if (!unlocked) {
+                            e.preventDefault();
+                            setShowPassword(true);
+                            return;
+                          }
                           e.dataTransfer.effectAllowed = 'move';
                           setDragId(item.id);
                         }}
