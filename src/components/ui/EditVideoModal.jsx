@@ -291,6 +291,8 @@ export default function EditVideoModal({ item, isOpen, onClose, onSave, onReset 
   const [form, setForm] = useState({});
   const [captureTarget, setCaptureTarget] = useState(null);
 
+  const showEpisodesEditor = form.category === 'course-production' || form.category === 'short-video';
+
   const autoSaveForm = () => {
     const data = {
       ...item,
@@ -316,8 +318,6 @@ export default function EditVideoModal({ item, isOpen, onClose, onSave, onReset 
   const detectedPlatform = useMemo(() => detectVideoPlatform(form.videoUrl || ''), [form.videoUrl]);
   const [fetching, setFetching] = useState(false);
   const [fetchError, setFetchError] = useState('');
-
-  const showEpisodesEditor = form.category === 'course-production' || form.category === 'short-video';
 
   useEffect(() => {
     if (item) {
